@@ -1,4 +1,3 @@
-using System.Data;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 using Portfolio.Domain.ValueObjects;
@@ -8,7 +7,7 @@ namespace Portfolio.Domain.Entities
 	/// <summary>
 	/// Портфолио студента
 	/// </summary>
-	public class Portfolio : EntityBase
+	public class MyPortfolio : EntityBase
 	{
 		/// <summary>
 		/// Поле для <see cref="_users"/>
@@ -19,7 +18,7 @@ namespace Portfolio.Domain.Entities
 		private string _firstName = default!;
 		private User? _user;
 
-		public Portfolio(
+		public MyPortfolio(
 			string lastName,
 			string firstName,
 			string? surname = default,
@@ -40,7 +39,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		protected Portfolio()
+		protected MyPortfolio()
 		{
 		}
 

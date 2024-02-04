@@ -6,7 +6,7 @@ namespace Portfolio.Domain.Entities
 	/// <summary>
 	/// Право доступа для роли
 	/// </summary>
-	public class RolePrivilege
+	public class RolePrivilege : EntityBase
 	{
 		/// <summary>
 		/// Поле для <see cref="_role"/>
@@ -33,8 +33,14 @@ namespace Portfolio.Domain.Entities
 		{
 		}
 
+		/// <summary>
+		/// Идентификатор роли
+		/// </summary>
 		public Guid RoleId { get; protected set; }
 
+		/// <summary>
+		/// Право доступа
+		/// </summary>
 		public Privileges Privilege { get; protected init; }
 
 		#region Navigation properties

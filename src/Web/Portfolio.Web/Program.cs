@@ -1,15 +1,27 @@
+using Portfolio.Core;
+using Portfolio.Data.PostgreSql;
+using Portfolio.Web.Authentication;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var services = builder.Services;
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var configuration = builder.Configuration;
+
+services
+	.AddHttpContextAccessor()
+	.AddUserContext()
+	.AddCore()
+	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"));
+
+services.AddControllers();
+
+services.AddEndpointsApiExplorer();
+
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();

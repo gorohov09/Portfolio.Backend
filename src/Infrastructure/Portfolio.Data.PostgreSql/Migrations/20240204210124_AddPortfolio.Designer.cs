@@ -12,7 +12,7 @@ using Portfolio.Data.PostgreSql;
 namespace Portfolio.Data.PostgreSql.Migrations
 {
     [DbContext(typeof(EfContext))]
-    [Migration("20240204152138_AddPortfolio")]
+    [Migration("20240204210124_AddPortfolio")]
     partial class AddPortfolio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,6 +197,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasComment("Дата изменения записи");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("password_hash")
                         .HasComment("Хеш пароля");

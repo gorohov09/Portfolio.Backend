@@ -16,6 +16,7 @@ namespace Portfolio.Domain.Entities
 
 		private string _lastName = default!;
 		private string _firstName = default!;
+		private DateTime _birthday;
 		private User? _user;
 
 		public MyPortfolio(
@@ -25,7 +26,8 @@ namespace Portfolio.Domain.Entities
 			DateTime birthday = default,
 			Institute? institute = default,
 			Speciality? speciality = default,
-			EducationLevels educationLevel = default)
+			EducationLevels educationLevel = default,
+			User user = default)
 		{
 			LastName = lastName;
 			FirstName = firstName;
@@ -34,6 +36,7 @@ namespace Portfolio.Domain.Entities
 			Institute = institute;
 			Speciality = speciality;
 			EducationLevel = educationLevel;
+			User = user;
 		}
 
 		/// <summary>
@@ -75,7 +78,13 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Дата рождения
 		/// </summary>
-		public DateTime Birthday { get; set; }
+		public DateTime Birthday
+		{
+			get => _birthday;
+			set => _birthday = value == default
+				? throw new RequiredFieldNotSpecifiedException("Дата рождения")
+				: value.ToUniversalTime();
+		}
 
 		#endregion
 
@@ -89,7 +98,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Специальность
 		/// </summary>
-		public Speciality? Speciality { get; set; } = default!;
+		public Speciality? Speciality { get; set; }
 
 		/// <summary>
 		/// Уровень образования
@@ -111,10 +120,15 @@ namespace Portfolio.Domain.Entities
 		public User? User
 		{
 			get => _user;
-			set
+			private set
 			{
-				_user = value
-					?? throw new RequiredFieldNotSpecifiedException("Пользователь");
+				ArgumentNullException.ThrowIfNull(value);
+				ArgumentNullException.ThrowIfNull(value.Role);
+
+				if (value.Role.Id != DefaultRoles.StudentId)
+					throw new ApplicationExceptionBase("Портфолио может быть только у студента");
+
+				_user = value;
 				UserId = value.Id;
 			}
 		}

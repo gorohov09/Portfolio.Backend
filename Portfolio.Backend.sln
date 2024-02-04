@@ -19,35 +19,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F98E4DB1-15F6-4110-895B-45C05AAC3E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Core", "src\Core\Portfolio.Core\Portfolio.Core.csproj", "{2B09AAD4-0848-495A-960C-C8B99E11CCF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Core", "src\Core\Portfolio.Core\Portfolio.Core.csproj", "{2B09AAD4-0848-495A-960C-C8B99E11CCF6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9F275AF0-5886-4EFF-BB02-E26C01D29595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Data.PostgreSql", "src\Infrastructure\Portfolio.Data.PostgreSql\Portfolio.Data.PostgreSql.csproj", "{D5AE25FA-2F2D-4672-8438-1F5ED37EF15D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Data.PostgreSql", "src\Infrastructure\Portfolio.Data.PostgreSql\Portfolio.Data.PostgreSql.csproj", "{D5AE25FA-2F2D-4672-8438-1F5ED37EF15D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Data.S3", "src\Infrastructure\Portfolio.Data.S3\Portfolio.Data.S3.csproj", "{56403855-FD17-49FE-A2CD-AA1311EB8B54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Data.S3", "src\Infrastructure\Portfolio.Data.S3\Portfolio.Data.S3.csproj", "{56403855-FD17-49FE-A2CD-AA1311EB8B54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Data.Migrator", "src\Infrastructure\Portfolio.Data.Migrator\Portfolio.Data.Migrator.csproj", "{32E68422-52AF-4670-9FC3-EAF5D96130F7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Data.RabbitMq", "src\Infrastructure\Portfolio.Data.RabbitMq\Portfolio.Data.RabbitMq.csproj", "{A2533003-4179-45AB-9A60-9C6CAA23C22C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Data.RabbitMq", "src\Infrastructure\Portfolio.Data.RabbitMq\Portfolio.Data.RabbitMq.csproj", "{A2533003-4179-45AB-9A60-9C6CAA23C22C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerServices", "WorkerServices", "{E4BCCC63-BED7-410B-8DF5-A2380B58D9E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Worker", "src\WorkerServices\Portfolio.Worker\Portfolio.Worker.csproj", "{14089F2A-EB12-417B-B86D-FDCAB953F3F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Worker", "src\WorkerServices\Portfolio.Worker\Portfolio.Worker.csproj", "{14089F2A-EB12-417B-B86D-FDCAB953F3F5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{7F6DAD85-EE12-4C86-953D-59A25DC17ED6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Contracts", "src\Contracts\Portfolio.Contracts\Portfolio.Contracts.csproj", "{E7D81DA6-88CD-46C5-B921-2051770F71C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Contracts", "src\Contracts\Portfolio.Contracts\Portfolio.Contracts.csproj", "{E7D81DA6-88CD-46C5-B921-2051770F71C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Domain", "src\Core\Portfolio.Domain\Portfolio.Domain.csproj", "{94043BB2-DC38-4191-95E6-B08DFEF99CFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Domain", "src\Core\Portfolio.Domain\Portfolio.Domain.csproj", "{94043BB2-DC38-4191-95E6-B08DFEF99CFA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{900D8BFA-7521-4E56-8D6E-D8CF965FC969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Web", "src\Web\Portfolio.Web\Portfolio.Web.csproj", "{4816E4CB-18B4-4727-B2CB-A2E4DCBD621B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Web", "src\Web\Portfolio.Web\Portfolio.Web.csproj", "{4816E4CB-18B4-4727-B2CB-A2E4DCBD621B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7FD39AA5-0A62-4D9D-B4C9-C19739D8832B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.UnitTest", "test\Portfolio.UnitTest\Portfolio.UnitTest.csproj", "{4C39CEBD-B098-47A4-A834-A3D3CF7712C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.UnitTest", "test\Portfolio.UnitTest\Portfolio.UnitTest.csproj", "{4C39CEBD-B098-47A4-A834-A3D3CF7712C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +65,6 @@ Global
 		{56403855-FD17-49FE-A2CD-AA1311EB8B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56403855-FD17-49FE-A2CD-AA1311EB8B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56403855-FD17-49FE-A2CD-AA1311EB8B54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32E68422-52AF-4670-9FC3-EAF5D96130F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32E68422-52AF-4670-9FC3-EAF5D96130F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32E68422-52AF-4670-9FC3-EAF5D96130F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32E68422-52AF-4670-9FC3-EAF5D96130F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2533003-4179-45AB-9A60-9C6CAA23C22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2533003-4179-45AB-9A60-9C6CAA23C22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2533003-4179-45AB-9A60-9C6CAA23C22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,7 +99,6 @@ Global
 		{9F275AF0-5886-4EFF-BB02-E26C01D29595} = {201845B8-2BF3-48BF-A677-ED058CE24B31}
 		{D5AE25FA-2F2D-4672-8438-1F5ED37EF15D} = {9F275AF0-5886-4EFF-BB02-E26C01D29595}
 		{56403855-FD17-49FE-A2CD-AA1311EB8B54} = {9F275AF0-5886-4EFF-BB02-E26C01D29595}
-		{32E68422-52AF-4670-9FC3-EAF5D96130F7} = {9F275AF0-5886-4EFF-BB02-E26C01D29595}
 		{A2533003-4179-45AB-9A60-9C6CAA23C22C} = {9F275AF0-5886-4EFF-BB02-E26C01D29595}
 		{E4BCCC63-BED7-410B-8DF5-A2380B58D9E2} = {201845B8-2BF3-48BF-A677-ED058CE24B31}
 		{14089F2A-EB12-417B-B86D-FDCAB953F3F5} = {E4BCCC63-BED7-410B-8DF5-A2380B58D9E2}

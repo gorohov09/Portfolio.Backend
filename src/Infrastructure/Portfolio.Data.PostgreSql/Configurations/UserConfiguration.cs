@@ -24,7 +24,8 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.IsRequired();
 
 			builder.Property(p => p.PasswordHash)
-				.HasComment("Хеш пароля");
+				.HasComment("Хеш пароля")
+				.IsRequired();
 
 			builder.Property(p => p.Phone)
 				.HasComment("Телефон");

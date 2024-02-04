@@ -71,7 +71,7 @@ namespace Portfolio.Domain.Entities
 		public string PasswordHash
 		{
 			get => _passwordHash;
-			private set => _passwordHash = value
+			set => _passwordHash = value
 					?? throw new RequiredFieldNotSpecifiedException("Хеш пароля");
 		}
 

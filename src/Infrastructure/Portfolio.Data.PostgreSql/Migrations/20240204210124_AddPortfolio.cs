@@ -57,7 +57,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)"),
                     login = table.Column<string>(type: "text", nullable: false, comment: "Логин"),
-                    password_hash = table.Column<string>(type: "text", nullable: true, comment: "Хеш пароля"),
+                    password_hash = table.Column<string>(type: "text", nullable: false, comment: "Хеш пароля"),
                     email = table.Column<string>(type: "text", nullable: false, comment: "Электронная почта"),
                     phone = table.Column<string>(type: "text", nullable: true, comment: "Телефон"),
                     role_id = table.Column<Guid>(type: "uuid", nullable: false, comment: "Идентификатор роли"),

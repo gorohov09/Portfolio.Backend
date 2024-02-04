@@ -195,6 +195,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasComment("Дата изменения записи");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("password_hash")
                         .HasComment("Хеш пароля");

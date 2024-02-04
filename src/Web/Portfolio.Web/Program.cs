@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Portfolio.Core;
 using Portfolio.Data.PostgreSql;
 using Portfolio.Web.Authentication;

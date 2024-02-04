@@ -20,6 +20,7 @@ namespace Portfolio.Core
 		{
 			services.AddMediatR(typeof(Entry));
 			services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+			services.AddScoped<IDbSeeder, DbSeeder>();
 
 			return services;
 		}

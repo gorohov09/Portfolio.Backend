@@ -47,7 +47,8 @@ namespace Portfolio.Data.PostgreSql
 				opt.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
 			});
 
-			services.AddScoped<IDbContext, EfContext>();
+			services.AddTransient<DbMigrator>();
+			services.AddScoped<IDbContext>(x => x.GetRequiredService<EfContext>());
 
 			return services;
 		}

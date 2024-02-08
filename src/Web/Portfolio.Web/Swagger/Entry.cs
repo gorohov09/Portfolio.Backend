@@ -12,40 +12,34 @@ namespace Portfolio.Web.Swagger
 		/// </summary>
 		/// <param name="services">Службы приложения</param>
 		/// <returns>Службы приложения со сваггером</returns>
-		public static IServiceCollection AddSwagger(this IServiceCollection services)
-		{
-			services.AddEndpointsApiExplorer();
-
-			services.AddSwaggerGen();
-
-			services.AddSwaggerGen(option =>
-			{
-				option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+		public static IServiceCollection AddSwagger(this IServiceCollection services) =>
+			services.AddEndpointsApiExplorer()
+				.AddSwaggerGen()
+				.AddSwaggerGen(option =>
 				{
-					Name = "Authorization",
-					Type = SecuritySchemeType.ApiKey,
-					Scheme = "Bearer",
-					BearerFormat = "JWT",
-					In = ParameterLocation.Header,
-					Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
-				});
-				option.AddSecurityRequirement(new OpenApiSecurityRequirement
-				{
+					option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
 					{
-						new OpenApiSecurityScheme
+						Name = "Authorization",
+						Type = SecuritySchemeType.ApiKey,
+						Scheme = "Bearer",
+						BearerFormat = "JWT",
+						In = ParameterLocation.Header,
+						Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+					});
+					option.AddSecurityRequirement(new OpenApiSecurityRequirement
+					{
 						{
-							Reference = new OpenApiReference
+							new OpenApiSecurityScheme
 							{
-								Type = ReferenceType.SecurityScheme,
-								Id = "Bearer",
+								Reference = new OpenApiReference
+								{
+									Type = ReferenceType.SecurityScheme,
+									Id = "Bearer",
+								},
 							},
+							new string[] {}
 						},
-						new string[] {}
-					},
+					});
 				});
-			});
-
-			return services;
-		}
 	}
 }

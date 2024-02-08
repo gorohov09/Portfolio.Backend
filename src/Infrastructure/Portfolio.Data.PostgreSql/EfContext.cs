@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

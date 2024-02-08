@@ -22,6 +22,9 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent
 		/// Конструктор
 		/// </summary>
 		/// <param name="dbContext">Контекст БД</param>
+		/// <param name="claimsIdentityFactory">Фабрика ClaimsPrincipal для пользователей</param>
+		/// <param name="passwordEncryptionService">Сервис хэширования паролей</param>
+		/// <param name="tokenAuthenticationService">Сервис работы с токенами</param>
 		public RegisterStudentCommandHandler(
 			IDbContext dbContext,
 			IClaimsIdentityFactory claimsIdentityFactory,
@@ -70,13 +73,13 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent
 				phone: request.Phone,
 				role: role);
 
-			var claims = _claimsIdentityFactory.CreateClaimsIdentity(user);
-			var token = _tokenAuthenticationService.CreateToken(claims, TokenTypes.Auth);
-
 			await _dbContext.Users.AddAsync(user, cancellationToken);
 			await _dbContext.SaveChangesAsync(cancellationToken);
 
-			return new RegisterStudentResponse(user.Id, token);
+			var claims = _claimsIdentityFactory.CreateClaimsIdentity(user);
+			var token = _tokenAuthenticationService.CreateToken(claims, TokenTypes.Auth);
+
+			return new RegisterStudentResponse(studentId: user.Id, token: token);
 		}
 	}
 }

@@ -10,6 +10,26 @@ namespace Portfolio.Core.Services
 	public class TokenAuthenticationService : ITokenAuthenticationService
 	{
 		/// <summary>
+		/// Вид авторизации по токену (Bearer)
+		/// </summary>
+		public string AuthTokenType => "Bearer";
+
+		/// <summary>
+		/// УЦ токенов
+		/// </summary>
+		public string Authority => "Auth";
+
+		/// <summary>
+		/// Аудитория токенов. Для каждого типа токенов задаем разную аудиторию.
+		/// </summary>
+		public string Audience => "Aud";
+
+		/// <summary>
+		/// Выпускатель токенов
+		/// </summary>
+		public string ClaimsIssuer => "Iss";
+
+		/// <summary>
 		/// Приватный ключ шифрования.
 		/// </summary>
 		protected SecurityKey SecurityKey
@@ -41,7 +61,7 @@ namespace Portfolio.Core.Services
 
 			var securityToken = handler.CreateToken(new SecurityTokenDescriptor
 			{
-				Issuer = "issuer",
+				Issuer = ClaimsIssuer,
 				Audience = GetAudienceByTokenType(tokenType),
 				SigningCredentials = SigningCredentials,
 				Subject = identity,
@@ -55,20 +75,37 @@ namespace Portfolio.Core.Services
 		}
 
 		/// <summary>
+		/// Получить параметры валидации токенов.
+		/// </summary>
+		/// <param name="tokenType">Тип токенов.</param>
+		/// <returns>Параметры валидации токенов.</returns>
+		public TokenValidationParameters GetTokenValidationParameters(TokenTypes tokenType) => new()
+		{
+			IssuerSigningKey = SecurityKey,
+			ValidAudience = GetAudienceByTokenType(tokenType),
+			ValidIssuer = ClaimsIssuer,
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateIssuerSigningKey = true,
+			ValidateLifetime = true,
+			ClockSkew = TimeSpan.FromMinutes(0),
+		};
+
+		/// <summary>
 		/// Получить время жизни токена по его типу.
 		/// </summary>
 		/// <param name="tokenType">Тип токена.</param>
 		/// <returns>Время жизни.</returns>
 		private TimeSpan GetTokenLifetimeByTokenType(TokenTypes tokenType)
 		{
-			var ms = tokenType switch
+			var minutes = tokenType switch
 			{
 				TokenTypes.Auth => 5,
 				TokenTypes.RefreshToken => 10000,
 				_ => 15,
 			};
 
-			return TimeSpan.FromMinutes(ms);
+			return TimeSpan.FromMinutes(minutes);
 		}
 
 		/// <summary>

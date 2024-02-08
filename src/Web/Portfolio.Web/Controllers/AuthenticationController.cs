@@ -1,6 +1,9 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.AuthenticationRequests.Login;
 using Portfolio.Contracts.Requests.AuthenticationRequests.RegisterStudent;
+using Portfolio.Core.Requests.AuthenticationRequests.Login;
 using Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -9,8 +12,35 @@ namespace Portfolio.Web.Controllers
 	/// <summary>
 	/// Контроллер для аутентификации
 	/// </summary>
-	public class AuthenticationController : ControllerBase
+	[AllowAnonymous]
+	public class AuthenticationController : ApiControllerBase
 	{
+		/// <summary>
+		/// Логин
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Запрос</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>Объект логина</returns>
+		[HttpPost("Login")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(LoginResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<LoginResponse> LoginAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] LoginRequest request,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(request);
+
+			return await mediator.Send(
+				new LoginQuery
+				{
+					Login = request.Login,
+					Password = request.Password,
+				},
+				cancellationToken);
+		}
+
 		/// <summary>
 		/// Зарегистрироваться студентом
 		/// </summary>
@@ -21,7 +51,7 @@ namespace Portfolio.Web.Controllers
 		[HttpPost("Register/Student")]
 		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(RegisterStudentResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task<RegisterStudentResponse> PostFaqAsync(
+		public async Task<RegisterStudentResponse> PostRegisterAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] RegisterStudentRequest request,
 			CancellationToken cancellationToken)

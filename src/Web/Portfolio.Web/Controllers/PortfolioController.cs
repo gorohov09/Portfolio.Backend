@@ -1,6 +1,7 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Portfolio.Web.Controllers
@@ -8,24 +9,22 @@ namespace Portfolio.Web.Controllers
 	/// <summary>
 	/// Контроллер для портфолио
 	/// </summary>
-	[Authorize]
-	public class PortfolioController : ControllerBase
+	public class PortfolioController : ApiControllerBase
 	{
 		/// <summary>
 		/// Получить свое портфолио
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
-		/// <param name="request">Запрос</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>Объект портфолио</returns>
-		[HttpGet("Portfolio")]
-		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(string))]
+		[HttpGet("MyPortfolio")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetMyPortfolioResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task<string> GetMyPortfolioAsync(
+		public async Task<GetMyPortfolioResponse> GetMyPortfolioAsync(
 			[FromServices] IMediator mediator,
 			CancellationToken cancellationToken)
-		{
-			return "Port";
-		}
+			=> await mediator.Send(
+				new GetMyPortfolioQuery(),
+				cancellationToken);
 	}
 }

@@ -34,14 +34,6 @@ namespace Portfolio.Data.PostgreSql.Configurations
 			builder.Property(p => p.EducationLevel)
 				.HasComment("Уровень образования");
 
-			builder.OwnsOne(p => p.Institute, a =>
-			{
-				a.Property(u => u!.FullName)
-					.HasComment("Полное имя");
-				a.Property(u => u!.ShortName)
-					.HasComment("Сокращенное имя");
-			});
-
 			builder.OwnsOne(p => p.Speciality, a =>
 			{
 				a.Property(u => u!.Name)
@@ -50,9 +42,15 @@ namespace Portfolio.Data.PostgreSql.Configurations
 					.HasComment("Номер");
 			});
 
+			builder.Property(p => p.GroupNumber)
+				.HasComment("Номер группы");
+
 			builder.Property(p => p.UserId)
 				.HasComment("Идентификатор пользователя")
 				.IsRequired();
+
+			builder.Property(p => p.FacultyId)
+				.HasComment("Идентификатор кафедры");
 
 			builder.HasOne(x => x.User)
 				.WithOne()
@@ -60,7 +58,14 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasPrincipalKey<User>(x => x.Id)
 				.OnDelete(DeleteBehavior.ClientCascade);
 
+			builder.HasOne(x => x.Faculty)
+				.WithMany(y => y.Portfolios)
+				.HasForeignKey(x => x.UserId)
+				.HasPrincipalKey(x => x.Id)
+				.OnDelete(DeleteBehavior.SetNull);
+
 			builder.SetPropertyAccessModeField(x => x.User, MyPortfolio.UserField);
+			builder.SetPropertyAccessModeField(x => x.Faculty, MyPortfolio.FacultyField);
 		}
 	}
 }

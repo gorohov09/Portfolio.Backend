@@ -33,6 +33,8 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 			CancellationToken cancellationToken)
 		{
 			var portfolio = await _dbContext.Portfolios
+				.Include(x => x.Faculty)
+					.ThenInclude(x => x!.Institute)
 				.FirstOrDefaultAsync(x => x.UserId == _userContext.CurrentUserId, cancellationToken)
 				?? throw new NotFoundException($"У пользователя с Id: {_userContext.CurrentUserId} не найдено портфолио");
 
@@ -42,11 +44,18 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 				FirstName = portfolio.FirstName,
 				Surname = portfolio.Surname,
 				Birthday = portfolio.Birthday,
-				Institute = portfolio.Institute != null
+				Institute = portfolio.Faculty?.Institute != null
 					? new InstituteResponse
 					{
-						FullName = portfolio.Institute.FullName,
-						ShortName = portfolio.Institute.ShortName,
+						FullName = portfolio.Faculty.Institute.FullName,
+						ShortName = portfolio.Faculty.Institute.ShortName,
+					}
+					: null,
+				Faculty = portfolio.Faculty != null
+					? new FacultyResponse
+					{
+						FullName = portfolio.Faculty.FullName,
+						ShortName = portfolio.Faculty.ShortName,
 					}
 					: null,
 				Speciality = portfolio.Speciality != null

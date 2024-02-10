@@ -14,28 +14,29 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string UserField = nameof(_user);
 
+		/// <summary>
+		/// Поле для <see cref="_faculty"/>
+		/// </summary>
+		public const string FacultyField = nameof(_faculty);
+
 		private string _lastName = default!;
 		private string _firstName = default!;
 		private DateTime _birthday;
+
 		private User? _user;
+		private Faculty? _faculty;
 
 		public MyPortfolio(
 			string lastName,
 			string firstName,
 			string? surname = default,
 			DateTime birthday = default,
-			Institute? institute = default,
-			Speciality? speciality = default,
-			EducationLevels educationLevel = default,
 			User user = default)
 		{
 			LastName = lastName;
 			FirstName = firstName;
 			Surname = surname;
 			Birthday = birthday;
-			Institute = institute;
-			Speciality = speciality;
-			EducationLevel = educationLevel;
 			User = user;
 		}
 
@@ -54,7 +55,7 @@ namespace Portfolio.Domain.Entities
 		public string LastName
 		{
 			get => _lastName;
-			set => _lastName = string.IsNullOrWhiteSpace(value)
+			private set => _lastName = string.IsNullOrWhiteSpace(value)
 				? throw new RequiredFieldNotSpecifiedException("Фамилия")
 				: value;
 		}
@@ -65,7 +66,7 @@ namespace Portfolio.Domain.Entities
 		public string FirstName
 		{
 			get => _firstName;
-			set => _firstName = string.IsNullOrWhiteSpace(value)
+			private set => _firstName = string.IsNullOrWhiteSpace(value)
 				? throw new RequiredFieldNotSpecifiedException("Имя")
 				: value;
 		}
@@ -73,7 +74,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Отчество
 		/// </summary>
-		public string? Surname { get; set; }
+		public string? Surname { get; private set; }
 
 		/// <summary>
 		/// Дата рождения
@@ -81,36 +82,41 @@ namespace Portfolio.Domain.Entities
 		public DateTime Birthday
 		{
 			get => _birthday;
-			set => _birthday = value == default
+			private set => _birthday = value == default
 				? throw new RequiredFieldNotSpecifiedException("Дата рождения")
 				: value.ToUniversalTime();
 		}
+
+		/// <summary>
+		/// Идентификатор пользователя
+		/// </summary>
+		public Guid UserId { get; private set; }
 
 		#endregion
 
 		#region Информация о получении образования
 
 		/// <summary>
-		/// Институт
+		/// Уровень образования
 		/// </summary>
-		public Institute? Institute { get; set; }
+		public EducationLevels? EducationLevel { get; private set; }
+
+		/// <summary>
+		/// Номер группы
+		/// </summary>
+		public string? GroupNumber { get; private set; }
 
 		/// <summary>
 		/// Специальность
 		/// </summary>
-		public Speciality? Speciality { get; set; }
+		public Speciality? Speciality { get; private set; }
 
 		/// <summary>
-		/// Уровень образования
+		/// Идентификатор кафедры
 		/// </summary>
-		public EducationLevels? EducationLevel { get; set; }
+		public Guid? FacultyId { get; private set; }
 
 		#endregion
-
-		/// <summary>
-		/// Идентификатор пользователя
-		/// </summary>
-		public Guid UserId { get; protected set; }
 
 		#region Navigation properties
 
@@ -133,6 +139,41 @@ namespace Portfolio.Domain.Entities
 			}
 		}
 
+		/// <summary>
+		/// Кафедра
+		/// </summary>
+		public Faculty? Faculty
+		{
+			get => _faculty;
+			private set
+			{
+				_faculty = value
+					?? throw new RequiredFieldNotSpecifiedException("Институт");
+				FacultyId = value.Id;
+			}
+		}
+
 		#endregion
+
+		/// <summary>
+		/// Добавить/Обновить общую информацию в портфолио
+		/// </summary>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="firstName">Имя</param>
+		/// <param name="birthday">Дата рождения</param>
+		/// <param name="surname">Отчество</param>
+		public void UpsertGeneralInformation(
+			string? lastName = default,
+			string? firstName = default,
+			DateTime birthday = default,
+			string? surname = default)
+		{
+			LastName = lastName ?? LastName;
+			FirstName = firstName ?? FirstName;
+			Surname = surname ?? Surname;
+			Birthday = birthday == default
+				? Birthday
+				: birthday;
+		}
 	}
 }

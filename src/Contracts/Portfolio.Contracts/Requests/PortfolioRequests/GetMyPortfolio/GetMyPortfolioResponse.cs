@@ -1,3 +1,4 @@
+using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
 
 namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
@@ -31,6 +32,8 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
 		/// Институт
 		/// </summary>
 		public InstituteResponse? Institute { get; set; }
+
+		public FacultyResponse? Faculty { get; set; }
 
 		/// <summary>
 		/// Специальность

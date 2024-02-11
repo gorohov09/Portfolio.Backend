@@ -64,8 +64,15 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasPrincipalKey(x => x.Id)
 				.OnDelete(DeleteBehavior.SetNull);
 
+			builder.HasMany(x => x.CourseProjects)
+				.WithOne(y => y!.Portfolio)
+				.HasForeignKey(x => x.PortfolioId)
+				.HasPrincipalKey(y => y!.Id)
+				.OnDelete(DeleteBehavior.ClientCascade);
+
 			builder.SetPropertyAccessModeField(x => x.User, MyPortfolio.UserField);
 			builder.SetPropertyAccessModeField(x => x.Faculty, MyPortfolio.FacultyField);
+			builder.SetPropertyAccessModeField(x => x.CourseProjects, MyPortfolio.CourseProjectsField);
 		}
 	}
 }

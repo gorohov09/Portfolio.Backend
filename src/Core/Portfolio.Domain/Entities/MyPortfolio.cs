@@ -19,12 +19,18 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string FacultyField = nameof(_faculty);
 
+		/// <summary>
+		/// Поле для <see cref="_courseProjects"/>
+		/// </summary>
+		public const string CourseProjectsField = nameof(_courseProjects);
+
 		private string _lastName = default!;
 		private string _firstName = default!;
 		private DateTime _birthday;
 
 		private User? _user;
 		private Faculty? _faculty;
+		private List<CourseProject> _courseProjects;
 
 		public MyPortfolio(
 			string lastName,
@@ -38,6 +44,8 @@ namespace Portfolio.Domain.Entities
 			Surname = surname;
 			Birthday = birthday;
 			User = user;
+
+			_courseProjects = new List<CourseProject>();
 		}
 
 		/// <summary>
@@ -153,6 +161,11 @@ namespace Portfolio.Domain.Entities
 			}
 		}
 
+		/// <summary>
+		/// Курсовые проекты
+		/// </summary>
+		public IReadOnlyList<CourseProject>? CourseProjects => _courseProjects;
+
 		#endregion
 
 		/// <summary>
@@ -174,6 +187,42 @@ namespace Portfolio.Domain.Entities
 			Birthday = birthday == default
 				? Birthday
 				: birthday;
+		}
+
+		/// <summary>
+		/// Добавить курсовой проект
+		/// </summary>
+		/// <param name="subjectName">Наименование дисциплины</param>
+		/// <param name="topicName">Наименование темы</param>
+		/// <param name="semesterNumber">Номер семестра</param>
+		/// <param name="scoreNumber">Оценка</param>
+		/// <param name="pointNumber">Количество баллов</param>
+		/// <param name="completionDate">Дата сдачи</param>
+		public void AddCourseProject(
+			string subjectName,
+			string topicName,
+			int semesterNumber,
+			int scoreNumber,
+			int pointNumber,
+			DateTime completionDate)
+		{
+			if (_courseProjects == null)
+				throw new NotIncludedException("Курсовые проекты");
+
+			var isExist = _courseProjects.Any(x => x.SubjectName == subjectName
+				&& x.TopicName == topicName);
+
+			if (isExist)
+				throw new ApplicationExceptionBase("Данный курсовой проект по этой дисциплине уже существует");
+
+			_courseProjects.Add(new CourseProject(
+				portfolio: this,
+				subjectName: subjectName,
+				topicName: topicName,
+				semesterNumber: semesterNumber,
+				scoreNumber: scoreNumber,
+				pointNumber: pointNumber,
+				completionDate: completionDate));
 		}
 	}
 }

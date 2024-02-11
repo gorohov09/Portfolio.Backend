@@ -60,7 +60,7 @@ namespace Portfolio.Data.PostgreSql.Configurations
 
 			builder.HasOne(x => x.Faculty)
 				.WithMany(y => y.Portfolios)
-				.HasForeignKey(x => x.UserId)
+				.HasForeignKey(x => x.FacultyId)
 				.HasPrincipalKey(x => x.Id)
 				.OnDelete(DeleteBehavior.SetNull);
 

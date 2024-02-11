@@ -23,6 +23,94 @@ namespace Portfolio.Data.PostgreSql.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date")
+                        .HasDefaultValueSql("now() at time zone 'utc'")
+                        .HasComment("Дата создания записи");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name")
+                        .HasComment("Полное имя");
+
+                    b.Property<Guid>("InstituteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("institute_id")
+                        .HasComment("Идентификатор института");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_date")
+                        .HasComment("Дата изменения записи");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("short_name")
+                        .HasComment("Сокращенное имя");
+
+                    b.HasKey("Id")
+                        .HasName("pk_faculty");
+
+                    b.HasIndex("InstituteId")
+                        .HasDatabaseName("ix_faculty_institute_id");
+
+                    b.ToTable("faculty", "public");
+
+                    b.HasComment("Кафедра");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.Institute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date")
+                        .HasDefaultValueSql("now() at time zone 'utc'")
+                        .HasComment("Дата создания записи");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name")
+                        .HasComment("Полное имя");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_date")
+                        .HasComment("Дата изменения записи");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("short_name")
+                        .HasComment("Сокращенное имя");
+
+                    b.HasKey("Id")
+                        .HasName("pk_institute");
+
+                    b.ToTable("institute", "public");
+
+                    b.HasComment("Институт");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.MyPortfolio", b =>
                 {
                     b.Property<Guid>("Id")
@@ -48,11 +136,21 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasColumnName("education_level")
                         .HasComment("Уровень образования");
 
+                    b.Property<Guid?>("FacultyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("faculty_id")
+                        .HasComment("Идентификатор кафедры");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("first_name")
                         .HasComment("Имя");
+
+                    b.Property<string>("GroupNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("group_number")
+                        .HasComment("Номер группы");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -77,6 +175,9 @@ namespace Portfolio.Data.PostgreSql.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_portfolio");
+
+                    b.HasIndex("FacultyId")
+                        .HasDatabaseName("ix_portfolio_faculty_id");
 
                     b.HasIndex("UserId")
                         .IsUnique()
@@ -221,42 +322,32 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasComment("Пользователь");
                 });
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
+                {
+                    b.HasOne("Portfolio.Domain.Entities.Institute", "Institute")
+                        .WithMany("Faculties")
+                        .HasForeignKey("InstituteId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_faculty_institute_institute_id");
+
+                    b.Navigation("Institute");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.MyPortfolio", b =>
                 {
+                    b.HasOne("Portfolio.Domain.Entities.Faculty", "Faculty")
+                        .WithMany("Portfolios")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("fk_portfolio_faculty_faculty_id");
+
                     b.HasOne("Portfolio.Domain.Entities.User", "User")
                         .WithOne()
                         .HasForeignKey("Portfolio.Domain.Entities.MyPortfolio", "UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("fk_portfolio_users_user_id");
-
-                    b.OwnsOne("Portfolio.Domain.ValueObjects.Institute", "Institute", b1 =>
-                        {
-                            b1.Property<Guid>("MyPortfolioId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("FullName")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("institute_full_name")
-                                .HasComment("Полное имя");
-
-                            b1.Property<string>("ShortName")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("institute_short_name")
-                                .HasComment("Сокращенное имя");
-
-                            b1.HasKey("MyPortfolioId");
-
-                            b1.ToTable("portfolio", "public");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MyPortfolioId")
-                                .HasConstraintName("fk_portfolio_portfolio_id");
-                        });
 
                     b.OwnsOne("Portfolio.Domain.ValueObjects.Speciality", "Speciality", b1 =>
                         {
@@ -286,7 +377,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                                 .HasConstraintName("fk_portfolio_portfolio_id");
                         });
 
-                    b.Navigation("Institute");
+                    b.Navigation("Faculty");
 
                     b.Navigation("Speciality");
 
@@ -315,6 +406,16 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasConstraintName("fk_user_role_role_id");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
+                {
+                    b.Navigation("Portfolios");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.Institute", b =>
+                {
+                    b.Navigation("Faculties");
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Role", b =>

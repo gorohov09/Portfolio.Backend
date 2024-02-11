@@ -44,6 +44,10 @@ namespace Portfolio.Data.PostgreSql
 
 		public DbSet<Role> Roles { get; set; }
 
+		public DbSet<Institute> Institutes { get; set; }
+
+		public DbSet<Faculty> Faculties { get; set; }
+
 		/// <inheritdoc/>
 		public bool IsInMemory => Database.IsInMemory();
 

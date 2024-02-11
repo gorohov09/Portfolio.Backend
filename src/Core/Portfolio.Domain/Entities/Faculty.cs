@@ -119,6 +119,9 @@ namespace Portfolio.Domain.Entities
 			if (_portfolios == null)
 				throw new NotIncludedException("Портфолио");
 
+			if (_portfolios.Any(x => x.Id == portfolio.Id))
+				throw new ApplicationExceptionBase("Такое портфолио уже существует на кафедре");
+
 			_portfolios.Add(portfolio);
 		}
 	}

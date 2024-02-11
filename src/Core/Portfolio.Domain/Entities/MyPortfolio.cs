@@ -37,7 +37,7 @@ namespace Portfolio.Domain.Entities
 			string firstName,
 			string? surname = default,
 			DateTime birthday = default,
-			User user = default)
+			User? user = default)
 		{
 			LastName = lastName;
 			FirstName = firstName;
@@ -181,12 +181,46 @@ namespace Portfolio.Domain.Entities
 			DateTime birthday = default,
 			string? surname = default)
 		{
-			LastName = lastName ?? LastName;
-			FirstName = firstName ?? FirstName;
-			Surname = surname ?? Surname;
-			Birthday = birthday == default
-				? Birthday
-				: birthday;
+			if (lastName != null && LastName != lastName)
+				LastName = lastName;
+			if (firstName != null && FirstName != firstName)
+				FirstName = firstName;
+			if (surname != null && Surname != surname)
+				Surname = surname;
+			if (birthday != default && Birthday != birthday)
+				Birthday = birthday;
+		}
+
+		/// <summary>
+		/// Добавить/Обновить информацию о получении образования
+		/// </summary>
+		/// <param name="educationLevel">Уровень образования</param>
+		/// <param name="groupNumber">Номер группы</param>
+		/// <param name="speciality">Специальность</param>
+		/// <param name="faculty">Кафедра</param>
+		/// <param name="satisfySpecialityLevel">Делегат соответствия номера уровню образования</param>
+		public void UpsertEducationInformation(
+			EducationLevels? educationLevel = default,
+			string? groupNumber = default,
+			Speciality? speciality = default,
+			Faculty? faculty = default,
+			Speciality.SatisfySpecialityLevel? satisfySpecialityLevel = default)
+		{
+			if (educationLevel != default && EducationLevel != educationLevel)
+				EducationLevel = educationLevel;
+			if (groupNumber != null && GroupNumber != groupNumber)
+				GroupNumber = groupNumber;
+			if (speciality != null && Speciality != speciality)
+				Speciality = speciality;
+
+			if (EducationLevel.HasValue
+				&& Speciality != null
+				&& satisfySpecialityLevel != null
+				&& !satisfySpecialityLevel(Speciality.Number, EducationLevel.Value))
+				throw new ApplicationExceptionBase("Номер специальности не соответствует уровню образования");
+
+			if (faculty != null && FacultyId != faculty.Id)
+				faculty.AddPortfolio(this);
 		}
 
 		/// <summary>

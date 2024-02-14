@@ -5,7 +5,7 @@ namespace Portfolio.Domain.ValueObjects
 	/// <summary>
 	/// Специальность
 	/// </summary>
-	public class Speciality
+	public class Speciality : ValueObject
 	{
 		/// <summary>
 		/// Конструктор
@@ -54,21 +54,11 @@ namespace Portfolio.Domain.ValueObjects
 		/// </summary>
 		public string Number { get; private set; } = default!;
 
-		public override bool Equals(object obj)
+		/// <inheritdoc/>
+		protected override IEnumerable<object> GetEqualityComponents()
 		{
-			if (obj == null || GetType() != obj.GetType())
-				return false;
-
-			var otherSpeciality = (Speciality)obj;
-			return Number == otherSpeciality.Number;
+			yield return Name;
+			yield return Number;
 		}
-
-		public override int GetHashCode() => HashCode.Combine(Number);
-
-		public static bool operator ==(Speciality speciality1, Speciality speciality2)
-			=> speciality1.Equals(speciality2);
-
-		public static bool operator !=(Speciality speciality1, Speciality speciality2)
-			=> !(speciality1 == speciality2);
 	}
 }

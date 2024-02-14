@@ -10,6 +10,7 @@ namespace Portfolio.Data.PostgreSql.Configurations
 	/// </summary>
 	internal class FacultyConfiguration : EntityBaseConfiguration<Faculty>
 	{
+		/// <inheritdoc/>
 		public override void ConfigureChild(EntityTypeBuilder<Faculty> builder)
 		{
 			builder.ToTable("faculty", "public")

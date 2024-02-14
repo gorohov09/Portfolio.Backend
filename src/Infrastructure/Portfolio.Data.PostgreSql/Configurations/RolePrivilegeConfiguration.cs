@@ -10,6 +10,7 @@ namespace Portfolio.Data.PostgreSql.Configurations
 	/// </summary>
 	internal class RolePrivilegeConfiguration : EntityBaseConfiguration<RolePrivilege>
 	{
+		/// <inheritdoc/>
 		public override void ConfigureChild(EntityTypeBuilder<RolePrivilege> builder)
 		{
 			builder.ToTable("role_privilege", "public")

@@ -10,6 +10,7 @@ namespace Portfolio.Data.PostgreSql.Configurations
 	/// </summary>
 	internal class UserConfiguration : EntityBaseConfiguration<User>
 	{
+		/// <inheritdoc/>
 		public override void ConfigureChild(EntityTypeBuilder<User> builder)
 		{
 			builder.ToTable("user", "public")

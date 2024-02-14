@@ -10,6 +10,7 @@ namespace Portfolio.Data.PostgreSql.Configurations
 	/// </summary>
 	internal class CourseProjectConfiguration : EntityBaseConfiguration<CourseProject>
 	{
+		/// <inheritdoc/>
 		public override void ConfigureChild(EntityTypeBuilder<CourseProject> builder)
 		{
 			builder.ToTable("course_project", "public")

@@ -178,7 +178,7 @@ namespace Portfolio.Domain.Entities
 		public void UpsertGeneralInformation(
 			string? lastName = default,
 			string? firstName = default,
-			DateTime birthday = default,
+			DateTime? birthday = default,
 			string? surname = default)
 		{
 			if (lastName != null && LastName != lastName)
@@ -187,8 +187,8 @@ namespace Portfolio.Domain.Entities
 				FirstName = firstName;
 			if (surname != null && Surname != surname)
 				Surname = surname;
-			if (birthday != default && Birthday != birthday)
-				Birthday = birthday;
+			if (birthday.HasValue && Birthday != birthday)
+				Birthday = birthday.Value;
 		}
 
 		/// <summary>

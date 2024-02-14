@@ -22,7 +22,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation
 		/// <param name="dbContext">Контекст БД</param>
 		/// <param name="userContext">Контекст текущего пользователя</param>
 		/// <param name="specialityNameByNumber">Делегат получения названия специальности по коду</param>
-		/// /// <param name="specialityNameByNumber">Делегат соответствия номера уровню образования</param>
+		/// <param name="specialityNameByNumber">Делегат соответствия номера уровню образования</param>
 		public AddEducationInformationCommandHandler(
 			IDbContext dbContext,
 			IUserContext userContext,

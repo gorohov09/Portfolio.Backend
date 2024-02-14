@@ -24,6 +24,16 @@ namespace Portfolio.Core.Abstractions
 		DbSet<Role> Roles { get; }
 
 		/// <summary>
+		/// Институты
+		/// </summary>
+		DbSet<Institute> Institutes { get; }
+
+		/// <summary>
+		/// Кафедры
+		/// </summary>
+		DbSet<Faculty> Faculties { get; }
+
+		/// <summary>
 		/// БД в памяти
 		/// </summary>
 		bool IsInMemory { get; }

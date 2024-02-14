@@ -26,6 +26,7 @@ namespace Portfolio.Core.Services
 
 			await SeedRolesAsync(dbContext, cancellationToken);
 			await SeedRolesPrivilegesAsync(dbContext, cancellationToken);
+			await SeedInstitutesAndFacultiesAsync(dbContext, cancellationToken);
 
 			await dbContext.SaveChangesAsync(cancellationToken);
 		}
@@ -71,6 +72,22 @@ namespace Portfolio.Core.Services
 			});
 
 			await dbContext.Roles.AddRangeAsync(rolesToSeed, cancellationToken);
+		}
+
+		private async Task SeedInstitutesAndFacultiesAsync(IDbContext dbContext, CancellationToken cancellationToken)
+		{
+			var isExist = await dbContext.Institutes.AnyAsync(cancellationToken);
+
+			if (!isExist)
+			{
+				var instituteIKTZI = new Institute("Институт компьютерных технологий и защиты информации", "ИКТЗИ");
+
+				var facultyPMI = new Faculty("Кафедра прикладной математики и информатики", "ПМИ", instituteIKTZI);
+				var facultySIB = new Faculty("Кафедра систем информационной безопасности", "СИБ", instituteIKTZI);
+
+				await dbContext.Institutes.AddRangeAsync(instituteIKTZI);
+				await dbContext.Faculties.AddRangeAsync(facultyPMI, facultySIB);
+			}
 		}
 
 		private static string GetDefaultValueDescription(string fieldName, Type enumWithDefaultValue)

@@ -1,9 +1,9 @@
-namespace Portfolio.Domain.ValueObjects
+namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
 {
 	/// <summary>
-	/// Институт
+	/// Информация о кафедре для <see cref="GetMyPortfolioResponse"/>
 	/// </summary>
-	public class Institute
+	public class FacultyResponse
 	{
 		/// <summary>
 		/// Полное имя

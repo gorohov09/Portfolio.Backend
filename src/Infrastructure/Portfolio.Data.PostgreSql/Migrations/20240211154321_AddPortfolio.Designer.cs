@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Portfolio.Data.PostgreSql;
@@ -11,9 +12,10 @@ using Portfolio.Data.PostgreSql;
 namespace Portfolio.Data.PostgreSql.Migrations
 {
     [DbContext(typeof(EfContext))]
-    partial class EfContextModelSnapshot : ModelSnapshot
+    [Migration("20240211154321_AddPortfolio")]
+    partial class AddPortfolio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,73 +24,6 @@ namespace Portfolio.Data.PostgreSql.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Portfolio.Domain.Entities.CourseProject", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date")
-                        .HasDefaultValueSql("now() at time zone 'utc'")
-                        .HasComment("Дата создания записи");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_date")
-                        .HasComment("Дата изменения записи");
-
-                    b.Property<int>("PointNumber")
-                        .HasColumnType("integer")
-                        .HasColumnName("point_number")
-                        .HasComment("Количество баллов");
-
-                    b.Property<Guid>("PortfolioId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("portfolio_id");
-
-                    b.Property<int>("ScoreNumber")
-                        .HasColumnType("integer")
-                        .HasColumnName("score_number")
-                        .HasComment("Оценка");
-
-                    b.Property<int>("SemesterNumber")
-                        .HasColumnType("integer")
-                        .HasColumnName("semester_number")
-                        .HasComment("Номер семестра");
-
-                    b.Property<string>("SubjectName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("subject_name")
-                        .HasComment("Наименование дисциплины");
-
-                    b.Property<string>("TopicName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("topic_name")
-                        .HasComment("Наименование темы");
-
-                    b.Property<DateTime>("СompletionDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("сompletion_date")
-                        .HasComment("Дата сдачи");
-
-                    b.HasKey("Id")
-                        .HasName("pk_course_project");
-
-                    b.HasIndex("PortfolioId")
-                        .HasDatabaseName("ix_course_project_portfolio_id");
-
-                    b.ToTable("course_project", "public");
-
-                    b.HasComment("Курсовой проект");
-                });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
                 {
@@ -389,18 +324,6 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasComment("Пользователь");
                 });
 
-            modelBuilder.Entity("Portfolio.Domain.Entities.CourseProject", b =>
-                {
-                    b.HasOne("Portfolio.Domain.Entities.MyPortfolio", "Portfolio")
-                        .WithMany("CourseProjects")
-                        .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_course_project_portfolios_portfolio_id");
-
-                    b.Navigation("Portfolio");
-                });
-
             modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
                 {
                     b.HasOne("Portfolio.Domain.Entities.Institute", "Institute")
@@ -495,11 +418,6 @@ namespace Portfolio.Data.PostgreSql.Migrations
             modelBuilder.Entity("Portfolio.Domain.Entities.Institute", b =>
                 {
                     b.Navigation("Faculties");
-                });
-
-            modelBuilder.Entity("Portfolio.Domain.Entities.MyPortfolio", b =>
-                {
-                    b.Navigation("CourseProjects");
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Role", b =>

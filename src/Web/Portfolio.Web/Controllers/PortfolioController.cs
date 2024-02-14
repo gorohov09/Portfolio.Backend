@@ -1,6 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.PortfolioRequests.AddEducationInformation;
+using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation;
+using Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,5 +30,59 @@ namespace Portfolio.Web.Controllers
 			=> await mediator.Send(
 				new GetMyPortfolioQuery(),
 				cancellationToken);
+
+		/// <summary>
+		/// Добавить в портфолио информацию о получении образования
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Запрос</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		[HttpPut("Add/Education")]
+		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task AddEducationInformationAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] AddEducationInformationRequest request,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(request);
+
+			await mediator.Send(
+				new AddEducationInformationCommand
+				{
+					EducationLevel = request.EducationLevel,
+					FacultyId = request.FacultyId,
+					GroupNumber = request.GroupNumber,
+					SpecialityNumber = request.SpecialityNumber,
+				},
+				cancellationToken);
+		}
+
+		/// <summary>
+		/// Добавить в портфолио общую информацию
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Запрос</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		[HttpPut("Add/General")]
+		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task AddGeneralEducationInformationAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] AddGeneralInformationRequest request,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(request);
+
+			await mediator.Send(
+				new AddGeneralInformationCommand
+				{
+					LastName = request.LastName,
+					FirstName = request.FirstName,
+					Surname = request.Surname,
+					Birthday = request.Birthday,
+				},
+				cancellationToken);
+		}
 	}
 }

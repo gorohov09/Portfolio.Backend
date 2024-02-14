@@ -3,6 +3,9 @@ using Portfolio.Domain.Abstractions;
 
 namespace Portfolio.Domain.Entities
 {
+	/// <summary>
+	/// Базовая сущность
+	/// </summary>
 	public abstract class EntityBase
 	{
 		/// <summary>

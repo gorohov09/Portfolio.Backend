@@ -14,29 +14,38 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string UserField = nameof(_user);
 
+		/// <summary>
+		/// Поле для <see cref="_faculty"/>
+		/// </summary>
+		public const string FacultyField = nameof(_faculty);
+
+		/// <summary>
+		/// Поле для <see cref="_courseProjects"/>
+		/// </summary>
+		public const string CourseProjectsField = nameof(_courseProjects);
+
 		private string _lastName = default!;
 		private string _firstName = default!;
 		private DateTime _birthday;
+
 		private User? _user;
+		private Faculty? _faculty;
+		private List<CourseProject> _courseProjects;
 
 		public MyPortfolio(
 			string lastName,
 			string firstName,
 			string? surname = default,
 			DateTime birthday = default,
-			Institute? institute = default,
-			Speciality? speciality = default,
-			EducationLevels educationLevel = default,
-			User user = default)
+			User? user = default)
 		{
 			LastName = lastName;
 			FirstName = firstName;
 			Surname = surname;
 			Birthday = birthday;
-			Institute = institute;
-			Speciality = speciality;
-			EducationLevel = educationLevel;
 			User = user;
+
+			_courseProjects = new List<CourseProject>();
 		}
 
 		/// <summary>
@@ -54,7 +63,7 @@ namespace Portfolio.Domain.Entities
 		public string LastName
 		{
 			get => _lastName;
-			set => _lastName = string.IsNullOrWhiteSpace(value)
+			private set => _lastName = string.IsNullOrWhiteSpace(value)
 				? throw new RequiredFieldNotSpecifiedException("Фамилия")
 				: value;
 		}
@@ -65,7 +74,7 @@ namespace Portfolio.Domain.Entities
 		public string FirstName
 		{
 			get => _firstName;
-			set => _firstName = string.IsNullOrWhiteSpace(value)
+			private set => _firstName = string.IsNullOrWhiteSpace(value)
 				? throw new RequiredFieldNotSpecifiedException("Имя")
 				: value;
 		}
@@ -73,7 +82,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Отчество
 		/// </summary>
-		public string? Surname { get; set; }
+		public string? Surname { get; private set; }
 
 		/// <summary>
 		/// Дата рождения
@@ -81,36 +90,41 @@ namespace Portfolio.Domain.Entities
 		public DateTime Birthday
 		{
 			get => _birthday;
-			set => _birthday = value == default
+			private set => _birthday = value == default
 				? throw new RequiredFieldNotSpecifiedException("Дата рождения")
 				: value.ToUniversalTime();
 		}
+
+		/// <summary>
+		/// Идентификатор пользователя
+		/// </summary>
+		public Guid UserId { get; private set; }
 
 		#endregion
 
 		#region Информация о получении образования
 
 		/// <summary>
-		/// Институт
+		/// Уровень образования
 		/// </summary>
-		public Institute? Institute { get; set; }
+		public EducationLevels? EducationLevel { get; private set; }
+
+		/// <summary>
+		/// Номер группы
+		/// </summary>
+		public string? GroupNumber { get; private set; }
 
 		/// <summary>
 		/// Специальность
 		/// </summary>
-		public Speciality? Speciality { get; set; }
+		public Speciality? Speciality { get; private set; }
 
 		/// <summary>
-		/// Уровень образования
+		/// Идентификатор кафедры
 		/// </summary>
-		public EducationLevels? EducationLevel { get; set; }
+		public Guid? FacultyId { get; private set; }
 
 		#endregion
-
-		/// <summary>
-		/// Идентификатор пользователя
-		/// </summary>
-		public Guid UserId { get; protected set; }
 
 		#region Navigation properties
 
@@ -133,6 +147,116 @@ namespace Portfolio.Domain.Entities
 			}
 		}
 
+		/// <summary>
+		/// Кафедра
+		/// </summary>
+		public Faculty? Faculty
+		{
+			get => _faculty;
+			private set
+			{
+				_faculty = value
+					?? throw new RequiredFieldNotSpecifiedException("Институт");
+				FacultyId = value.Id;
+			}
+		}
+
+		/// <summary>
+		/// Курсовые проекты
+		/// </summary>
+		public IReadOnlyList<CourseProject>? CourseProjects => _courseProjects;
+
 		#endregion
+
+		/// <summary>
+		/// Добавить/Обновить общую информацию в портфолио
+		/// </summary>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="firstName">Имя</param>
+		/// <param name="birthday">Дата рождения</param>
+		/// <param name="surname">Отчество</param>
+		public void UpsertGeneralInformation(
+			string? lastName = default,
+			string? firstName = default,
+			DateTime? birthday = default,
+			string? surname = default)
+		{
+			if (lastName != null && LastName != lastName)
+				LastName = lastName;
+			if (firstName != null && FirstName != firstName)
+				FirstName = firstName;
+			if (surname != null && Surname != surname)
+				Surname = surname;
+			if (birthday.HasValue && Birthday != birthday)
+				Birthday = birthday.Value;
+		}
+
+		/// <summary>
+		/// Добавить/Обновить информацию о получении образования
+		/// </summary>
+		/// <param name="educationLevel">Уровень образования</param>
+		/// <param name="groupNumber">Номер группы</param>
+		/// <param name="speciality">Специальность</param>
+		/// <param name="faculty">Кафедра</param>
+		/// <param name="satisfySpecialityLevel">Делегат соответствия номера уровню образования</param>
+		public void UpsertEducationInformation(
+			EducationLevels? educationLevel = default,
+			string? groupNumber = default,
+			Speciality? speciality = default,
+			Faculty? faculty = default,
+			Speciality.SatisfySpecialityLevel? satisfySpecialityLevel = default)
+		{
+			if (educationLevel != default && EducationLevel != educationLevel)
+				EducationLevel = educationLevel;
+			if (groupNumber != null && GroupNumber != groupNumber)
+				GroupNumber = groupNumber;
+			if (speciality != null && Speciality != speciality)
+				Speciality = speciality;
+
+			if (EducationLevel.HasValue
+				&& Speciality != null
+				&& satisfySpecialityLevel != null
+				&& !satisfySpecialityLevel(Speciality.Number, EducationLevel.Value))
+				throw new ApplicationExceptionBase("Номер специальности не соответствует уровню образования");
+
+			if (faculty != null && FacultyId != faculty.Id)
+				faculty.AddPortfolio(this);
+		}
+
+		/// <summary>
+		/// Добавить курсовой проект
+		/// </summary>
+		/// <param name="subjectName">Наименование дисциплины</param>
+		/// <param name="topicName">Наименование темы</param>
+		/// <param name="semesterNumber">Номер семестра</param>
+		/// <param name="scoreNumber">Оценка</param>
+		/// <param name="pointNumber">Количество баллов</param>
+		/// <param name="completionDate">Дата сдачи</param>
+		public void AddCourseProject(
+			string subjectName,
+			string topicName,
+			int semesterNumber,
+			int scoreNumber,
+			int pointNumber,
+			DateTime completionDate)
+		{
+			if (_courseProjects == null)
+				throw new NotIncludedException("Курсовые проекты");
+
+			var isExist = _courseProjects.Any(x => x.SubjectName == subjectName
+				&& x.TopicName == topicName);
+
+			if (isExist)
+				throw new ApplicationExceptionBase("Данный курсовой проект по этой дисциплине уже существует");
+
+			_courseProjects.Add(new CourseProject(
+				portfolio: this,
+				subjectName: subjectName,
+				topicName: topicName,
+				semesterNumber: semesterNumber,
+				scoreNumber: scoreNumber,
+				pointNumber: pointNumber,
+				completionDate: completionDate));
+		}
 	}
 }

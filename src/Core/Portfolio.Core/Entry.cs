@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Portfolio.Core.Abstractions;
+using Portfolio.Core.DelegateMethods;
 using Portfolio.Core.Services;
 using Portfolio.Domain.Entities;
 
@@ -26,6 +27,9 @@ namespace Portfolio.Core
 			services.AddSingleton<IPasswordEncryptionService, PasswordEncryptionService>();
 			services.AddScoped<ITokenAuthenticationService, TokenAuthenticationService>();
 			services.AddScoped<IClaimsIdentityFactory, ClaimsIdentityFactory>();
+			services.AddSingleton<ISpecialityService, SpecialityService>();
+
+			services.AddSpecialityMethods();
 
 			return services;
 		}

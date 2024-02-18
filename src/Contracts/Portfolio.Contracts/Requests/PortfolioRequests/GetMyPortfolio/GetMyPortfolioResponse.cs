@@ -1,4 +1,3 @@
-using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
 
 namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio

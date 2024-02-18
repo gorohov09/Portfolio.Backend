@@ -1,5 +1,6 @@
 using Portfolio.Core;
 using Portfolio.Data.PostgreSql;
+using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Swagger;
 
@@ -15,7 +16,8 @@ services
 	.AddUserContext()
 	.AddCustomHeaderAuthentication(services)
 	.AddCore()
-	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"));
+	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
+	.AddS3Storage(configuration.Get<S3Options>());
 
 services.AddControllers();
 

@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0f36a18a-885d-4bab-bc1c-d8468b0001b5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Portfolio.Core\Portfolio.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Portfolio.Data.PostgreSql\Portfolio.Data.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Portfolio.Data.S3\Portfolio.Data.S3.csproj" />
   </ItemGroup>
 
 </Project>

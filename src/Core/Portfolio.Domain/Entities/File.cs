@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using Portfolio.Domain.Abstractions;
 
 namespace Portfolio.Domain.Entities
 {
 	/// <summary>
 	/// Файл
 	/// </summary>
-	public class File : EntityBase
+	public class File : EntityBase, ISoftDeletable
 	{
 		/// <summary>
 		/// Конструктор
@@ -59,10 +60,22 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public string? ContentType { get; private set; }
 
+		/// <inheritdoc/>
+		public bool IsDeleted { get; set; }
+
 		/// <summary>
 		/// Расширение файла
 		/// </summary>
 		/// <example>Extension("SomeFileName.pdf") возвратит "pdf"</example>
 		public string? Extension => Path.GetExtension(FileName)?.Trim('.').ToLowerInvariant();
+
+		#region Navigation properties
+
+		/// <summary>
+		/// Фотографии пользователей
+		/// </summary>
+		public List<Photo>? Photos { get; protected set; }
+
+		#endregion
 	}
 }

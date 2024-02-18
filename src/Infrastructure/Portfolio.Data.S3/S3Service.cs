@@ -151,7 +151,7 @@ namespace Portfolio.Data.S3
 
 		private static Buckets BuildBucket(string bucketName) => bucketName switch
 		{
-			"Avatars" => Buckets.Avatars,
+			"Photos" => Buckets.Photos,
 			_ => throw new NotImplementedException(),
 		};
 	}

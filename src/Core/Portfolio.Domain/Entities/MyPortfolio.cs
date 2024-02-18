@@ -24,6 +24,11 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string CourseProjectsField = nameof(_courseProjects);
 
+		/// <summary>
+		/// Поле для <see cref="_photos"/>
+		/// </summary>
+		public const string PhotosField = nameof(_photos);
+
 		private string _lastName = default!;
 		private string _firstName = default!;
 		private DateTime _birthday;
@@ -31,6 +36,7 @@ namespace Portfolio.Domain.Entities
 		private User? _user;
 		private Faculty? _faculty;
 		private List<CourseProject> _courseProjects;
+		private List<Photo> _photos;
 
 		public MyPortfolio(
 			string lastName,
@@ -46,6 +52,7 @@ namespace Portfolio.Domain.Entities
 			User = user;
 
 			_courseProjects = new List<CourseProject>();
+			_photos = new List<Photo>();
 		}
 
 		/// <summary>
@@ -165,6 +172,11 @@ namespace Portfolio.Domain.Entities
 		/// Курсовые проекты
 		/// </summary>
 		public IReadOnlyList<CourseProject>? CourseProjects => _courseProjects;
+
+		/// <summary>
+		/// Фотографии
+		/// </summary>
+		public IReadOnlyList<Photo>? Photos => _photos;
 
 		#endregion
 

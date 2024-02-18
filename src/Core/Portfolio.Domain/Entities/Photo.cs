@@ -42,7 +42,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Является ли фотография аватаркой
 		/// </summary>
-		public bool IsAvatar { get; private set; }
+		public bool IsAvatar { get; set; }
 
 		/// <summary>
 		/// Идентификатор портфолио

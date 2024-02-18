@@ -6,6 +6,7 @@ using Portfolio.Core.Abstractions;
 using Portfolio.Domain.Abstractions;
 using Portfolio.Domain.Entities;
 using Portfolio.Domain.Exceptions;
+using File = Portfolio.Domain.Entities.File;
 
 namespace Portfolio.Data.PostgreSql
 {
@@ -47,6 +48,8 @@ namespace Portfolio.Data.PostgreSql
 		public DbSet<Institute> Institutes { get; set; }
 
 		public DbSet<Faculty> Faculties { get; set; }
+
+		public DbSet<File> Files { get; set; }
 
 		/// <inheritdoc/>
 		public bool IsInMemory => Database.IsInMemory();

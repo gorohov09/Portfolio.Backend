@@ -34,6 +34,8 @@ namespace Portfolio.Data.S3
 				new AmazonS3Config
 				{
 					ServiceURL = options.ServiceUrl,
+					ForcePathStyle = true,
+					UseHttp = false,
 				})
 			);
 

@@ -113,9 +113,15 @@ namespace Portfolio.Data.S3
 			if (file?.FileName == null)
 				throw new ArgumentException(nameof(file.FileName));
 
+			var bucketName = file.Bucket == null ? _s3Options.DefaultBucketName : file.Bucket.GetDescription();
+			var buckets = await _amazonS3.ListBucketsAsync(cancellationToken);
+
+			if (buckets.Buckets.All(x => x.BucketName != bucketName.ToLower()))
+				await _amazonS3.PutBucketAsync(bucketName.ToLower(), cancellationToken);
+
 			var putRequest = new PutObjectRequest
 			{
-				BucketName = file.Bucket == null ? _s3Options.DefaultBucketName : file.Bucket.GetDescription(),
+				BucketName = bucketName.ToLower(),
 				Key = ContentKey(file.FileName),
 				InputStream = file.Content,
 				ContentType = string.IsNullOrWhiteSpace(file.ContentType) ? DefaultContentType : file.ContentType,

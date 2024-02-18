@@ -29,6 +29,8 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string PhotosField = nameof(_photos);
 
+		private const int MAX_COUNT_PHOTOS = 5;
+
 		private string _lastName = default!;
 		private string _firstName = default!;
 		private DateTime _birthday;
@@ -269,6 +271,31 @@ namespace Portfolio.Domain.Entities
 				scoreNumber: scoreNumber,
 				pointNumber: pointNumber,
 				completionDate: completionDate));
+		}
+
+		/// <summary>
+		/// Добавить фотографию
+		/// </summary>
+		public void AddPhoto(File file, bool isAvatar = false)
+		{
+			ArgumentNullException.ThrowIfNull(file);
+
+			if (_photos == null)
+				throw new NotIncludedException("Фотографии");
+
+			if (_photos.Count == MAX_COUNT_PHOTOS)
+				throw new ApplicationExceptionBase("У вас не может быть более 5 фотографий");
+
+			if (isAvatar && _photos.Any(x => x.IsAvatar))
+			{
+				var avatar = _photos.FirstOrDefault(x => x.IsAvatar);
+				avatar!.IsAvatar = false;
+			}
+
+			_photos.Add(new Photo(
+				portfolio: this,
+				file: file,
+				isAvatar: isAvatar));
 		}
 	}
 }

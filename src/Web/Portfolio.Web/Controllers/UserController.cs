@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Portfolio.Contracts.Requests.UserRequest.GetMyUserInfo;
+using Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo;
 using Portfolio.Core.Requests.UserRequests.GetMyUserInfo;
 using Swashbuckle.AspNetCore.Annotations;
 

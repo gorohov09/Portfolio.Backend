@@ -1,4 +1,4 @@
-namespace Portfolio.Contracts.Requests.UserRequest.GetMyUserInfo
+namespace Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo
 {
 	/// <summary>
 	/// Ответ на запрос получения информации о пользователе

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Portfolio.Contracts.Requests.UserRequest.GetMyUserInfo;
+using Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo;
 using Portfolio.Core.Abstractions;
 using Portfolio.Domain.Exceptions;
 
@@ -35,15 +35,15 @@ namespace Portfolio.Core.Requests.UserRequests.GetMyUserInfo
 			var user = await _dbContext.Users
 				.Include(x => x.Role)
 				.FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
-				?? throw new NotFoundException($"Пользователя с Id: {_userContext.CurrentUserId} не найден");
+				?? throw new NotFoundException($"Пользователь с Id: {_userContext.CurrentUserId} не найден");
 
 			return new GetMyUserInfoResponse
 			{
 				Login = user.Login,
 				Email = user.Email,
 				RoleName = user.Role!.Name,
-				Phone = user?.Phone,
-				CreatedOn = user!.CreatedOn,
+				Phone = user.Phone,
+				CreatedOn = user.CreatedOn,
 			};
 		}
 	}

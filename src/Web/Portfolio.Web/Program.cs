@@ -17,7 +17,7 @@ services
 	.AddCustomHeaderAuthentication(services)
 	.AddCore()
 	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
-	.AddS3Storage(configuration.Get<S3Options>());
+	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>());
 
 services.AddControllers();
 

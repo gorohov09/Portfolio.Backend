@@ -6,14 +6,14 @@ using Portfolio.Domain.Entities;
 namespace Portfolio.Data.PostgreSql.Configurations
 {
 	/// <summary>
-	/// Конфигурация для <see cref="Photo"/>
+	/// Конфигурация для <see cref="PhotoPortfolio"/>
 	/// </summary>
-	internal class PhotoConfiguration : EntityBaseConfiguration<Photo>
+	internal class PhotoConfiguration : EntityBaseConfiguration<PhotoPortfolio>
 	{
-		public override void ConfigureChild(EntityTypeBuilder<Photo> builder)
+		public override void ConfigureChild(EntityTypeBuilder<PhotoPortfolio> builder)
 		{
-			builder.ToTable("photo", "public")
-				.HasComment("Фотография");
+			builder.ToTable("photo_portfolio", "public")
+				.HasComment("Фотография портфолио");
 
 			builder.Property(p => p.IsAvatar)
 				.HasComment("Является ли фотография аватаркой")
@@ -39,8 +39,8 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasPrincipalKey(y => y!.Id)
 				.OnDelete(DeleteBehavior.SetNull);
 
-			builder.SetPropertyAccessModeField(x => x.Portfolio, Photo.PortfolioField);
-			builder.SetPropertyAccessModeField(x => x.File, Photo.FileField);
+			builder.SetPropertyAccessModeField(x => x.Portfolio, PhotoPortfolio.PortfolioField);
+			builder.SetPropertyAccessModeField(x => x.File, PhotoPortfolio.FileField);
 		}
 	}
 }

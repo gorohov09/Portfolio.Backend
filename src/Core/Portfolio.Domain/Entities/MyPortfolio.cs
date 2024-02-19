@@ -29,7 +29,7 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string PhotosField = nameof(_photos);
 
-		private const int MAX_COUNT_PHOTOS = 5;
+		private const int MAXCOUNTPHOTOS = 5;
 
 		private string _lastName = default!;
 		private string _firstName = default!;
@@ -38,7 +38,7 @@ namespace Portfolio.Domain.Entities
 		private User? _user;
 		private Faculty? _faculty;
 		private List<CourseProject> _courseProjects;
-		private List<Photo> _photos;
+		private List<PhotoPortfolio> _photos;
 
 		public MyPortfolio(
 			string lastName,
@@ -54,7 +54,7 @@ namespace Portfolio.Domain.Entities
 			User = user;
 
 			_courseProjects = new List<CourseProject>();
-			_photos = new List<Photo>();
+			_photos = new List<PhotoPortfolio>();
 		}
 
 		/// <summary>
@@ -178,7 +178,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Фотографии
 		/// </summary>
-		public IReadOnlyList<Photo>? Photos => _photos;
+		public IReadOnlyList<PhotoPortfolio>? Photos => _photos;
 
 		#endregion
 
@@ -283,7 +283,7 @@ namespace Portfolio.Domain.Entities
 			if (_photos == null)
 				throw new NotIncludedException("Фотографии");
 
-			if (_photos.Count == MAX_COUNT_PHOTOS)
+			if (_photos.Count + 1 > MAXCOUNTPHOTOS)
 				throw new ApplicationExceptionBase("У вас не может быть более 5 фотографий");
 
 			if (isAvatar && _photos.Any(x => x.IsAvatar))
@@ -292,7 +292,7 @@ namespace Portfolio.Domain.Entities
 				avatar!.IsAvatar = false;
 			}
 
-			_photos.Add(new Photo(
+			_photos.Add(new PhotoPortfolio(
 				portfolio: this,
 				file: file,
 				isAvatar: isAvatar));

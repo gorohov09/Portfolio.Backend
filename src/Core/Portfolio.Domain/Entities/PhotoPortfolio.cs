@@ -2,7 +2,7 @@ using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Domain.Entities
 {
-	public class Photo : EntityBase
+	public class PhotoPortfolio : EntityBase
 	{
 		/// <summary>
 		/// Поле для <see cref="_portfolio"/>
@@ -22,7 +22,7 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		/// <param name="portfolio">Портфолио</param>
 		/// <param name="file">Файл</param>
-		public Photo(
+		public PhotoPortfolio(
 			MyPortfolio portfolio,
 			File file,
 			bool isAvatar = false)
@@ -35,7 +35,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		protected Photo()
+		protected PhotoPortfolio()
 		{
 		}
 

@@ -74,7 +74,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Фотографии пользователей
 		/// </summary>
-		public List<Photo>? Photos { get; protected set; }
+		public List<PhotoPortfolio>? Photos { get; protected set; }
 
 		#endregion
 	}

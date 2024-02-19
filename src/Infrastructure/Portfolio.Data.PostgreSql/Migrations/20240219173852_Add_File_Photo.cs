@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Portfolio.Data.PostgreSql.Migrations
 {
-    public partial class AddFileAndPhoto : Migration
+    public partial class Add_File_Photo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +35,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                 comment: "Файл");
 
             migrationBuilder.CreateTable(
-                name: "photo",
+                name: "photo_portfolio",
                 schema: "public",
                 columns: table => new
                 {
@@ -48,33 +48,33 @@ namespace Portfolio.Data.PostgreSql.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_photo", x => x.id);
+                    table.PrimaryKey("pk_photo_portfolio", x => x.id);
                     table.ForeignKey(
-                        name: "fk_photo_file_file_id",
+                        name: "fk_photo_portfolio_files_file_id",
                         column: x => x.file_id,
                         principalSchema: "public",
                         principalTable: "file",
                         principalColumn: "id",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "fk_photo_portfolios_portfolio_id",
+                        name: "fk_photo_portfolio_portfolios_portfolio_id",
                         column: x => x.portfolio_id,
                         principalSchema: "public",
                         principalTable: "portfolio",
                         principalColumn: "id");
                 },
-                comment: "Фотография");
+                comment: "Фотография портфолио");
 
             migrationBuilder.CreateIndex(
-                name: "ix_photo_file_id",
+                name: "ix_photo_portfolio_file_id",
                 schema: "public",
-                table: "photo",
+                table: "photo_portfolio",
                 column: "file_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_photo_portfolio_id",
+                name: "ix_photo_portfolio_portfolio_id",
                 schema: "public",
-                table: "photo",
+                table: "photo_portfolio",
                 column: "portfolio_id");
 
             migrationBuilder.AddForeignKey(
@@ -95,7 +95,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                 table: "faculty");
 
             migrationBuilder.DropTable(
-                name: "photo",
+                name: "photo_portfolio",
                 schema: "public");
 
             migrationBuilder.DropTable(

@@ -305,7 +305,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasComment("Портфолио");
                 });
 
-            modelBuilder.Entity("Portfolio.Domain.Entities.Photo", b =>
+            modelBuilder.Entity("Portfolio.Domain.Entities.PhotoPortfolio", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,17 +341,17 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasComment("Идентификатор портфолио");
 
                     b.HasKey("Id")
-                        .HasName("pk_photo");
+                        .HasName("pk_photo_portfolio");
 
                     b.HasIndex("FileId")
-                        .HasDatabaseName("ix_photo_file_id");
+                        .HasDatabaseName("ix_photo_portfolio_file_id");
 
                     b.HasIndex("PortfolioId")
-                        .HasDatabaseName("ix_photo_portfolio_id");
+                        .HasDatabaseName("ix_photo_portfolio_portfolio_id");
 
-                    b.ToTable("photo", "public");
+                    b.ToTable("photo_portfolio", "public");
 
-                    b.HasComment("Фотография");
+                    b.HasComment("Фотография портфолио");
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Role", b =>
@@ -562,21 +562,21 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Portfolio.Domain.Entities.Photo", b =>
+            modelBuilder.Entity("Portfolio.Domain.Entities.PhotoPortfolio", b =>
                 {
                     b.HasOne("Portfolio.Domain.Entities.File", "File")
                         .WithMany("Photos")
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired()
-                        .HasConstraintName("fk_photo_file_file_id");
+                        .HasConstraintName("fk_photo_portfolio_files_file_id");
 
                     b.HasOne("Portfolio.Domain.Entities.MyPortfolio", "Portfolio")
                         .WithMany("Photos")
                         .HasForeignKey("PortfolioId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
-                        .HasConstraintName("fk_photo_portfolios_portfolio_id");
+                        .HasConstraintName("fk_photo_portfolio_portfolios_portfolio_id");
 
                     b.Navigation("File");
 

@@ -23,6 +23,12 @@ namespace Portfolio.Data.S3
 		private readonly S3Options _s3Options;
 		private readonly ILogger<S3Service> _logger;
 
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="amazonS3">Клиент S3-хранилища</param>
+		/// <param name="s3Options">Настройки S3-хранилища</param>
+		/// <param name="logger">Логгер</param>
 		public S3Service(
 			IAmazonS3 amazonS3,
 			S3Options s3Options,

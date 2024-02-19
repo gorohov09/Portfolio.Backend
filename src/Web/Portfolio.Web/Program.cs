@@ -26,7 +26,10 @@ var app = builder.Build();
 	using (var scope = app.Services.CreateScope())
 	{
 		var migrator = scope.ServiceProvider.GetRequiredService<DbMigrator>();
+		var s3Helper = scope.ServiceProvider.GetRequiredService<S3Helper>();
+
 		await migrator.MigrateAsync();
+		await s3Helper.PrepareAsync();
 	}
 
 	if (app.Environment.IsDevelopment())

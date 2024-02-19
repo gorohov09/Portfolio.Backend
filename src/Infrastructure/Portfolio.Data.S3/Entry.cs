@@ -27,6 +27,7 @@ namespace Portfolio.Data.S3
 
 			services.AddSingleton(options);
 			services.AddSingleton<IS3Service, S3Service>();
+			services.AddTransient<S3Helper>();
 
 			services.AddSingleton<IAmazonS3, AmazonS3Client>(_ => new AmazonS3Client(
 				options.AccessKey,

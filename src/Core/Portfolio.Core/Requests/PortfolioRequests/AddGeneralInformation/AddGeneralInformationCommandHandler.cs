@@ -5,6 +5,9 @@ using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation
 {
+	/// <summary>
+	/// Обработчик запроса <see cref="AddGeneralInformationCommand"/>
+	/// </summary>
 	public class AddGeneralInformationCommandHandler
 		: IRequestHandler<AddGeneralInformationCommand>
 	{

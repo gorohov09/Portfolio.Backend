@@ -21,6 +21,18 @@ namespace Portfolio.Core.Extensions
 			return attribute == null ? value.ToString() : attribute.Description;
 		}
 
+		/// <summary>
+		/// Получить список значений Enum
+		/// </summary>
+		/// <typeparam name="T">Тип нужного Enum</typeparam>
+		/// <returns>Cписок значений Enum</returns>
+		public static List<T> GetEnumList<T>()
+		{
+			var array = (T[])Enum.GetValues(typeof(T));
+			var list = new List<T>(array);
+			return list;
+		}
+
 		private static T? GetAttribute<T>(Enum value)
 			where T : Attribute
 		{

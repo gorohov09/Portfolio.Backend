@@ -1,5 +1,6 @@
 using Portfolio.Core;
 using Portfolio.Data.PostgreSql;
+using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Swagger;
 
@@ -15,7 +16,8 @@ services
 	.AddUserContext()
 	.AddCustomHeaderAuthentication(services)
 	.AddCore()
-	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"));
+	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
+	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>());
 
 services.AddControllers();
 
@@ -24,7 +26,10 @@ var app = builder.Build();
 	using (var scope = app.Services.CreateScope())
 	{
 		var migrator = scope.ServiceProvider.GetRequiredService<DbMigrator>();
+		var s3Helper = scope.ServiceProvider.GetRequiredService<S3Helper>();
+
 		await migrator.MigrateAsync();
+		await s3Helper.PrepareAsync();
 	}
 
 	if (app.Environment.IsDevelopment())

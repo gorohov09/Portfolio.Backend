@@ -5,6 +5,7 @@ using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
 using Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation;
+using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
 using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -84,5 +85,25 @@ namespace Portfolio.Web.Controllers
 				},
 				cancellationToken);
 		}
+
+		/// <summary>
+		/// Добавить в портфолио фотографию
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="file">Файл</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		[HttpPut("Add/Photo")]
+		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task AddPhotoAsync(
+			[FromServices] IMediator mediator,
+			IFormFile file,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new AddPhotoCommand
+				{
+					File = file,
+				},
+				cancellationToken);
 	}
 }

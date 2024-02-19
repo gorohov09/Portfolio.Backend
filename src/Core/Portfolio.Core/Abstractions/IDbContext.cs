@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Domain.Entities;
+using File = Portfolio.Domain.Entities.File;
 
 namespace Portfolio.Core.Abstractions
 {
@@ -32,6 +33,11 @@ namespace Portfolio.Core.Abstractions
 		/// Кафедры
 		/// </summary>
 		DbSet<Faculty> Faculties { get; }
+
+		/// <summary>
+		/// Файлы
+		/// </summary>
+		DbSet<File> Files { get; }
 
 		/// <summary>
 		/// БД в памяти

@@ -61,7 +61,7 @@ namespace Portfolio.Domain.Entities
 		public string Login
 		{
 			get => _login;
-			set => _login = value
+			private set => _login = value
 					?? throw new RequiredFieldNotSpecifiedException("Логин");
 		}
 
@@ -81,7 +81,7 @@ namespace Portfolio.Domain.Entities
 		public string Email
 		{
 			get => _email;
-			set => _email = value
+			private set => _email = value
 					?? throw new RequiredFieldNotSpecifiedException("Электронная почта");
 		}
 
@@ -111,6 +111,18 @@ namespace Portfolio.Domain.Entities
 			}
 		}
 
+		public void UpsertContactInformation(
+			string? login,
+			string? email,
+			string? phone)
+		{
+			if (login != null && Login != login)
+				Login = login;
+			if (email != null && Email != email)
+				Email = email;
+			if (phone != null && Phone != phone)
+				Phone = phone;
+		}
 		#endregion
 	}
 }

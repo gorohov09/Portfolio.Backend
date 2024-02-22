@@ -6,7 +6,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformatio
 	/// <summary>
 	/// Команда на добавление/обновление общей информации в портфолио
 	/// </summary>
-	public class AddOrUpdateGeneralInformationCommand : AddGeneralInformationRequest, IRequest
+	public class AddOrUpdateGeneralInformationCommand : AddOrUpdateGeneralInformationRequest, IRequest
 	{
 	}
 }

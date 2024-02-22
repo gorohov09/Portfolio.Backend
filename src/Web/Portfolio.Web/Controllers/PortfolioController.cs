@@ -1,10 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.PortfolioRequests.AddEducationInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
-using Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
-using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
-using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation;
+using Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation;
+using Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
 using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
 using Swashbuckle.AspNetCore.Annotations;
@@ -33,7 +33,7 @@ namespace Portfolio.Web.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// Добавить/обновить информацию в портфолио о получении образования
+		/// Добавить в портфолио информацию о получении образования
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
 		/// <param name="request">Запрос</param>
@@ -41,15 +41,15 @@ namespace Portfolio.Web.Controllers
 		[HttpPut("Add/Education")]
 		[SwaggerResponse(StatusCodes.Status200OK)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task AddOrUpdateEducationInformationAsync(
+		public async Task AddEducationInformationAsync(
 			[FromServices] IMediator mediator,
-			[FromBody] AddOrUpdateEducationInformationRequest request,
+			[FromBody] AddEducationInformationRequest request,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);
 
 			await mediator.Send(
-				new AddOrUpdateEducationInformationCommand
+				new AddEducationInformationCommand
 				{
 					EducationLevel = request.EducationLevel,
 					FacultyId = request.FacultyId,
@@ -60,7 +60,7 @@ namespace Portfolio.Web.Controllers
 		}
 
 		/// <summary>
-		/// Добавить/обновить общую информацию в портфолио
+		/// Добавить в портфолио общую информацию
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
 		/// <param name="request">Запрос</param>
@@ -68,15 +68,15 @@ namespace Portfolio.Web.Controllers
 		[HttpPut("Add/General")]
 		[SwaggerResponse(StatusCodes.Status200OK)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task AddOrUpdateGeneralEducationInformationAsync(
+		public async Task AddGeneralEducationInformationAsync(
 			[FromServices] IMediator mediator,
-			[FromBody] AddGeneralInformationRequest request,
+			[FromBody] AddOrUpdateGeneralInformationRequest request,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);
 
 			await mediator.Send(
-				new AddOrUpdateGeneralInformationCommand
+				new AddGeneralInformationCommand
 				{
 					LastName = request.LastName,
 					FirstName = request.FirstName,

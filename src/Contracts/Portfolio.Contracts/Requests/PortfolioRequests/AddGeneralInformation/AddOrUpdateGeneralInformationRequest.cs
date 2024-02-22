@@ -3,7 +3,7 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation
 	/// <summary>
 	/// Запрос на добавление к портфолио общей информации
 	/// </summary>
-	public class AddGeneralInformationRequest
+	public class AddOrUpdateGeneralInformationRequest
 	{
 		/// <summary>
 		/// Фамилия

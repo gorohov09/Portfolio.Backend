@@ -1,11 +1,11 @@
 using Portfolio.Domain.Enums;
 
-namespace Portfolio.Contracts.Requests.PortfolioRequests.AddEducationInformation
+namespace Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation
 {
 	/// <summary>
-	/// Запрос на добавление к портфолио информации о получении образования
+	/// Запрос на добавление/обновление к портфолио информации о получении образования
 	/// </summary>
-	public class AddEducationInformationRequest
+	public class AddOrUpdateEducationInformationRequest
 	{
 		/// <summary>
 		/// Уровень образования

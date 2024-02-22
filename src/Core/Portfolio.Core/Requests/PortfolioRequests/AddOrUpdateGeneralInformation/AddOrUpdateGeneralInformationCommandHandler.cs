@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.Core.Abstractions;
 using Portfolio.Domain.Exceptions;
 
-namespace Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation
+namespace Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation
 {
 	/// <summary>
-	/// Обработчик запроса <see cref="AddGeneralInformationCommand"/>
+	/// Обработчик запроса <see cref="AddOrUpdateGeneralInformationCommand"/>
 	/// </summary>
-	public class AddGeneralInformationCommandHandler
-		: IRequestHandler<AddGeneralInformationCommand>
+	public class AddOrUpdateGeneralInformationCommandHandler
+		: IRequestHandler<AddOrUpdateGeneralInformationCommand>
 	{
 		private readonly IDbContext _dbContext;
 		private readonly IUserContext _userContext;
@@ -19,7 +19,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation
 		/// </summary>
 		/// <param name="dbContext">Контекст БД</param>
 		/// <param name="userContext">Контекст текущего пользователя</param>
-		public AddGeneralInformationCommandHandler(
+		public AddOrUpdateGeneralInformationCommandHandler(
 			IDbContext dbContext,
 			IUserContext userContext)
 		{
@@ -29,7 +29,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation
 
 		/// <inheritdoc/>
 		public async Task<Unit> Handle(
-			AddGeneralInformationCommand request,
+			AddOrUpdateGeneralInformationCommand request,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);

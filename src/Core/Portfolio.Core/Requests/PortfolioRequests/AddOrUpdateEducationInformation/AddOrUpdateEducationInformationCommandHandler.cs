@@ -4,12 +4,12 @@ using Portfolio.Core.Abstractions;
 using Portfolio.Domain.Exceptions;
 using Portfolio.Domain.ValueObjects;
 
-namespace Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation
+namespace Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateEducationInformation
 {
 	/// <summary>
-	/// Обработчик запроса <see cref="AddEducationInformationCommand"/>
+	/// Обработчик запроса <see cref="AddOrUpdateEducationInformationCommand"/>
 	/// </summary>
-	public class AddEducationInformationCommandHandler : IRequestHandler<AddEducationInformationCommand>
+	public class AddOrUpdateEducationInformationCommandHandler : IRequestHandler<AddOrUpdateEducationInformationCommand>
 	{
 		private readonly IDbContext _dbContext;
 		private readonly IUserContext _userContext;
@@ -23,7 +23,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation
 		/// <param name="userContext">Контекст текущего пользователя</param>
 		/// <param name="specialityNameByNumber">Делегат получения названия специальности по коду</param>
 		/// <param name="specialityNameByNumber">Делегат соответствия номера уровню образования</param>
-		public AddEducationInformationCommandHandler(
+		public AddOrUpdateEducationInformationCommandHandler(
 			IDbContext dbContext,
 			IUserContext userContext,
 			Speciality.GetSpecialityNameByNumber specialityNameByNumber,
@@ -36,7 +36,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation
 		}
 
 		/// <inheritdoc/>
-		public async Task<Unit> Handle(AddEducationInformationCommand request, CancellationToken cancellationToken)
+		public async Task<Unit> Handle(AddOrUpdateEducationInformationCommand request, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);
 

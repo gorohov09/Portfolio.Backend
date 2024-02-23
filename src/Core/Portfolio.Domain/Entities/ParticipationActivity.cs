@@ -1,3 +1,4 @@
+using Portfolio.Domain.Abstractions;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 
@@ -6,7 +7,7 @@ namespace Portfolio.Domain.Entities
 	/// <summary>
 	/// Участие в мероприятии
 	/// </summary>
-	public class ParticipationActivity : EntityBase
+	public class ParticipationActivity : EntityBase, IUserTrackable
 	{
 		/// <summary>
 		/// Поле для <see cref="_activity"/>
@@ -23,10 +24,22 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string PortfolioField = nameof(_portfolio);
 
+		/// <summary>
+		/// Поле для <see cref="_createdByUser"/>
+		/// </summary>
+		public const string CreatedByUserField = nameof(_createdByUser);
+
+		/// <summary>
+		/// Поле для <see cref="_modifiedByUser"/>
+		/// </summary>
+		public const string ModifiedByUserField = nameof(_modifiedByUser);
+
 		private ParticipationActivityStatus _status;
 		private Activity? _activity;
 		private MyPortfolio _portfolio;
 		private ParticipationActivityDocument? _participationActivityDocument;
+		private User? _createdByUser;
+		private User? _modifiedByUser;
 
 		/// <summary>
 		/// Конструктор
@@ -91,6 +104,16 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public Guid? ParticipationActivityDocumentId { get; private set; }
 
+		/// <summary>
+		/// Идентификатор пользователя, создавшего сущность
+		/// </summary>
+		public Guid CreatedByUserId { get; set; }
+
+		/// <summary>
+		/// Идентификатор пользователя, изменившего сущность
+		/// </summary>
+		public Guid ModifiedByUserId { get; set; }
+
 		#region Navigation properties
 
 		/// <summary>
@@ -133,6 +156,33 @@ namespace Portfolio.Domain.Entities
 			}
 		}
 
+		/// <summary>
+		/// Пользователь, создавший сущность
+		/// </summary>
+		public User? CreatedByUser
+		{
+			get => _createdByUser;
+			set
+			{
+				_createdByUser = value
+					?? throw new RequiredFieldNotSpecifiedException("Пользователь, создавший сущность");
+				CreatedByUserId = value.Id;
+			}
+		}
+
+		/// <summary>
+		/// Пользователь, изменивший сущность
+		/// </summary>
+		public User? ModifiedByUser
+		{
+			get => _modifiedByUser;
+			set
+			{
+				_modifiedByUser = value
+					?? throw new RequiredFieldNotSpecifiedException("Пользователь, изменивший сущность");
+				ModifiedByUserId = value.Id;
+			}
+		}
 		#endregion
 
 		/// <summary>

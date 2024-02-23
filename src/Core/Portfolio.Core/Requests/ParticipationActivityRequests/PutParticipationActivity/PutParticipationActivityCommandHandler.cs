@@ -50,7 +50,6 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 			var participationActivity = await _dbContext.Participations
 				.Include(x => x.Activity)
 				.Include(x => x.ParticipationActivityDocument)
-					.ThenInclude(y => y!.File)
 				.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)
 				?? throw new NotFoundException($"Не найдено участие в мероприятии с Id: {request.Id}");
 

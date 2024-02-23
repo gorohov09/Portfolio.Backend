@@ -211,8 +211,8 @@ namespace Portfolio.Domain.Entities
 
 			if (file != null)
 			{
-				if (ParticipationActivityDocument != null && ParticipationActivityDocument.File != null)
-					ParticipationActivityDocument.File.IsDeleted = true;
+				if (ParticipationActivityDocument != null)
+					ParticipationActivityDocument.IsDeleted = true;
 
 				ParticipationActivityDocument = new ParticipationActivityDocument(
 					participation: this,

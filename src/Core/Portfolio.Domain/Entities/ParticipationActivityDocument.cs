@@ -6,20 +6,14 @@ namespace Portfolio.Domain.Entities
 	/// <summary>
 	/// Подтверждающий документ участия в мероприятии
 	/// </summary>
-	public class ParticipationActivityDocument : EntityBase
+	public class ParticipationActivityDocument : BaseDocument
 	{
 		/// <summary>
 		/// Поле для <see cref="_participation"/>
 		/// </summary>
 		public const string ParticipationField = nameof(_participation);
 
-		/// <summary>
-		/// Поле для <see cref="_file"/>
-		/// </summary>
-		public const string FileField = nameof(_file);
-
 		private ParticipationActivity _participation;
-		private File _file;
 
 		/// <summary>
 		/// Конструктор
@@ -29,6 +23,7 @@ namespace Portfolio.Domain.Entities
 		public ParticipationActivityDocument(
 			ParticipationActivity participation,
 			File file)
+			: base(file)
 		{
 			Participation = participation;
 			File = file;
@@ -51,11 +46,6 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public Guid ParticipationId { get; private set; }
 
-		/// <summary>
-		/// Идентификатор файла
-		/// </summary>
-		public Guid FileId { get; private set; }
-
 		#region Navigation properties
 
 		/// <summary>
@@ -69,20 +59,6 @@ namespace Portfolio.Domain.Entities
 				_participation = value
 					?? throw new RequiredFieldNotSpecifiedException("Участие в мероприятии");
 				ParticipationId = value.Id;
-			}
-		}
-
-		/// <summary>
-		/// Файл
-		/// </summary>
-		public File? File
-		{
-			get => _file;
-			set
-			{
-				_file = value
-					?? throw new RequiredFieldNotSpecifiedException("Файл");
-				FileId = value.Id;
 			}
 		}
 

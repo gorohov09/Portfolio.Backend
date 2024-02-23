@@ -28,6 +28,7 @@ namespace Portfolio.Core
 			services.AddScoped<ITokenAuthenticationService, TokenAuthenticationService>();
 			services.AddScoped<IClaimsIdentityFactory, ClaimsIdentityFactory>();
 			services.AddSingleton<ISpecialityService, SpecialityService>();
+			services.AddScoped<IAuthorizationService, AuthorizationService>();
 
 			services.AddSpecialityMethods();
 

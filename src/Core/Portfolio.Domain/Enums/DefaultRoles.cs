@@ -22,6 +22,7 @@ namespace Portfolio.Domain.Enums
 				[StudentId] = new()
 				{
 					Privileges.PortfolioView,
+					Privileges.ParticipationActivityCreated,
 				},
 			};
 	}

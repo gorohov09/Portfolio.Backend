@@ -6,6 +6,9 @@ using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo
 {
+	/// <summary>
+	/// Обработчик запроса <see cref="AddOrUpdateUserInfoCommand"/>
+	/// </summary>
 	public class AddOrUpdateUserInfoCommandHandler : IRequestHandler<AddOrUpdateUserInfoCommand>
 	{
 		private readonly IDbContext _dbContext;
@@ -24,6 +27,7 @@ namespace Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo
 			_userContext = userContext;
 		}
 
+		/// <inheritdoc/>
 		public async Task<Unit> Handle(
 			AddOrUpdateUserInfoCommand request,
 			CancellationToken cancellationToken)

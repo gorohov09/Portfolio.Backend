@@ -9,5 +9,10 @@ namespace Portfolio.Domain.Enums
 		/// Портфолио - просмотр
 		/// </summary>
 		PortfolioView = 1,
+
+		/// <summary>
+		/// Участие в мероприятии - создание
+		/// </summary>
+		ParticipationActivityCreated = 101,
 	}
 }

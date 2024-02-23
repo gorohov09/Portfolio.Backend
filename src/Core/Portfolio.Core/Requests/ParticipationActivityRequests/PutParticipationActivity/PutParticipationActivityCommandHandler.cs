@@ -59,9 +59,20 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 					"или проектный менеджер");
 
 			if (participationActivity.Status is not ParticipationActivityStatus.Draft
-				and not ParticipationActivityStatus.SentRevision)
+				and not ParticipationActivityStatus.SentRevision
+				&& participationActivity.CreatedByUserId == _userContext.CurrentUserId)
 				throw new ApplicationExceptionBase("Добавление и обновление информации возможно только из статусов: " +
 					$"{nameof(ParticipationActivityStatus.Draft)} или {nameof(ParticipationActivityStatus.SentRevision)}");
+
+			if (participationActivity.Status is not ParticipationActivityStatus.Submitted
+				&& participationActivity.ManagerUserId == _userContext.CurrentUserId)
+				throw new ApplicationExceptionBase("Добавление и обновление информации для менеджера возможно только из статусов: " +
+					$"{nameof(ParticipationActivityStatus.Submitted)}");
+
+			if (participationActivity.ManagerUserId == _userContext.CurrentUserId
+				&& request.Description != participationActivity.Description
+				&& request.File != null)
+				throw new ApplicationExceptionBase("Менеджер не может менять описание и загружать файл для участия в мероприятии");
 
 			var activity = request.ActivityId.HasValue && request.ActivityId.Value != participationActivity.ActivityId
 				? await _dbContext.Activities.FirstOrDefaultAsync(x => x.Id == request.ActivityId.Value, cancellationToken)

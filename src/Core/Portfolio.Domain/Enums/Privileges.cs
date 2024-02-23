@@ -19,5 +19,10 @@ namespace Portfolio.Domain.Enums
 		/// Участие в мероприятии - обновление
 		/// </summary>
 		ParticipationActivityUpdate = 102,
+
+		/// <summary>
+		/// Участие в мероприятии - подача
+		/// </summary>
+		ParticipationActivitySubmit = 103,
 	}
 }

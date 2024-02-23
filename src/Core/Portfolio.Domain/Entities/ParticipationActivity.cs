@@ -1,4 +1,5 @@
 using Portfolio.Domain.Abstractions;
+using Portfolio.Domain.DomainEvents.ParticipationActivites;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 
@@ -123,7 +124,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Идентификатор пользователя, на проверку которому назначена сущность
 		/// </summary>
-		public Guid? ManagerUserId { get; set; }
+		public Guid? ManagerUserId { get; private set; }
 
 		#region Navigation properties
 
@@ -215,6 +216,29 @@ namespace Portfolio.Domain.Entities
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Подать участие в мероприятии на рассмотрение
+		/// </summary>
+		public void Submit()
+		{
+			if (Status is not ParticipationActivityStatus.Draft
+				and not ParticipationActivityStatus.SentRevision)
+				throw new ApplicationExceptionBase($"Перевести в статус {ParticipationActivityStatus.Submitted} возможно только из статуса: " +
+					$"{nameof(ParticipationActivityStatus.Draft)} или {nameof(ParticipationActivityStatus.SentRevision)}");
+
+			if (Result == null
+				|| Date == null
+				|| Description == null)
+				throw new RequiredFieldNotSpecifiedException("Необходимо заполнить все обязательные поля");
+
+			if (ParticipationActivityDocument == null || ParticipationActivityDocument.IsDeleted)
+				throw new RequiredFieldNotSpecifiedException("Необходимо прикрепить подтверждающий документ");
+
+			Status = ParticipationActivityStatus.Submitted;
+
+			AddDomainEvent(new ParticipationActivitySubmittedDomainEvent(this));
+		}
 
 		/// <summary>
 		/// Добавить/Обновить информацию об участии в мероприятии

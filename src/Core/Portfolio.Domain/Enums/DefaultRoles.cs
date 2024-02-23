@@ -30,6 +30,7 @@ namespace Portfolio.Domain.Enums
 					Privileges.PortfolioView,
 					Privileges.ParticipationActivityCreated,
 					Privileges.ParticipationActivityUpdate,
+					Privileges.ParticipationActivitySubmit,
 				},
 
 				[ManagerId] = new()

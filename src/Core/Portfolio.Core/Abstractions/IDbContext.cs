@@ -35,6 +35,16 @@ namespace Portfolio.Core.Abstractions
 		DbSet<Faculty> Faculties { get; }
 
 		/// <summary>
+		/// Участия в мероприятиях
+		/// </summary>
+		DbSet<ParticipationActivity> Participations { get; }
+
+		/// <summary>
+		/// Мероприятия
+		/// </summary>
+		DbSet<Activity> Activities { get; }
+
+		/// <summary>
 		/// Файлы
 		/// </summary>
 		DbSet<File> Files { get; }

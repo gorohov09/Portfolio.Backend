@@ -12,5 +12,11 @@ namespace Portfolio.Domain.Enums
 		/// </summary>
 		[Description("Photos")]
 		Photos = 1,
+
+		/// <summary>
+		/// Файлы подтверждающих документов участия в мероприятии
+		/// </summary>
+		[Description("ParticipationActivityDocuments")]
+		ParticipationActivityDocuments = 2,
 	}
 }

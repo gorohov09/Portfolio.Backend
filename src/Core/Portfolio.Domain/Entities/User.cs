@@ -11,10 +11,28 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string RoleField = nameof(_role);
 
+		/// <summary>
+		/// Поле для <see cref="_createdParticipationActivites"/>
+		/// </summary>
+		public const string CreatedParticipationActivitesField = nameof(_createdParticipationActivites);
+
+		/// <summary>
+		/// Поле для <see cref="_modifiedParticipationActivites"/>
+		/// </summary>
+		public const string ModifiedParticipationActivitesField = nameof(_modifiedParticipationActivites);
+
+		/// <summary>
+		/// Поле для <see cref="_checkParticipationActivites"/>
+		/// </summary>
+		public const string CheckParticipationActivitesField = nameof(_checkParticipationActivites);
+
 		private string _login;
 		private string _email;
 		private string _passwordHash;
 		private Role? _role;
+		private List<ParticipationActivity>? _createdParticipationActivites;
+		private List<ParticipationActivity>? _modifiedParticipationActivites;
+		private List<ParticipationActivity>? _checkParticipationActivites;
 
 		/// <summary>
 		/// Конструткор
@@ -46,6 +64,10 @@ namespace Portfolio.Domain.Entities
 					lastName: lastName,
 					firstName: firstName,
 					birthday: birthday));
+
+			_createdParticipationActivites = new List<ParticipationActivity>();
+			_modifiedParticipationActivites = new List<ParticipationActivity>();
+			_checkParticipationActivites = new List<ParticipationActivity>();
 		}
 
 		/// <summary>
@@ -111,10 +133,33 @@ namespace Portfolio.Domain.Entities
 			}
 		}
 
+		/// <summary>
+		/// Созданные участия в мероприятиях
+		/// </summary>
+		public IReadOnlyList<ParticipationActivity>? CreatedParticipationActivites => _createdParticipationActivites;
+
+		/// <summary>
+		/// Измененные участия в мероприятиях
+		/// </summary>
+		public IReadOnlyList<ParticipationActivity>? ModifiedParticipationActivites => _modifiedParticipationActivites;
+
+		/// <summary>
+		/// Участия в мероприятиях, которые нужно проверить данному пользователю
+		/// </summary>
+		public IReadOnlyList<ParticipationActivity>? CheckParticipationActivites => _checkParticipationActivites;
+
+		#endregion
+
+		/// <summary>
+		/// Обновить контактную информацию пользователя
+		/// </summary>
+		/// <param name="login">Логин</param>
+		/// <param name="email">E-mail</param>
+		/// <param name="phone">Телефон</param>
 		public void UpsertContactInformation(
-			string? login,
-			string? email,
-			string? phone)
+			string? login = default,
+			string? email = default,
+			string? phone = default)
 		{
 			if (login != null && Login != login)
 				Login = login;
@@ -123,6 +168,5 @@ namespace Portfolio.Domain.Entities
 			if (phone != null && Phone != phone)
 				Phone = phone;
 		}
-		#endregion
 	}
 }

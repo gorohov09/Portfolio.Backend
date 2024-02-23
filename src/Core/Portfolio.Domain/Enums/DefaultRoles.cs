@@ -14,6 +14,12 @@ namespace Portfolio.Domain.Enums
 		public static readonly Guid StudentId = new("e15a85fd-4736-4b05-b215-576ce2386f27");
 
 		/// <summary>
+		/// Идентификатор роли "Менеджер"
+		/// </summary>
+		[Description("Менеджер")]
+		public static readonly Guid ManagerId = new("8a3ee818-0de0-4269-952a-2478cf8c76ce");
+
+		/// <summary>
 		/// Идентификатор ролей к списку привилегий
 		/// </summary>
 		public static readonly IReadOnlyDictionary<Guid, List<Privileges>> RolesIdsToPrivileges =
@@ -22,6 +28,13 @@ namespace Portfolio.Domain.Enums
 				[StudentId] = new()
 				{
 					Privileges.PortfolioView,
+					Privileges.ParticipationActivityCreated,
+					Privileges.ParticipationActivityUpdate,
+				},
+
+				[ManagerId] = new()
+				{
+					Privileges.ParticipationActivityUpdate,
 				},
 			};
 	}

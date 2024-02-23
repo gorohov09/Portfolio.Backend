@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Portfolio.Contracts.Requests.PortfolioRequests.AddEducationInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
+using Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
-using Portfolio.Core.Requests.PortfolioRequests.AddEducationInformation;
-using Portfolio.Core.Requests.PortfolioRequests.AddGeneralInformation;
+using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
 using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
 using Swashbuckle.AspNetCore.Annotations;
@@ -43,13 +42,13 @@ namespace Portfolio.Web.Controllers
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
 		public async Task AddEducationInformationAsync(
 			[FromServices] IMediator mediator,
-			[FromBody] AddEducationInformationRequest request,
+			[FromBody] AddOrUpdateEducationInformationRequest request,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);
 
 			await mediator.Send(
-				new AddEducationInformationCommand
+				new AddOrUpdateEducationInformationRequest
 				{
 					EducationLevel = request.EducationLevel,
 					FacultyId = request.FacultyId,
@@ -76,7 +75,7 @@ namespace Portfolio.Web.Controllers
 			ArgumentNullException.ThrowIfNull(request);
 
 			await mediator.Send(
-				new AddGeneralInformationCommand
+				new AddOrUpdateGeneralInformationCommand
 				{
 					LastName = request.LastName,
 					FirstName = request.FirstName,

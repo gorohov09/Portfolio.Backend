@@ -62,6 +62,9 @@ namespace Portfolio.Domain.Entities
 
 		#region Navigation properties
 
+		/// <summary>
+		/// Кафедры
+		/// </summary>
 		public IReadOnlyList<Faculty>? Faculties => _faculties;
 
 		#endregion

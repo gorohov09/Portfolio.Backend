@@ -49,6 +49,10 @@ namespace Portfolio.Data.PostgreSql
 
 		public DbSet<Faculty> Faculties { get; set; }
 
+		public DbSet<ParticipationActivity> Participations { get; set; }
+
+		public DbSet<Activity> Activities { get; set; }
+
 		public DbSet<File> Files { get; set; }
 
 		/// <inheritdoc/>
@@ -127,6 +131,12 @@ namespace Portfolio.Data.PostgreSql
 			if (entityEntry?.Entity is not null
 				&& entityEntry.Entity is ISoftDeletable softDeletable)
 			{
+				if (softDeletable.IsDeleted)
+				{
+					entityEntry.State = EntityState.Deleted;
+					return;
+				}
+
 				softDeletable.IsDeleted = true;
 				entityEntry.State = EntityState.Modified;
 			}

@@ -29,7 +29,13 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string PhotosField = nameof(_photos);
 
+		/// <summary>
+		/// Поле для <see cref="_participations"/>
+		/// </summary>
+		public const string ParticipationsField = nameof(_participations);
+
 		private const int MAXCOUNTPHOTOS = 5;
+		private const int MAXPARTICIPATIONACTIVITYDRAFTS = 5;
 
 		private string _lastName = default!;
 		private string _firstName = default!;
@@ -39,6 +45,7 @@ namespace Portfolio.Domain.Entities
 		private Faculty? _faculty;
 		private List<CourseProject> _courseProjects;
 		private List<PhotoPortfolio> _photos;
+		private List<ParticipationActivity> _participations;
 
 		public MyPortfolio(
 			string lastName,
@@ -55,6 +62,7 @@ namespace Portfolio.Domain.Entities
 
 			_courseProjects = new List<CourseProject>();
 			_photos = new List<PhotoPortfolio>();
+			_participations = new List<ParticipationActivity>();
 		}
 
 		/// <summary>
@@ -180,6 +188,11 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public IReadOnlyList<PhotoPortfolio>? Photos => _photos;
 
+		/// <summary>
+		/// Список участий в мероприятиях
+		/// </summary>
+		public IReadOnlyList<ParticipationActivity>? Participations => _participations;
+
 		#endregion
 
 		/// <summary>
@@ -296,6 +309,21 @@ namespace Portfolio.Domain.Entities
 				portfolio: this,
 				file: file,
 				isAvatar: isAvatar));
+		}
+
+		/// <summary>
+		/// Добавить участие в мероприятии
+		/// </summary>
+		/// <param name="participation">Участие в мероприятии</param>
+		public void AddParticipationActivity(ParticipationActivity participation)
+		{
+			if (_participations == null)
+				throw new NotIncludedException("Список участий в мероприятиях");
+
+			if (_participations.Count(x => x.Status == ParticipationActivityStatus.Draft) + 1 > MAXPARTICIPATIONACTIVITYDRAFTS)
+				throw new ApplicationExceptionBase("У вас не может быть более 5 черновиков участий в мероприятиях");
+
+			_participations.Add(participation);
 		}
 	}
 }

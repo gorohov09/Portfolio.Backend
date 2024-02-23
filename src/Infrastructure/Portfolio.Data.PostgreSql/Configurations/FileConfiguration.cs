@@ -17,7 +17,6 @@ namespace Portfolio.Data.PostgreSql.Configurations
 			builder.Property(x => x.Address).IsRequired();
 			builder.Property(x => x.FileName).IsRequired();
 			builder.Property(x => x.Size).IsRequired();
-			builder.Property(x => x.IsDeleted).IsRequired();
 			builder.Property(x => x.ContentType);
 			builder.Ignore(x => x.Extension);
 
@@ -26,6 +25,12 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasForeignKey(x => x.FileId)
 				.HasPrincipalKey(y => y!.Id)
 				.OnDelete(DeleteBehavior.SetNull);
+
+			builder.HasMany(x => x.BaseDocuments)
+				.WithOne(y => y!.File)
+				.HasForeignKey(x => x.FileId)
+				.HasPrincipalKey(y => y!.Id)
+				.OnDelete(DeleteBehavior.ClientCascade);
 		}
 	}
 }

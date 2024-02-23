@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using Portfolio.Domain.Abstractions;
 
 namespace Portfolio.Domain.Entities
 {
 	/// <summary>
 	/// Файл
 	/// </summary>
-	public class File : EntityBase, ISoftDeletable
+	public class File : EntityBase
 	{
 		/// <summary>
 		/// Конструктор
@@ -60,9 +59,6 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public string? ContentType { get; private set; }
 
-		/// <inheritdoc/>
-		public bool IsDeleted { get; set; }
-
 		/// <summary>
 		/// Расширение файла
 		/// </summary>
@@ -75,6 +71,11 @@ namespace Portfolio.Domain.Entities
 		/// Фотографии пользователей
 		/// </summary>
 		public List<PhotoPortfolio>? Photos { get; protected set; }
+
+		/// <summary>
+		/// Документы
+		/// </summary>
+		public List<BaseDocument>? BaseDocuments { get; protected set; }
 
 		#endregion
 	}

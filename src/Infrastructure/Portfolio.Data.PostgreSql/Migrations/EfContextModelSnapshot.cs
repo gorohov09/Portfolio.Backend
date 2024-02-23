@@ -23,6 +23,120 @@ namespace Portfolio.Data.PostgreSql.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.Activity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date")
+                        .HasDefaultValueSql("now() at time zone 'utc'")
+                        .HasComment("Дата создания записи");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description")
+                        .HasComment("Описание");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("end_date")
+                        .HasComment("Дата окончания");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("integer")
+                        .HasColumnName("level")
+                        .HasComment("Уровень");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("text")
+                        .HasColumnName("link")
+                        .HasComment("Ссылка на официальную информацию");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text")
+                        .HasColumnName("location")
+                        .HasComment("Место");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_date")
+                        .HasComment("Дата изменения записи");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name")
+                        .HasComment("Название");
+
+                    b.Property<int>("Section")
+                        .HasColumnType("integer")
+                        .HasColumnName("section")
+                        .HasComment("Вид");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("start_date")
+                        .HasComment("Дата начала");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type")
+                        .HasComment("Тип");
+
+                    b.HasKey("Id")
+                        .HasName("pk_activity");
+
+                    b.ToTable("activity", "public");
+
+                    b.HasComment("Мероприятие");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.BaseDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date")
+                        .HasDefaultValueSql("now() at time zone 'utc'")
+                        .HasComment("Дата создания записи");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("file_id")
+                        .HasComment("Идентификатор файла");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted")
+                        .HasComment("Признак удаленности");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_date")
+                        .HasComment("Дата изменения записи");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .HasDatabaseName("ix_base_document_file_id");
+
+                    b.ToTable("base_document", "public");
+
+                    b.HasComment("Базовый документ");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.CourseProject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -167,10 +281,6 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasColumnType("text")
                         .HasColumnName("file_name");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_date")
@@ -303,6 +413,105 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.ToTable("portfolio", "public");
 
                     b.HasComment("Портфолио");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)");
+
+                    b.Property<Guid?>("ActivityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("activity_id")
+                        .HasComment("Идентификатор мероприятия");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("text")
+                        .HasColumnName("comment")
+                        .HasComment("Комментарий от администратора");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by_user_id");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date")
+                        .HasDefaultValueSql("now() at time zone 'utc'")
+                        .HasComment("Дата создания записи");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date")
+                        .HasComment("Дата участия");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description")
+                        .HasComment("Описание участия");
+
+                    b.Property<Guid?>("ManagerUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("manager_user_id");
+
+                    b.Property<Guid>("ModifiedByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("modified_by_user_id");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_date")
+                        .HasComment("Дата изменения записи");
+
+                    b.Property<Guid?>("ParticipationActivityDocumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("participation_activity_document_id")
+                        .HasComment("Идентификатор подтверждающего документа участия в мероприятии");
+
+                    b.Property<Guid>("PortfolioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("portfolio_id")
+                        .HasComment("Идентификатор портфолио");
+
+                    b.Property<int?>("Result")
+                        .HasColumnType("integer")
+                        .HasColumnName("result")
+                        .HasComment("Результат");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status")
+                        .HasComment("Статус");
+
+                    b.HasKey("Id")
+                        .HasName("pk_participation_activity");
+
+                    b.HasIndex("ActivityId")
+                        .HasDatabaseName("ix_participation_activity_activity_id");
+
+                    b.HasIndex("CreatedByUserId")
+                        .HasDatabaseName("ix_participation_activity_created_by_user_id");
+
+                    b.HasIndex("ManagerUserId")
+                        .HasDatabaseName("ix_participation_activity_manager_user_id");
+
+                    b.HasIndex("ModifiedByUserId")
+                        .HasDatabaseName("ix_participation_activity_modified_by_user_id");
+
+                    b.HasIndex("ParticipationActivityDocumentId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_participation_activity_participation_activity_document_id");
+
+                    b.HasIndex("PortfolioId")
+                        .HasDatabaseName("ix_participation_activity_portfolio_id");
+
+                    b.ToTable("participation_activity", "public");
+
+                    b.HasComment("Участие в мероприятии");
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.PhotoPortfolio", b =>
@@ -488,6 +697,36 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasComment("Пользователь");
                 });
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivityDocument", b =>
+                {
+                    b.HasBaseType("Portfolio.Domain.Entities.BaseDocument");
+
+                    b.Property<Guid>("ParticipationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("participation_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type")
+                        .HasComment("Тип подтверждающего документа участия");
+
+                    b.ToTable("participation_activity_document", "public");
+
+                    b.HasComment("Подтверждающий документ участия в мероприятии");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.BaseDocument", b =>
+                {
+                    b.HasOne("Portfolio.Domain.Entities.File", "File")
+                        .WithMany("BaseDocuments")
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_base_document_file_file_id");
+
+                    b.Navigation("File");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.CourseProject", b =>
                 {
                     b.HasOne("Portfolio.Domain.Entities.MyPortfolio", "Portfolio")
@@ -562,6 +801,60 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivity", b =>
+                {
+                    b.HasOne("Portfolio.Domain.Entities.Activity", "Activity")
+                        .WithMany("Participations")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("fk_participation_activity_activity_activity_id");
+
+                    b.HasOne("Portfolio.Domain.Entities.User", "CreatedByUser")
+                        .WithMany("CreatedParticipationActivites")
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_participation_activity_users_created_by_user_id");
+
+                    b.HasOne("Portfolio.Domain.Entities.User", "ManagerUser")
+                        .WithMany("CheckParticipationActivites")
+                        .HasForeignKey("ManagerUserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .HasConstraintName("fk_participation_activity_users_manager_user_id");
+
+                    b.HasOne("Portfolio.Domain.Entities.User", "ModifiedByUser")
+                        .WithMany("ModifiedParticipationActivites")
+                        .HasForeignKey("ModifiedByUserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_participation_activity_users_modified_by_user_id");
+
+                    b.HasOne("Portfolio.Domain.Entities.ParticipationActivityDocument", "ParticipationActivityDocument")
+                        .WithOne("Participation")
+                        .HasForeignKey("Portfolio.Domain.Entities.ParticipationActivity", "ParticipationActivityDocumentId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("fk_participation_activity_base_document_participation_activity");
+
+                    b.HasOne("Portfolio.Domain.Entities.MyPortfolio", "Portfolio")
+                        .WithMany("Participations")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_participation_activity_portfolios_portfolio_id");
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ManagerUser");
+
+                    b.Navigation("ModifiedByUser");
+
+                    b.Navigation("ParticipationActivityDocument");
+
+                    b.Navigation("Portfolio");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.PhotoPortfolio", b =>
                 {
                     b.HasOne("Portfolio.Domain.Entities.File", "File")
@@ -607,6 +900,21 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivityDocument", b =>
+                {
+                    b.HasOne("Portfolio.Domain.Entities.BaseDocument", null)
+                        .WithOne()
+                        .HasForeignKey("Portfolio.Domain.Entities.ParticipationActivityDocument", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_participation_activity_document_base_document_id");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.Activity", b =>
+                {
+                    b.Navigation("Participations");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
                 {
                     b.Navigation("Portfolios");
@@ -614,6 +922,8 @@ namespace Portfolio.Data.PostgreSql.Migrations
 
             modelBuilder.Entity("Portfolio.Domain.Entities.File", b =>
                 {
+                    b.Navigation("BaseDocuments");
+
                     b.Navigation("Photos");
                 });
 
@@ -626,6 +936,8 @@ namespace Portfolio.Data.PostgreSql.Migrations
                 {
                     b.Navigation("CourseProjects");
 
+                    b.Navigation("Participations");
+
                     b.Navigation("Photos");
                 });
 
@@ -634,6 +946,20 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.Navigation("Privileges");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.User", b =>
+                {
+                    b.Navigation("CheckParticipationActivites");
+
+                    b.Navigation("CreatedParticipationActivites");
+
+                    b.Navigation("ModifiedParticipationActivites");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivityDocument", b =>
+                {
+                    b.Navigation("Participation");
                 });
 #pragma warning restore 612, 618
         }

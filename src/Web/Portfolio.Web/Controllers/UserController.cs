@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.UserRequests.AddOrUpdateUserInfo;
+using Portfolio.Contracts.Requests.UserRequests.ChangeUserPassword;
 using Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo;
 using Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo;
+using Portfolio.Core.Requests.UserRequests.ChangeUserPassword;
 using Portfolio.Core.Requests.UserRequests.GetMyUserInfo;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -54,5 +56,27 @@ namespace Portfolio.Web.Controllers
 				},
 				cancellationToken);
 		}
+
+
+		[HttpPatch("AddOrUpdate/UserPassword")]
+		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task ChangeUserPasswordAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] ChangeUserPasswordRequest request,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(request);
+
+			await mediator.Send(
+				new ChangeUserPasswordCommand
+				{
+					NewPassword = request.NewPassword,
+					OldPassword = request.OldPassword,
+				},
+				cancellationToken);
+		}
+
+
 	}
 }

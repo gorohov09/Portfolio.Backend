@@ -34,12 +34,18 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string ModifiedByUserField = nameof(_modifiedByUser);
 
+		/// <summary>
+		/// Поле для <see cref="_managerUser"/>
+		/// </summary>
+		public const string ManagerUserField = nameof(_managerUser);
+
 		private ParticipationActivityStatus _status;
 		private Activity? _activity;
 		private MyPortfolio _portfolio;
 		private ParticipationActivityDocument? _participationActivityDocument;
 		private User? _createdByUser;
 		private User? _modifiedByUser;
+		private User? _managerUser;
 
 		/// <summary>
 		/// Конструктор
@@ -114,6 +120,11 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public Guid ModifiedByUserId { get; set; }
 
+		/// <summary>
+		/// Идентификатор пользователя, на проверку которому назначена сущность
+		/// </summary>
+		public Guid? ManagerUserId { get; set; }
+
 		#region Navigation properties
 
 		/// <summary>
@@ -183,6 +194,26 @@ namespace Portfolio.Domain.Entities
 				ModifiedByUserId = value.Id;
 			}
 		}
+
+		/// <summary>
+		/// Пользователь менеджер, на проверку которому назначена сущность
+		/// </summary>
+		public User? ManagerUser
+		{
+			get => _modifiedByUser;
+			set
+			{
+				if (value == null)
+					throw new RequiredFieldNotSpecifiedException("Пользователь менеджер, на проверку которому назначена сущность");
+
+				if (value.RoleId != DefaultRoles.ManagerId)
+					throw new ApplicationExceptionBase("На проверку можно назначить только пользователя с ролью - Менеджер");
+
+				_managerUser = value;
+				ManagerUserId = value.Id;
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -202,7 +233,7 @@ namespace Portfolio.Domain.Entities
 		{
 			if (result != null && Result != result)
 				Result = result;
-			if (date != null && Date != date)
+			if (date != null && Date != date.Value.ToUniversalTime())
 				Date = date.Value.ToUniversalTime();
 			if (description != null && Description != description)
 				Description = description;

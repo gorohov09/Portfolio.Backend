@@ -53,8 +53,10 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 				.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)
 				?? throw new NotFoundException($"Не найдено участие в мероприятии с Id: {request.Id}");
 
-			if (participationActivity.CreatedByUserId != _userContext.CurrentUserId)
-				throw new ApplicationExceptionBase("Обновлять инофрмацию может только пользователь, создавший - Участие в мероприятие");
+			if (participationActivity.CreatedByUserId != _userContext.CurrentUserId
+				&& participationActivity.ManagerUserId != _userContext.CurrentUserId)
+				throw new ApplicationExceptionBase("Обновлять инофрмацию может только пользователь, создавший - Участие в мероприятие " +
+					"или проектный менеджер");
 
 			if (participationActivity.Status is not ParticipationActivityStatus.Draft
 				and not ParticipationActivityStatus.SentRevision)

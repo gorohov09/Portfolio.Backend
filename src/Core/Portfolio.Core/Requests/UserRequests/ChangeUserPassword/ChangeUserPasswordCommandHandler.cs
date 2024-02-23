@@ -6,7 +6,10 @@ using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Core.Requests.UserRequests.ChangeUserPassword
 {
-	internal class ChangeUserPasswordCommandHandler : IRequestHandler<ChangeUserPasswordCommand>
+	/// <summary>
+	/// Обработчик запроса <see cref="ChangeUserPasswordCommand"/>
+	/// </summary>
+	public class ChangeUserPasswordCommandHandler : IRequestHandler<ChangeUserPasswordCommand>
 	{
 		private readonly IDbContext _dbContext;
 		private readonly IUserContext _userContext;
@@ -25,6 +28,7 @@ namespace Portfolio.Core.Requests.UserRequests.ChangeUserPassword
 			_passwordEncryptionService = passwordEncryptionService;
 		}
 
+		/// <inheritdoc/>
 		public async Task<Unit> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);

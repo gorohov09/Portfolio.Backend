@@ -5,8 +5,14 @@ namespace Portfolio.Contracts.Requests.UserRequests.ChangeUserPassword
 	/// </summary>
 	public class ChangeUserPasswordRequest
 	{
+		/// <summary>
+		/// Старый паароль
+		/// </summary>
 		public string OldPassword { get; set; } = default!;
 
+		/// <summary>
+		/// Новый пароль
+		/// </summary>
 		public string NewPassword { get; set; } = default!;
 	}
 }

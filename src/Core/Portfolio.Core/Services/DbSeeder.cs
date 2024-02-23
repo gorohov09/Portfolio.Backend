@@ -17,6 +17,7 @@ namespace Portfolio.Core.Services
 		private readonly IReadOnlyDictionary<Guid, string> _roles = new Dictionary<Guid, string>
 		{
 			[DefaultRoles.StudentId] = GetDefaultValueDescription(nameof(DefaultRoles.StudentId), RolesEnumType),
+			[DefaultRoles.ManagerId] = GetDefaultValueDescription(nameof(DefaultRoles.ManagerId), RolesEnumType),
 		};
 
 		/// <inheritdoc/>
@@ -27,6 +28,7 @@ namespace Portfolio.Core.Services
 			await SeedRolesAsync(dbContext, cancellationToken);
 			await SeedRolesPrivilegesAsync(dbContext, cancellationToken);
 			await SeedInstitutesAndFacultiesAsync(dbContext, cancellationToken);
+			await SeedTestManagersAsync(dbContext, cancellationToken);
 
 			await dbContext.SaveChangesAsync(cancellationToken);
 		}
@@ -88,6 +90,44 @@ namespace Portfolio.Core.Services
 				await dbContext.Institutes.AddRangeAsync(instituteIKTZI);
 				await dbContext.Faculties.AddRangeAsync(facultyPMI, facultySIB);
 			}
+		}
+
+		private async Task SeedTestManagersAsync(IDbContext dbContext, CancellationToken cancellationToken)
+		{
+			var role = await dbContext.Roles
+				.FirstOrDefaultAsync(x => x.Id == DefaultRoles.ManagerId, cancellationToken);
+
+			if (role == null)
+				return;
+
+			var passwordHashService = new PasswordEncryptionService();
+
+			var passwordHash = passwordHashService.EncodePassword("123456");
+
+			var user = new User(
+				lastName: "Менеджеров",
+				firstName: "Менеджер",
+				birthday: new DateTime(2000, 12, 12),
+				login: "manager",
+				passwordHash: passwordHash,
+				email: "manager@mail.ru",
+				role: role);
+
+			var user2 = new User(
+				lastName: "Менеджеров2",
+				firstName: "Менеджер2",
+				birthday: new DateTime(2002, 12, 12),
+				login: "manager2",
+				passwordHash: passwordHash,
+				email: "manager2@mail.ru",
+				role: role);
+
+			if (await dbContext.Users.AnyAsync(
+				x => x.Login == user.Login || x.Login == user2.Login,
+				cancellationToken: cancellationToken))
+				return;
+
+			await dbContext.Users.AddRangeAsync(user, user2);
 		}
 
 		private static string GetDefaultValueDescription(string fieldName, Type enumWithDefaultValue)

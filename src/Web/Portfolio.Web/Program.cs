@@ -3,6 +3,7 @@ using Portfolio.Data.PostgreSql;
 using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Swagger;
+using Portfolio.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,8 @@ services
 	.AddCustomHeaderAuthentication(services)
 	.AddCore()
 	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
-	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>());
+	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>())
+	.AddHangfireWorker();
 
 services.AddControllers();
 
@@ -37,6 +39,8 @@ var app = builder.Build();
 		app.UseSwagger();
 		app.UseSwaggerUI();
 	}
+
+	app.UseHangfireWorker(configuration.GetSection("Hangfire").Get<HangfireOptions>());
 
 	app.UseAuthentication();
 

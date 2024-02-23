@@ -29,6 +29,11 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string PhotosField = nameof(_photos);
 
+		/// <summary>
+		/// Поле для <see cref="_participations"/>
+		/// </summary>
+		public const string ParticipationsField = nameof(_participations);
+
 		private const int MAXCOUNTPHOTOS = 5;
 
 		private string _lastName = default!;
@@ -39,6 +44,7 @@ namespace Portfolio.Domain.Entities
 		private Faculty? _faculty;
 		private List<CourseProject> _courseProjects;
 		private List<PhotoPortfolio> _photos;
+		private List<ParticipationActivity> _participations;
 
 		public MyPortfolio(
 			string lastName,
@@ -55,6 +61,7 @@ namespace Portfolio.Domain.Entities
 
 			_courseProjects = new List<CourseProject>();
 			_photos = new List<PhotoPortfolio>();
+			_participations = new List<ParticipationActivity>();
 		}
 
 		/// <summary>
@@ -179,6 +186,11 @@ namespace Portfolio.Domain.Entities
 		/// Фотографии
 		/// </summary>
 		public IReadOnlyList<PhotoPortfolio>? Photos => _photos;
+
+		/// <summary>
+		/// Список участий в мероприятиях
+		/// </summary>
+		public IReadOnlyList<ParticipationActivity>? Participations => _participations;
 
 		#endregion
 

@@ -8,7 +8,6 @@ namespace Portfolio.Domain.Entities
 	/// </summary>
 	public class ParticipationActivityDocument : EntityBase
 	{
-
 		/// <summary>
 		/// Поле для <see cref="_participation"/>
 		/// </summary>

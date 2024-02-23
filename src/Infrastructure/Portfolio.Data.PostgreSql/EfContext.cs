@@ -49,6 +49,10 @@ namespace Portfolio.Data.PostgreSql
 
 		public DbSet<Faculty> Faculties { get; set; }
 
+		public DbSet<ParticipationActivity> Participations { get; set; }
+
+		public DbSet<Activity> Activities { get; set; }
+
 		public DbSet<File> Files { get; set; }
 
 		/// <inheritdoc/>

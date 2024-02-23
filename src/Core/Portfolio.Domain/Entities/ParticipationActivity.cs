@@ -142,29 +142,32 @@ namespace Portfolio.Domain.Entities
 		/// <param name="date">Дата участия</param>
 		/// <param name="description">Описание участия</param>
 		/// <param name="activity">Мероприятие</param>
-		/// <param name="participationActivityDocument">Подтверждающий документ участия в мероприятии</param>
+		/// <param name="file">Файл подтверждающего документа участия в мероприятии</param>
 		public void UpsertInformation(
 			ParticipationActivityResult? result = default,
 			DateTime? date = default,
 			string? description = default,
 			Activity? activity = default,
-			ParticipationActivityDocument? participationActivityDocument = default)
+			File? file = default)
 		{
-			if (Status is not ParticipationActivityStatus.Draft
-				and not ParticipationActivityStatus.SentRevision)
-				throw new ApplicationExceptionBase("Добавление и обновление информации возможно только из статусов: " +
-					$"{nameof(ParticipationActivityStatus.Draft)} или {nameof(ParticipationActivityStatus.SentRevision)}");
-
 			if (result != null && Result != result)
 				Result = result;
 			if (date != null && Date != date)
-				Date = date;
+				Date = date.Value.ToUniversalTime();
 			if (description != null && Description != description)
 				Description = description;
 			if (activity != null && ActivityId != activity.Id)
 				Activity = activity;
-			if (participationActivityDocument != null && ParticipationActivityDocumentId != participationActivityDocument.Id)
-				ParticipationActivityDocument = participationActivityDocument;
+
+			if (file != null)
+			{
+				if (ParticipationActivityDocument != null && ParticipationActivityDocument.File != null)
+					ParticipationActivityDocument.File.IsDeleted = true;
+
+				ParticipationActivityDocument = new ParticipationActivityDocument(
+					participation: this,
+					file: file);
+			}
 		}
 	}
 }

@@ -20,18 +20,14 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasComment("Тип подтверждающего документа участия")
 				.IsRequired();
 
-			builder.Property(p => p.ParticipationId)
-				.HasComment("Идентификатор участия в мероприятии")
-				.IsRequired();
-
 			builder.Property(p => p.FileId)
 				.HasComment("Идентификатор файла")
 				.IsRequired();
 
 			builder.HasOne(x => x.Participation)
 				.WithOne(y => y.ParticipationActivityDocument)
-				.HasForeignKey<ParticipationActivityDocument>(x => x.ParticipationId)
-				.HasPrincipalKey<ParticipationActivity>(x => x.Id)
+				.HasForeignKey<ParticipationActivity>(x => x.ParticipationActivityDocumentId)
+				.HasPrincipalKey<ParticipationActivityDocument>(x => x.Id)
 				.OnDelete(DeleteBehavior.SetNull);
 
 			builder.HasOne(x => x.File)

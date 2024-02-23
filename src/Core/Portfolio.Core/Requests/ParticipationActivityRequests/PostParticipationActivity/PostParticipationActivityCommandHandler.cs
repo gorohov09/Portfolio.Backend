@@ -39,6 +39,8 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipatio
 			PostParticipationActivityCommand request,
 			CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(request);
+
 			await _authorizationService.CheckPrivilegeAsync(Privileges.ParticipationActivityCreated, cancellationToken);
 
 			var portfolio = await _dbContext.Portfolios

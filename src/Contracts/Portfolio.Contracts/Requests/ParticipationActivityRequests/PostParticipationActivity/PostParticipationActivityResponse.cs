@@ -1,7 +1,7 @@
 namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.PostParticipationActivity
 {
 	/// <summary>
-	/// Ответ на команду <see cref="PostParticipationActivityRequest"/>
+	/// Ответ на запрос создания участия в мероприятии
 	/// </summary>
 	public class PostParticipationActivityResponse
 	{

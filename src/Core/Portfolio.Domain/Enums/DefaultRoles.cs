@@ -23,6 +23,7 @@ namespace Portfolio.Domain.Enums
 				{
 					Privileges.PortfolioView,
 					Privileges.ParticipationActivityCreated,
+					Privileges.ParticipationActivityUpdate
 				},
 			};
 	}

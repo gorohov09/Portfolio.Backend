@@ -76,6 +76,11 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public List<PhotoPortfolio>? Photos { get; protected set; }
 
+		/// <summary>
+		/// Подтверждающие документы участия в мероприятии
+		/// </summary>
+		public List<ParticipationActivityDocument>? ParticipationActivityDocuments { get; protected set; }
+
 		#endregion
 	}
 }

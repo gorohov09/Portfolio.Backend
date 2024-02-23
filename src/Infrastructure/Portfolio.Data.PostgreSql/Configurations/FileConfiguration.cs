@@ -26,6 +26,12 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasForeignKey(x => x.FileId)
 				.HasPrincipalKey(y => y!.Id)
 				.OnDelete(DeleteBehavior.SetNull);
+
+			builder.HasMany(x => x.ParticipationActivityDocuments)
+				.WithOne(y => y!.File)
+				.HasForeignKey(x => x.FileId)
+				.HasPrincipalKey(y => y!.Id)
+				.OnDelete(DeleteBehavior.SetNull);
 		}
 	}
 }

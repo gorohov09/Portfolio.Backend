@@ -74,7 +74,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 
 				var mimeType = MimeTypeMap.GetMimeType(request.File.FileName);
 
-				if (mimeType != "application/pdf")
+				if (mimeType != DefaultFileExtensions.Pdf)
 					throw new ApplicationExceptionBase("Документ должен быть pdf формата");
 
 				var fileId = await _s3Service.UploadAsync(

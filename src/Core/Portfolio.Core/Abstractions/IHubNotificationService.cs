@@ -11,7 +11,7 @@ namespace Portfolio.Core.Abstractions
 		/// Отправить новое уведомление в сигналер
 		/// </summary>
 		/// <param name="notification">Сообщение</param>
-		/// <param name="usersId">Идентификатор получателя</param>
+		/// <param name="userId">Идентификатор получателя</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>-</returns>
 		Task SendNewNotificationAsync(

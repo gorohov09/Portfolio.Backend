@@ -60,7 +60,6 @@ namespace Portfolio.Web.Controllers
 				cancellationToken);
 		}
 
-
 		[HttpPatch("AddOrUpdate/UserPassword")]
 		[SwaggerResponse(StatusCodes.Status200OK)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
@@ -79,15 +78,5 @@ namespace Portfolio.Web.Controllers
 				},
 				cancellationToken);
 		}
-
-		[HttpGet("testSignaler/{userId}")]
-		public async Task TestSignaler(
-			[FromServices] IHubNotificationService hubNotification,
-			[FromQuery] Guid userId,
-			CancellationToken cancellationToken)
-			=> await hubNotification.SendNewNotificationAsync(
-				new NotificationModel(NotificationType.ParticipationActivitySubmitted, "aaa", "aaaa"),
-				userId,
-				cancellationToken);
 	}
 }

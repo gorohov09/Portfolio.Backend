@@ -8,7 +8,7 @@ namespace Portfolio.Web.WebSocketServices
 	public static class Entry
 	{
 		/// <summary>
-		/// Добавить службы сигналера
+		/// Добавить службы SignalR
 		/// </summary>
 		/// <param name="services">Коллекция сервисов</param>
 		/// <returns>Дополненная коллекция</returns>

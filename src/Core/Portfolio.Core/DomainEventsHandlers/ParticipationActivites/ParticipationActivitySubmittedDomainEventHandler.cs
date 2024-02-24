@@ -44,7 +44,7 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
 				.Where(x => x.RoleId == DefaultRoles.ManagerId)
 				.OrderBy(x => x.CheckParticipationActivites!.Count())
 				.FirstOrDefaultAsync(cancellationToken: cancellationToken)
-				?? throw new NotFoundException($"Самый свободный менеджер ен найден");
+				?? throw new NotFoundException($"Самый свободный менеджер не найден");
 
 			// TODO: Оповестить менеджера по почте
 			participation.ManagerUser = mostFreeManager;

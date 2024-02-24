@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.UserRequests.AddOrUpdateUserInfo;
 using Portfolio.Contracts.Requests.UserRequests.ChangeUserPassword;
 using Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo;
+using Portfolio.Core.Abstractions;
+using Portfolio.Core.Models;
 using Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo;
 using Portfolio.Core.Requests.UserRequests.ChangeUserPassword;
 using Portfolio.Core.Requests.UserRequests.GetMyUserInfo;
+using Portfolio.Domain.Enums;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Portfolio.Web.Controllers
@@ -77,6 +80,14 @@ namespace Portfolio.Web.Controllers
 				cancellationToken);
 		}
 
-
+		[HttpGet("testSignaler/{userId}")]
+		public async Task TestSignaler(
+			[FromServices] IHubNotificationService hubNotification,
+			[FromQuery] Guid userId,
+			CancellationToken cancellationToken)
+			=> await hubNotification.SendNewNotificationAsync(
+				new NotificationModel(NotificationType.ParticipationActivitySubmitted, "aaa", "aaaa"),
+				userId,
+				cancellationToken);
 	}
 }

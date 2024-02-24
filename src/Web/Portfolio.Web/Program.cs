@@ -2,7 +2,9 @@ using Portfolio.Core;
 using Portfolio.Data.PostgreSql;
 using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
+using Portfolio.Web.Hubs;
 using Portfolio.Web.Swagger;
+using Portfolio.Web.WebSocketServices;
 using Portfolio.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +21,8 @@ services
 	.AddCore()
 	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
 	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>())
-	.AddHangfireWorker();
+	.AddHangfireWorker()
+	.AddSignaler();
 
 services.AddControllers();
 
@@ -47,6 +50,8 @@ var app = builder.Build();
 	app.UseAuthorization();
 
 	app.MapControllers();
+
+	app.MapHub<NotificationsHub>("notifications");
 
 	app.Run();
 }

@@ -20,6 +20,7 @@ namespace Portfolio.Domain.DomainEvents.ParticipationActivites
 		/// </summary>
 		public ParticipationActivity Participation { get; private set; } = default!;
 
+		/// <inheritdoc />
 		public bool IsInTransaction => true;
 	}
 }

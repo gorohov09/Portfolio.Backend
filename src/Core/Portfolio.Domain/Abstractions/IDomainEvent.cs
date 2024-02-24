@@ -5,7 +5,7 @@ namespace Portfolio.Domain.Abstractions
 	/// <summary>
 	/// Доменное событие
 	/// </summary>
-	public interface IDomainEvent : INotification
+	public interface IDomainEvent : MediatR.INotification
 	{
 		/// <summary>
 		/// Обрабатывать событие в транзакции

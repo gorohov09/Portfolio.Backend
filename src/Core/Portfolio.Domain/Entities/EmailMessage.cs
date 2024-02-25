@@ -7,7 +7,6 @@ namespace Portfolio.Domain.Entities
 	/// </summary>
 	public class EmailMessage : EntityBase
 	{
-		private string _addressFrom = default!;
 		private string _addressTo = default!;
 		private string _subject = default!;
 		private string _body = default!;
@@ -15,34 +14,22 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="addressFrom">Адрес отправителя</param>
 		/// <param name="addressTo">Адрес получателя</param>
 		/// <param name="subject">Заголовок письма</param>
 		/// <param name="body">Сокращенное имя</param>
 		/// <param name="isSent">Является ли сообщение отправленным</param>
 		public EmailMessage(
-			string addressFrom,
 			string addressTo,
 			string subject,
 			string body,
+			Guid toUserId,
 			bool isSent = false)
 		{
-			AddressFrom = addressFrom;
 			AddressTo = addressTo;
 			Subject = subject;
 			Body = body;
+			ToUserId = toUserId;
 			IsSent = isSent;
-		}
-
-		/// <summary>
-		/// Адрес отправителя
-		/// </summary>
-		public string AddressFrom
-		{
-			get => _addressFrom;
-			private set => _addressFrom = string.IsNullOrWhiteSpace(value)
-				? throw new RequiredFieldNotSpecifiedException("Адрес отправителя")
-				: value;
 		}
 
 		/// <summary>
@@ -77,6 +64,11 @@ namespace Portfolio.Domain.Entities
 				? throw new RequiredFieldNotSpecifiedException("Тело письма")
 				: value;
 		}
+
+		/// <summary>
+		/// Id пользователя-получателя в системе
+		/// </summary>
+		public Guid ToUserId { get; set; }
 
 		/// <summary>
 		/// Является ли сообщение отправленным

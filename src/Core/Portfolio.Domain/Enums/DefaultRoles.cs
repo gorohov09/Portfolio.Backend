@@ -36,6 +36,7 @@ namespace Portfolio.Domain.Enums
 				[ManagerId] = new()
 				{
 					Privileges.ParticipationActivityUpdate,
+					Privileges.ParticipationActivitySendRevision,
 				},
 			};
 	}

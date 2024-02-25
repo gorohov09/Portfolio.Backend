@@ -55,6 +55,8 @@ namespace Portfolio.Data.PostgreSql
 
 		public DbSet<File> Files { get; set; }
 
+		public DbSet<EmailMessage> EmailMessages { get; set; }
+
 		/// <inheritdoc/>
 		public bool IsInMemory => Database.IsInMemory();
 

@@ -43,7 +43,8 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
 
 			var mostFreeManager = await _dbContext.Users
 				.Where(x => x.RoleId == DefaultRoles.ManagerId)
-				.OrderBy(x => x.CheckParticipationActivites!.Count())
+				.OrderBy(x => x.CheckParticipationActivites!
+				.Count(x => x.Status == ParticipationActivityStatus.Submitted))
 				.FirstOrDefaultAsync(cancellationToken: cancellationToken)
 				?? throw new NotFoundException($"Самый свободный менеджер не найден");
 

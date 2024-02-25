@@ -1,7 +1,7 @@
 using Amazon.S3;
 using Microsoft.Extensions.Logging;
-using Portfolio.Core.Extensions;
 using Portfolio.Domain.Enums;
+using Portfolio.Domain.Extensions;
 
 namespace Portfolio.Data.S3
 {

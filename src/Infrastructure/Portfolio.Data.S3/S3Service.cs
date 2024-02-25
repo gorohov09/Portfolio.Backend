@@ -3,9 +3,9 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Logging;
 using Portfolio.Core.Abstractions;
-using Portfolio.Core.Extensions;
 using Portfolio.Core.Models;
 using Portfolio.Domain.Enums;
+using Portfolio.Domain.Extensions;
 
 namespace Portfolio.Data.S3
 {

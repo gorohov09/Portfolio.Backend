@@ -2,6 +2,7 @@ using Portfolio.Domain.Abstractions;
 using Portfolio.Domain.DomainEvents.ParticipationActivites;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
+using Portfolio.Domain.Extensions;
 
 namespace Portfolio.Domain.Entities
 {
@@ -224,8 +225,8 @@ namespace Portfolio.Domain.Entities
 		{
 			if (Status is not ParticipationActivityStatus.Draft
 				and not ParticipationActivityStatus.SentRevision)
-				throw new ApplicationExceptionBase($"Перевести в статус {ParticipationActivityStatus.Submitted} возможно только из статуса: " +
-					$"{nameof(ParticipationActivityStatus.Draft)} или {nameof(ParticipationActivityStatus.SentRevision)}");
+				throw new ApplicationExceptionBase($"Перевести в статус {ParticipationActivityStatus.Submitted.GetDescription()} возможно только из статуса: " +
+					$"{ParticipationActivityStatus.Draft.GetDescription()} или {ParticipationActivityStatus.SentRevision.GetDescription()}");
 
 			if (Result == null
 				|| Date == null
@@ -238,6 +239,23 @@ namespace Portfolio.Domain.Entities
 			Status = ParticipationActivityStatus.Submitted;
 
 			AddDomainEvent(new ParticipationActivitySubmittedDomainEvent(this));
+		}
+
+		/// <summary>
+		/// Отправить участие в мероприятии на доработку
+		/// </summary>
+		/// <param name="comment">Комментарий</param>
+		public void SendRevision(string comment)
+		{
+			if (Status is not ParticipationActivityStatus.Submitted)
+				throw new ApplicationExceptionBase($"Перевести в статус {ParticipationActivityStatus.SentRevision.GetDescription()} возможно только из статуса: " +
+					$"{ParticipationActivityStatus.Submitted.GetDescription()}");
+
+			if (string.IsNullOrEmpty(comment))
+				throw new RequiredFieldNotSpecifiedException("Необходимо описать причину отправления на доработку");
+
+			Comment = comment;
+			Status = ParticipationActivityStatus.SentRevision;
 		}
 
 		/// <summary>

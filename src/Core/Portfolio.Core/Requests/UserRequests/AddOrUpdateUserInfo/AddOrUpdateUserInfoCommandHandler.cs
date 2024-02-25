@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Core.Abstractions;
-using Portfolio.Core.Extensions;
 using Portfolio.Domain.Exceptions;
+using Portfolio.Domain.Extensions;
 
 namespace Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo
 {

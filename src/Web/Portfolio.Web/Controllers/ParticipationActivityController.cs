@@ -2,9 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.PostParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.PutParticipationActivity;
+using Portfolio.Contracts.Requests.ParticipationActivityRequests.SendRevisionParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.SubmitParticipationActivity;
 using Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipationActivity;
 using Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipationActivity;
+using Portfolio.Core.Requests.ParticipationActivityRequests.SendRevisionParticipationActivity;
 using Portfolio.Core.Requests.ParticipationActivityRequests.SubmitParticipationActivity;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -39,7 +41,7 @@ namespace Portfolio.Web.Controllers
 		[HttpPost("Submit")]
 		[SwaggerResponse(StatusCodes.Status200OK)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task CreateParticipationActivityAsync(
+		public async Task SubmitParticipationActivityAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] SubmitParticipationActivityRequest request,
 			CancellationToken cancellationToken)
@@ -47,6 +49,27 @@ namespace Portfolio.Web.Controllers
 				new SubmitParticipationActivityCommand
 				{
 					Id = request.Id,
+				},
+				cancellationToken);
+
+		/// <summary>
+		/// Подать участие в мероприятии на рассмотрение
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Запрос</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		[HttpPost("SendRevision")]
+		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task SendRevisionParticipationActivityAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] SendRevisionParticipationActivityRequest request,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new SendRevisionParticipationActivityCommand
+				{
+					Id = request.Id,
+					Comment = request.Comment,
 				},
 				cancellationToken);
 

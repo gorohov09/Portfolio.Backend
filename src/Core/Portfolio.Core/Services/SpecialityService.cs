@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using Portfolio.Core.Abstractions;
-using Portfolio.Core.Extensions;
 using Portfolio.Core.Models;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
+using Portfolio.Domain.Extensions;
 
 namespace Portfolio.Core.Services
 {

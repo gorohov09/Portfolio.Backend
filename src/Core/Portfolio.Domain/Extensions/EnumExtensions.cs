@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Portfolio.Core.Extensions
+namespace Portfolio.Domain.Extensions
 {
 	/// <summary>
 	/// Расширения для <see cref="Enum"/>

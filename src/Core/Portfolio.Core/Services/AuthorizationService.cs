@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Core.Abstractions;
-using Portfolio.Core.Extensions;
 using Portfolio.Domain.Enums;
+using Portfolio.Domain.Extensions;
 
 namespace Portfolio.Core.Services
 {

@@ -40,5 +40,10 @@ namespace Portfolio.Core.Settings
 		/// Порт
 		/// </summary>
 		public int Port => int.Parse(_configuration["EmailSettings:Port"]);
+
+		/// <summary>
+		/// Является ли отправка сообщений заглушкой в лог
+		/// </summary>
+		public bool IsSentInLog => bool.Parse(_configuration["EmailSettings:IsSentInLog"]);
 	}
 }

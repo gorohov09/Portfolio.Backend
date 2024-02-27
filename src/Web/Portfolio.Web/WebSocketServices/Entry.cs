@@ -17,5 +17,12 @@ namespace Portfolio.Web.WebSocketServices
 				.AddSignalR()
 				.Services
 				.AddSingleton<IHubNotificationService, HubNotificationService>();
+
+		/// <summary>
+		/// Добавить в промежуточное ПО парсинг токена для SignalR
+		/// </summary>
+		/// <param name="builder">Билдер</param>
+		public static IApplicationBuilder UseSignalRQueryStringAuth(this IApplicationBuilder builder)
+			=> builder.UseMiddleware<SignalRQueryStringAuthMiddleware>();
 	}
 }

@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.UserRequests.AddOrUpdateUserInfo;
 using Portfolio.Contracts.Requests.UserRequests.ChangeUserPassword;
 using Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo;
-using Portfolio.Core.Abstractions;
-using Portfolio.Core.Models;
 using Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo;
 using Portfolio.Core.Requests.UserRequests.ChangeUserPassword;
 using Portfolio.Core.Requests.UserRequests.GetMyUserInfo;
-using Portfolio.Domain.Enums;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Portfolio.Web.Controllers

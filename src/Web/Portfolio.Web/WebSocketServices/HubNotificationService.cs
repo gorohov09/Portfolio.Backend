@@ -36,12 +36,7 @@ namespace Portfolio.Web.WebSocketServices
 			await _hubContext.Clients.User(userId.ToString())
 				.SendAsync(
 					"Notifications",
-					new
-					{
-						notification.Type,
-						notification.Title,
-						notification.Description,
-					},
+					notification,
 					cancellationToken);
 		}
 	}

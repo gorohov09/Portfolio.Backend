@@ -50,6 +50,11 @@ namespace Portfolio.Core.Abstractions
 		DbSet<File> Files { get; }
 
 		/// <summary>
+		/// Электронно-почтовые сообщения
+		/// </summary>
+		DbSet<EmailMessage> EmailMessages { get; }
+
+		/// <summary>
 		/// БД в памяти
 		/// </summary>
 		bool IsInMemory { get; }

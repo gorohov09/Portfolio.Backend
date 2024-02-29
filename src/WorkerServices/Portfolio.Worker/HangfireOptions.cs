@@ -11,6 +11,11 @@ namespace Portfolio.Worker
 		public string TestCron { get; set; } = default!;
 
 		/// <summary>
+		/// Cron для частоты электронно-почтовой службы
+		/// </summary>
+		public string EmailMessageCron { get; set; } = default!;
+
+		/// <summary>
 		/// Показывать dashboard
 		/// </summary>
 		public bool DisplayDashBoard { get; set; }

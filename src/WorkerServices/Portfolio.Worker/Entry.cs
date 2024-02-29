@@ -40,7 +40,7 @@ namespace Portfolio.Worker
 			app.UseHangfireServer();
 
 			AddJob<TestWorker>(hangfireOptions.TestCron);
-			AddJob<SendEmailMessageWorker>(hangfireOptions.TestCron);
+			AddJob<SendEmailMessageWorker>(hangfireOptions.EmailMessageCron);
 
 			return app;
 		}

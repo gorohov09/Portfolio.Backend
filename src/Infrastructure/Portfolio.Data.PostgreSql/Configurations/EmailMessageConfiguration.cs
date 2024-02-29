@@ -26,6 +26,10 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasComment("Тело сообщения")
 				.IsRequired();
 
+			builder.Property(p => p.IsSent)
+				.HasComment("Является ли сообщение отправленным")
+				.IsRequired();
+
 			builder.Property(p => p.ToUserId)
 				.HasComment("Id пользователя-получателя")
 				.IsRequired();

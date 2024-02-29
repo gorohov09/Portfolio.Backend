@@ -10,6 +10,7 @@ namespace Portfolio.Domain.Entities
 		private string _addressTo = default!;
 		private string _subject = default!;
 		private string _body = default!;
+		private Guid _toUserId = default!;
 
 		/// <summary>
 		/// Конструктор
@@ -68,7 +69,13 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Id пользователя-получателя в системе
 		/// </summary>
-		public Guid ToUserId { get; set; }
+		public Guid ToUserId
+		{
+			get => _toUserId;
+			private set => _toUserId = value == default
+				? throw new RequiredFieldNotSpecifiedException("Id пользователя-получателя в системе")
+				: value;
+		}
 
 		/// <summary>
 		/// Является ли сообщение отправленным

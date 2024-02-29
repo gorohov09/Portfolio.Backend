@@ -7,6 +7,11 @@ namespace Portfolio.Core.Abstractions
 	/// </summary>
 	public interface IEmailService
 	{
-		Task SendEmailAsync(EmailMessage message);
+		/// <summary>
+		/// Метод отправки email-сообщений
+		/// </summary>
+		/// <param name="message">Объект электронно-почтового сообщения</param>
+		/// <returns>Успех/неуспех отправки</returns>
+		Task<bool> SendEmailMessageAsync(EmailMessage message);
 	}
 }

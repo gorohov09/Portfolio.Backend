@@ -34,7 +34,6 @@ namespace Portfolio.Core
 			services.AddScoped<IEmailService, EmailService>();
 
 			services.AddScoped<EmailSettings>();
-			services.AddScoped<SmtpClient>();
 
 			services.AddSpecialityMethods();
 

@@ -31,17 +31,18 @@ namespace Portfolio.Worker.Workers
 			var unsentMessages = await GetUnsentMessagesAsync();
 
 			foreach (var message in unsentMessages)
-				await _emailService.SendEmailAsync(message);
+			{
+				if (await _emailService.SendEmailMessageAsync(message))
+					message.IsSent = true;
+			}
+
+			await _dbContext.SaveChangesAsync();
 		}
 
-		private async Task<List<EmailMessage>> GetUnsentMessagesAsync()
-		{
-			var unsentMessages = await _dbContext.EmailMessages
+		private async Task<List<EmailMessage>> GetUnsentMessagesAsync() =>
+			await _dbContext.EmailMessages
 					.Where(msg => !msg.IsSent)
 					.OrderByDescending(msg => msg.CreatedOn)
 					.ToListAsync();
-
-			return unsentMessages;
-		}
 	}
 }

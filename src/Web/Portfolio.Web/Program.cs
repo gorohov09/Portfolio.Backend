@@ -23,7 +23,13 @@ services
 	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
 	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>())
 	.AddHangfireWorker()
-	.AddSignaler();
+	.AddSignaler()
+	.AddCors(options => options.AddPolicy(
+		"AllowOrigin",
+		builder => builder.WithOrigins("http://localhost:3000")
+						  .AllowAnyHeader()
+						  .AllowAnyMethod()
+						  .AllowCredentials()));
 
 services.AddControllers();
 
@@ -44,7 +50,11 @@ var app = builder.Build();
 		app.UseSwaggerUI();
 	}
 
+	app.UseCors("AllowOrigin");
+
 	app.UseHangfireWorker(configuration.GetSection("Hangfire").Get<HangfireOptions>());
+
+	app.UseSignalRQueryStringAuth();
 
 	app.UseAuthentication();
 
@@ -52,7 +62,7 @@ var app = builder.Build();
 
 	app.MapControllers();
 
-	app.MapHub<NotificationsHub>("notifications");
+	app.MapHub<NotificationsHub>("notifications").RequireCors("AllowOrigin");
 
 	app.Run();
 }

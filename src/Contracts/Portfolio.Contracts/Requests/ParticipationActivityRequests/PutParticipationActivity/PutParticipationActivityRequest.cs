@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Portfolio.Domain.Enums;
 
 namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.PutParticipationActivity
@@ -34,8 +33,8 @@ namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.PutParticip
 		public Guid? ActivityId { get; set; }
 
 		/// <summary>
-		/// Документ, подтверждающий участие в мероприятии
+		/// Id документа, подтверждающего участие в мероприятии
 		/// </summary>
-		public IFormFile? File { get; set; }
+		public Guid? FileId { get; set; }
 	}
 }

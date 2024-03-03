@@ -17,7 +17,6 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 		private readonly IDbContext _dbContext;
 		private readonly IUserContext _userContext;
 		private readonly IAuthorizationService _authorizationService;
-		private readonly IS3Service _s3Service;
 
 		/// <summary>
 		/// Конструктор
@@ -25,17 +24,14 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 		/// <param name="dbContext">Контекст БД</param>
 		/// <param name="userContext">Контекст текущего пользователя</param>
 		/// <param name="authorizationService">Сервис проверки прав доступа</param>
-		/// <param name="s3Service">Сервис S3-хранилища</param>
 		public PutParticipationActivityCommandHandler(
 			IDbContext dbContext,
 			IUserContext userContext,
-			IAuthorizationService authorizationService,
-			IS3Service s3Service)
+			IAuthorizationService authorizationService)
 		{
 			_dbContext = dbContext;
 			_userContext = userContext;
 			_authorizationService = authorizationService;
-			_s3Service = s3Service;
 		}
 
 		/// <inheritdoc/>
@@ -71,7 +67,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 
 			if (participationActivity.ManagerUserId == _userContext.CurrentUserId
 				&& request.Description != participationActivity.Description
-				&& request.File != null)
+				&& request.FileId != participationActivity.ParticipationActivityDocument?.FileId)
 				throw new ApplicationExceptionBase("Менеджер не может менять описание и загружать файл для участия в мероприятии");
 
 			var activity = request.ActivityId.HasValue && request.ActivityId.Value != participationActivity.ActivityId
@@ -79,43 +75,17 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 					?? throw new NotFoundException($"Не найдено мероприятие с Id: {request.ActivityId}")
 				: null;
 
-			if (request.File != null)
-			{
-				await using var stream = request.File.OpenReadStream();
+			var file = request.FileId != null && request.FileId != participationActivity.ParticipationActivityDocument?.FileId
+				? await _dbContext.Files
+					.FirstOrDefaultAsync(x => x.Id == request.FileId, cancellationToken: cancellationToken)
+				: default;
 
-				var mimeType = MimeTypeMap.GetMimeType(request.File.FileName);
-
-				if (mimeType != DefaultFileExtensions.Pdf)
-					throw new ApplicationExceptionBase("Документ должен быть pdf формата");
-
-				var fileId = await _s3Service.UploadAsync(
-					file: new FileContent(
-						content: stream,
-						fileName: request.File.FileName,
-						contentType: mimeType,
-						bucket: Buckets.ParticipationActivityDocuments),
-					needAutoCloseStream: false,
-					cancellationToken: cancellationToken);
-
-				var file = new File(
-					address: fileId,
-					name: request.File.FileName,
-					size: stream.Length,
-					mimeType: mimeType);
-
-				participationActivity.UpsertInformation(
-					result: request.Result,
-					date: request.Date,
-					description: request.Description,
-					activity: activity,
-					file: file);
-			}
-			else
-				participationActivity.UpsertInformation(
-					result: request.Result,
-					date: request.Date,
-					description: request.Description,
-					activity: activity);
+			participationActivity.UpsertInformation(
+				result: request.Result,
+				date: request.Date,
+				description: request.Description,
+				activity: activity,
+				file: file);
 
 			await _dbContext.SaveChangesAsync(cancellationToken);
 			return default;

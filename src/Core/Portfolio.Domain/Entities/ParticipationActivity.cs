@@ -282,8 +282,11 @@ namespace Portfolio.Domain.Entities
 			if (activity != null && ActivityId != activity.Id)
 				Activity = activity;
 
-			if (file != null)
+			if (file != null && file.Id != ParticipationActivityDocument?.FileId)
 			{
+				if (file.ContentType != DefaultFileExtensions.Pdf)
+					throw new ApplicationExceptionBase("Файл должен быть в Pdf формате");
+
 				if (ParticipationActivityDocument != null)
 					ParticipationActivityDocument.IsDeleted = true;
 

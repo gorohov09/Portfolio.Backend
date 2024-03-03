@@ -84,7 +84,7 @@ namespace Portfolio.Web.Controllers
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
 		public async Task UpdateParticipationActivityAsync(
 			[FromServices] IMediator mediator,
-			[FromForm] PutParticipationActivityRequest request,
+			[FromBody] PutParticipationActivityRequest request,
 			CancellationToken cancellationToken)
 			=> await mediator.Send(
 				new PutParticipationActivityCommand
@@ -93,7 +93,7 @@ namespace Portfolio.Web.Controllers
 					Date = request.Date,
 					Description = request.Description,
 					ActivityId = request.ActivityId,
-					File = request.File,
+					FileId = request.FileId,
 					Result = request.Result,
 				},
 				cancellationToken);

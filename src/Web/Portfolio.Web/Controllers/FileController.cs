@@ -25,10 +25,10 @@ namespace Portfolio.Web.Controllers
 		/// <param name="cancellationToken">Токен отмены запроса</param>
 		/// <returns>Список ключей загруженных файлов</returns>
 		[HttpPost("{bucket}")]
-		//[RequestSizeLimit(Limit)]
-		//[RequestFormLimits(MultipartBodyLengthLimit = Limit)]
-		//[SwaggerResponse(StatusCodes.Status200OK, type: typeof(UploadFileResponse))]
-		//[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		[RequestSizeLimit(Limit)]
+		[RequestFormLimits(MultipartBodyLengthLimit = Limit)]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(UploadFileResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
 		public async Task<UploadFileResponse> UploadAsync(
 			Buckets bucket,
 			[FromServices] IMediator mediator,

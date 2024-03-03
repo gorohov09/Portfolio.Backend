@@ -1,9 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticipationActivityById;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.PostParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.PutParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.SendRevisionParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.SubmitParticipationActivity;
+using Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipationActivityById;
 using Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipationActivity;
 using Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipationActivity;
 using Portfolio.Core.Requests.ParticipationActivityRequests.SendRevisionParticipationActivity;
@@ -17,6 +19,27 @@ namespace Portfolio.Web.Controllers
 	/// </summary>
 	public class ParticipationActivityController : ApiControllerBase
 	{
+		/// <summary>
+		/// Получить участие в мероприятии
+		/// </summary>
+		/// <param name="id">Идентификатор участия в мероприятии</param>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>Объект участия в мероприятии</returns>
+		[HttpGet("{id}")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetParticipationActivityByIdResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<GetParticipationActivityByIdResponse> GetParticipationActivityByIdAsync(
+			[FromRoute] Guid id,
+			[FromServices] IMediator mediator,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new GetParticipationActivityByIdQuery
+				{
+					Id = id,
+				},
+				cancellationToken);
+
 		/// <summary>
 		/// Создать участие в мероприятии
 		/// </summary>

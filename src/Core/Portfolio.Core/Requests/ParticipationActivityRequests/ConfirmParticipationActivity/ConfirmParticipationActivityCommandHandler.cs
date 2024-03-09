@@ -44,8 +44,6 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.ConfirmParticipa
 			await _authorizationService.CheckPrivilegeAsync(Privileges.ParticipationActivityConfirm, cancellationToken);
 
 			var participationActivity = await _dbContext.Participations
-				.Include(x => x.Activity)
-				.Include(x => x.ParticipationActivityDocument)
 				.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)
 				?? throw new NotFoundException($"Не найдено участие в мероприятии с Id: {request.Id}");
 

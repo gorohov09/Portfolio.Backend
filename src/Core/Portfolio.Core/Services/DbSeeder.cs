@@ -139,7 +139,7 @@ namespace Portfolio.Core.Services
 				cancellationToken: cancellationToken))
 				return;
 
-			await dbContext.Users.AddRangeAsync(user, user2);
+			await dbContext.Users.AddRangeAsync(user, user2, user3);
 		}
 
 		private static string GetDefaultValueDescription(string fieldName, Type enumWithDefaultValue)

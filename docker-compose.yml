@@ -10,7 +10,8 @@ services:
     container_name: portfolio.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DbConnectionString=User ID=portfolio;Password=portfolio;Host=localhost;Port=5433;Database=Portfolio.Backend;Pooling=true;
+      - ConnectionStrings__DbConnectionString=User ID=portfolio;Password=portfolio;Host=portfolio_postgres;Port=5432;Database=Portfolio.Backend;Pooling=true;
+      - S3__ServiceUrl=http://portfolio_minio:9000
     depends_on:
       - portfolio.postgres
       - portfolio.minio
@@ -25,6 +26,8 @@ services:
       POSTGRES_USER: portfolio
       POSTGRES_PASSWORD: portfolio
       POSTGRES_DB: "Portfolio.Backend"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
     expose:
       - "5433"
     ports:
@@ -38,8 +41,12 @@ services:
       MINIO_ROOT_PASSWORD: SecretKey
     command: server --console-address ":9001" /data
     volumes:
-      - ./docker/minio:/data
+      - minio_data:/data
     ports:
       - "9000:9000"
       - "9001:9001"
+
+volumes:
+  minio_data:
+  postgres_data:
 

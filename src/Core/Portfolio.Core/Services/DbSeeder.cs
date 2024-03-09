@@ -28,8 +28,8 @@ namespace Portfolio.Core.Services
 			await SeedRolesAsync(dbContext, cancellationToken);
 			await SeedRolesPrivilegesAsync(dbContext, cancellationToken);
 			await SeedInstitutesAndFacultiesAsync(dbContext, cancellationToken);
-			await SeedTestManagersAsync(dbContext, cancellationToken);
-
+			await dbContext.SaveChangesAsync(cancellationToken);
+			await SeedTestUsersAsync(dbContext, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken);
 		}
 
@@ -92,12 +92,15 @@ namespace Portfolio.Core.Services
 			}
 		}
 
-		private async Task SeedTestManagersAsync(IDbContext dbContext, CancellationToken cancellationToken)
+		private async Task SeedTestUsersAsync(IDbContext dbContext, CancellationToken cancellationToken)
 		{
-			var role = await dbContext.Roles
+			var roleManager = await dbContext.Roles
 				.FirstOrDefaultAsync(x => x.Id == DefaultRoles.ManagerId, cancellationToken);
 
-			if (role == null)
+			var roleStudent = await dbContext.Roles
+				.FirstOrDefaultAsync(x => x.Id == DefaultRoles.StudentId, cancellationToken);
+
+			if (roleManager == null || roleStudent == null)
 				return;
 
 			var passwordHashService = new PasswordEncryptionService();
@@ -111,7 +114,7 @@ namespace Portfolio.Core.Services
 				login: "manager",
 				passwordHash: passwordHash,
 				email: "manager@mail.ru",
-				role: role);
+				role: roleManager);
 
 			var user2 = new User(
 				lastName: "Менеджеров2",
@@ -120,10 +123,19 @@ namespace Portfolio.Core.Services
 				login: "manager2",
 				passwordHash: passwordHash,
 				email: "manager2@mail.ru",
-				role: role);
+				role: roleManager);
+
+			var user3 = new User(
+				lastName: "Тестов",
+				firstName: "Тест",
+				birthday: new DateTime(2002, 12, 12),
+				login: "test",
+				passwordHash: passwordHash,
+				email: "test@mail.ru",
+				role: roleStudent);
 
 			if (await dbContext.Users.AnyAsync(
-				x => x.Login == user.Login || x.Login == user2.Login,
+				x => x.Login == user.Login || x.Login == user2.Login || x.Login == user3.Login,
 				cancellationToken: cancellationToken))
 				return;
 

@@ -64,18 +64,22 @@ namespace Portfolio.Web.Controllers
 		/// <param name="request">Запрос</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		[HttpPost("Submit")]
-		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status204NoContent)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task SubmitParticipationActivityAsync(
+		public async Task<NoContentResult> SubmitParticipationActivityAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] SubmitParticipationActivityRequest request,
 			CancellationToken cancellationToken)
-			=> await mediator.Send(
+		{
+			await mediator.Send(
 				new SubmitParticipationActivityCommand
 				{
 					Id = request.Id,
 				},
 				cancellationToken);
+
+			return NoContent();
+		}
 
 		/// <summary>
 		/// Подать участие в мероприятии на рассмотрение
@@ -84,19 +88,23 @@ namespace Portfolio.Web.Controllers
 		/// <param name="request">Запрос</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		[HttpPost("SendRevision")]
-		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status204NoContent)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task SendRevisionParticipationActivityAsync(
+		public async Task<NoContentResult> SendRevisionParticipationActivityAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] SendRevisionParticipationActivityRequest request,
 			CancellationToken cancellationToken)
-			=> await mediator.Send(
+		{
+			await mediator.Send(
 				new SendRevisionParticipationActivityCommand
 				{
 					Id = request.Id,
 					Comment = request.Comment,
 				},
 				cancellationToken);
+
+			return NoContent();
+		}
 
 		/// <summary>
 		/// Обновить участие в мероприятии
@@ -105,13 +113,14 @@ namespace Portfolio.Web.Controllers
 		/// <param name="request">Запрос</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		[HttpPut]
-		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status204NoContent)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task UpdateParticipationActivityAsync(
+		public async Task<NoContentResult> UpdateParticipationActivityAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] PutParticipationActivityRequest request,
 			CancellationToken cancellationToken)
-			=> await mediator.Send(
+		{
+			await mediator.Send(
 				new PutParticipationActivityCommand
 				{
 					Id = request.Id,

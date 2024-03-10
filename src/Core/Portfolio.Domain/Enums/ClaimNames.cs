@@ -16,5 +16,10 @@ namespace Portfolio.Domain.Enums
 		/// Логин
 		/// </summary>
 		public const string Login = "Login";
+
+		/// <summary>
+		/// Роль
+		/// </summary>
+		public const string Role = ClaimTypes.Role;
 	}
 }

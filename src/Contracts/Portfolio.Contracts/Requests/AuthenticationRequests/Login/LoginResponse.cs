@@ -12,9 +12,11 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.Login
 		/// <param name="token">Токен авторизации</param>
 		public LoginResponse(
 			Guid userId,
+			string role,
 			string token)
 		{
 			UserId = userId;
+			Role = role;
 			Token = token;
 		}
 
@@ -22,6 +24,11 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.Login
 		/// Id пользователя
 		/// </summary>
 		public Guid UserId { get; }
+
+		/// <summary>
+		/// Роль пользователя
+		/// </summary>
+		public string Role { get; } = default!;
 
 		/// <summary>
 		/// Токен авторизации

@@ -22,6 +22,8 @@ namespace Portfolio.Web.Authentication
 			? userId
 			: Guid.Empty;
 
+		public string CurrentUserRoleName => User?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+
 		private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
 	}
 }

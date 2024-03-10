@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Portfolio.Domain.Entities;
 
 namespace Portfolio.Domain.Enums
 {
@@ -14,10 +15,20 @@ namespace Portfolio.Domain.Enums
 		public static readonly Guid StudentId = new("e15a85fd-4736-4b05-b215-576ce2386f27");
 
 		/// <summary>
+		/// Название роли "Студент"
+		/// </summary>
+		public static readonly string StudentName = "Student";
+
+		/// <summary>
 		/// Идентификатор роли "Менеджер"
 		/// </summary>
 		[Description("Менеджер")]
 		public static readonly Guid ManagerId = new("8a3ee818-0de0-4269-952a-2478cf8c76ce");
+
+		/// <summary>
+		/// Название роли "Менеджер"
+		/// </summary>
+		public static readonly string ManagerName = "Manager";
 
 		/// <summary>
 		/// Идентификатор ролей к списку привилегий
@@ -39,5 +50,17 @@ namespace Portfolio.Domain.Enums
 					Privileges.ParticipationActivitySendRevision,
 				},
 			};
+
+		public static string ToRoleName(this Role role)
+		{
+			ArgumentNullException.ThrowIfNull(role);
+
+			if (role.Id == StudentId)
+				return StudentName;
+			if (role.Id == ManagerId)
+				return ManagerName;
+
+			return string.Empty;
+		}
 	}
 }

@@ -46,8 +46,12 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.Login
 				throw new RequiredFieldNotSpecifiedException();
 
 			var user = await _dbContext.Users
+				.Include(x => x.Role)
 				.FirstOrDefaultAsync(x => x.Login == request.Login, cancellationToken)
 				?? throw new NotFoundException("Не найден пользователь по логину");
+
+			if (user.Role == null)
+				throw new ApplicationExceptionBase($"Пользователь с Id: {user.Id} не имеет роли");
 
 			var isValidPassword = _passwordEncryptionService.ValidatePassword(
 				password: request.Password,
@@ -59,7 +63,7 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.Login
 			var claims = _claimsIdentityFactory.CreateClaimsIdentity(user);
 			var token = _tokenAuthenticationService.CreateToken(claims, TokenTypes.Auth);
 
-			return new LoginResponse(userId: user.Id, token: token);
+			return new LoginResponse(userId: user.Id, role: user.Role!.ToRoleName(), token: token);
 		}
 	}
 }

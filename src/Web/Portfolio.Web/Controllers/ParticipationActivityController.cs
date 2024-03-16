@@ -150,6 +150,9 @@ namespace Portfolio.Web.Controllers
 				},
 				cancellationToken);
 
+			return NoContent();
+		}
+
 		/// <summary>
 		/// Одобрить участие в мероприятии
 		/// </summary>
@@ -159,15 +162,19 @@ namespace Portfolio.Web.Controllers
 		[HttpPost("Confirm")]
 		[SwaggerResponse(StatusCodes.Status200OK)]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task ConfirmParticipationActivityAsync(
+		public async Task<NoContentResult> ConfirmParticipationActivityAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] ConfirmParticipationActivityRequest request,
 			CancellationToken cancellationToken)
-			=> await mediator.Send(
+		{
+			await mediator.Send(
 				new ConfirmParticipationActivityCommand
 				{
 					Id = request.Id,
 				},
 				cancellationToken);
+
+			return NoContent();
+		}
 	}
 }

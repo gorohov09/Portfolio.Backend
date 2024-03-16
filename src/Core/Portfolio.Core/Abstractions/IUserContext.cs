@@ -9,5 +9,10 @@ namespace Portfolio.Core.Abstractions
 		/// ИД текущего пользователя
 		/// </summary>
 		Guid CurrentUserId { get; }
+
+		/// <summary>
+		/// Название роли текущего пользователя
+		/// </summary>
+		string CurrentUserRoleName { get; }
 	}
 }

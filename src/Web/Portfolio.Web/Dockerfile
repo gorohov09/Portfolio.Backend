@@ -14,6 +14,7 @@ COPY ["src/Contracts/Portfolio.Contracts/Portfolio.Contracts.csproj", "src/Contr
 COPY ["src/Core/Portfolio.Domain/Portfolio.Domain.csproj", "src/Core/Portfolio.Domain/"]
 COPY ["src/Infrastructure/Portfolio.Data.PostgreSql/Portfolio.Data.PostgreSql.csproj", "src/Infrastructure/Portfolio.Data.PostgreSql/"]
 COPY ["src/Infrastructure/Portfolio.Data.S3/Portfolio.Data.S3.csproj", "src/Infrastructure/Portfolio.Data.S3/"]
+COPY ["src/WorkerServices/Portfolio.Worker/Portfolio.Worker.csproj", "src/WorkerServices/Portfolio.Worker/"]
 RUN dotnet restore "./src/Web/Portfolio.Web/./Portfolio.Web.csproj"
 COPY . .
 WORKDIR "/src/src/Web/Portfolio.Web"

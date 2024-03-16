@@ -295,5 +295,19 @@ namespace Portfolio.Domain.Entities
 					file: file);
 			}
 		}
+
+		/// <summary>
+		/// Одобрить участие в мероприятии
+		/// </summary>
+		/// <exception cref="ApplicationExceptionBase"></exception>
+		public void Confirm()
+		{
+			if (Status is not ParticipationActivityStatus.Submitted)
+				throw new ApplicationExceptionBase($"Перевести в статус {ParticipationActivityStatus.Approved.GetDescription()} возможно только из статуса: " +
+					$"{ParticipationActivityStatus.Submitted.GetDescription()}");
+
+			Comment = default;
+			Status = ParticipationActivityStatus.Approved;
+		}
 	}
 }

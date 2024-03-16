@@ -14,5 +14,15 @@ namespace Portfolio.Domain.Enums
 		/// Текст для события - Подача участия в мероприятии
 		/// </summary>
 		public static readonly string ParticipationActivitySubmittedDescription = "На Вас назначена проверка. Проверьте раздел - Проверки";
+
+		/// <summary>
+		/// Текст для события - Одобрение участия в мероприятии
+		/// </summary>
+		public static readonly string ParticipationActivityConfirmedTitle = "Уведомление об участии в мероприятии";
+
+		/// <summary>
+		/// Текст для события - Одобрение участия в мероприятии
+		/// </summary>
+		public static readonly string ParticipationActivityConfirmedDescription = "Ваше участие в мероприятии одобрено!";
 	}
 }

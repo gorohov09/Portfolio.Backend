@@ -9,5 +9,10 @@ namespace Portfolio.Domain.Enums
 		/// Участие в мероприятии подано
 		/// </summary>
 		ParticipationActivitySubmitted = 1,
+
+		/// <summary>
+		/// Участие в мероприятии одобрено
+		/// </summary>
+		ParticipationActivityConfirmed = 2,
 	}
 }

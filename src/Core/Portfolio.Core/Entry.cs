@@ -31,6 +31,7 @@ namespace Portfolio.Core
 			services.AddScoped<IClaimsIdentityFactory, ClaimsIdentityFactory>();
 			services.AddSingleton<ISpecialityService, SpecialityService>();
 			services.AddScoped<IAuthorizationService, AuthorizationService>();
+			services.AddScoped<INotificationService, NotificationService>();
 			services.AddScoped<IEmailService, EmailService>();
 
 			services.AddScoped<EmailSettings>();

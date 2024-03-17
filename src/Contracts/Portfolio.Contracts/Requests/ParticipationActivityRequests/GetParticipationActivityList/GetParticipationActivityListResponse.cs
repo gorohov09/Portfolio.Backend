@@ -9,7 +9,7 @@ namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticip
 		/// Конструктор
 		/// </summary>
 		/// <param name="entities">Список сущностей</param>
-		/// <param name="totalCount">Колличество сущностей</param>
+		/// <param name="totalCount">Количество сущностей</param>
 		public GetParticipationActivityListResponse(
 			List<GetParticipationActivityListResponseItem> entities,
 			int totalCount)

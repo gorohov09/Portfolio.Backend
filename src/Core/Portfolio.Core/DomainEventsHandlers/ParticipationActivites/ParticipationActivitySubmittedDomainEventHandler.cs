@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.Core.Abstractions;
 using Portfolio.Core.Models;
 using Portfolio.Domain.DomainEvents.ParticipationActivites;
-using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 
@@ -16,7 +15,7 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
 		: INotificationHandler<ParticipationActivitySubmittedDomainEvent>
 	{
 		private readonly IDbContext _dbContext;
-		private readonly IHubNotificationService _hubNotificationService;
+		private readonly INotificationService _notificationService;
 
 		/// <summary>
 		/// Конструктор
@@ -25,10 +24,10 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
 		/// <param name="hubNotificationService">Сервис SignalR для уведомлений</param>
 		public ParticipationActivitySubmittedDomainEventHandler(
 			IDbContext dbContext,
-			IHubNotificationService hubNotificationService)
+			INotificationService notificationService)
 		{
 			_dbContext = dbContext;
-			_hubNotificationService = hubNotificationService;
+			_notificationService = notificationService;
 		}
 
 		/// <inheritdoc />
@@ -49,21 +48,14 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
 
 			participation.ManagerUser = mostFreeManager;
 
-			var message = new EmailMessage(
-				addressTo: mostFreeManager.Email,
-				subject: NotificationMessages.ParticipationActivitySubmittedTitle,
-				body: NotificationMessages.ParticipationActivitySubmittedDescription,
-				toUserId: mostFreeManager.Id);
-
-			_dbContext.EmailMessages.Add(message);
-
-			await _hubNotificationService.SendNewNotificationAsync(
-				notification: new NotificationModel(
+			await _notificationService.PushAsync(
+				notificationModel: new NotificationModel(
 					type: NotificationType.ParticipationActivitySubmitted,
 					title: NotificationMessages.ParticipationActivitySubmittedTitle,
 					description: NotificationMessages.ParticipationActivitySubmittedDescription),
-				userId: mostFreeManager.Id,
-				cancellationToken: cancellationToken);
+				user: mostFreeManager,
+				cancellationToken: cancellationToken,
+				isSendingEmail: false);
 
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}

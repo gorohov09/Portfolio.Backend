@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.FileRequests.UploadFile;
+using Portfolio.Core.Requests.FileRequests.DownloadFile;
 using Portfolio.Core.Requests.FileRequests.UploadFile;
 using Portfolio.Domain.Enums;
 using Swashbuckle.AspNetCore.Annotations;
@@ -41,5 +42,27 @@ namespace Portfolio.Web.Controllers
 					Bucket = bucket,
 				},
 				cancellationToken: cancellationToken);
+
+		/// <summary>
+		/// Скачать файл из хранилища
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="id">ИД файла для скачивания</param>
+		/// <param name="cancellationToken">Токен отмены запроса</param>
+		/// <param name="inline">Если TRUE, то заголово ответа Content-Disposition=inline, иначе attachment</param>
+		/// <returns>Файл</returns>
+		[HttpGet("{id}/Download")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(FileStreamResult))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<FileStreamResult> DownloadAsync(
+			[FromServices] IMediator mediator,
+			[FromRoute] Guid id,
+			CancellationToken cancellationToken,
+			[FromQuery] bool inline = false)
+		{
+			var file = await mediator.Send(new DownloadFileQuery(id), cancellationToken);
+
+			return GetFileStreamResult(file, Response.Headers, inline);
+		}
 	}
 }

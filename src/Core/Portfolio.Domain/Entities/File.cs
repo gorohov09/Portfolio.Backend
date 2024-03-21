@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Portfolio.Domain.Enums;
 
 namespace Portfolio.Domain.Entities
 {
@@ -13,11 +14,13 @@ namespace Portfolio.Domain.Entities
 		/// <param name="address">Адрес в S3</param>
 		/// <param name="name">Название файла</param>
 		/// <param name="size">Размер файла в байтах</param>
+		/// <param name="bucket">Бакет в котором содержится файл</param>
 		/// <param name="mimeType">Тип файла</param>
 		public File(
 			string address,
 			string name,
 			long size,
+			Buckets bucket = default,
 			string? mimeType = null)
 		{
 			if (string.IsNullOrWhiteSpace(address))
@@ -32,6 +35,7 @@ namespace Portfolio.Domain.Entities
 			Address = address;
 			FileName = name;
 			Size = size;
+			Bucket = bucket;
 			ContentType = mimeType;
 		}
 
@@ -58,6 +62,11 @@ namespace Portfolio.Domain.Entities
 		/// Mime-тип
 		/// </summary>
 		public string? ContentType { get; private set; }
+
+		/// <summary>
+		/// Бакет в котором содержится файл
+		/// </summary>
+		public Buckets Bucket { get; private set; }
 
 		/// <summary>
 		/// Расширение файла

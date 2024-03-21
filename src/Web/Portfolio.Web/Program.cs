@@ -26,7 +26,7 @@ services
 	.AddSignaler()
 	.AddCors(options => options.AddPolicy(
 		"AllowOrigin",
-		builder => builder.WithOrigins("http://localhost:3000")
+		builder => builder.WithOrigins("http://localhost:5173")
 						  .AllowAnyHeader()
 						  .AllowAnyMethod()
 						  .AllowCredentials()));

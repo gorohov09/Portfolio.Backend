@@ -2,7 +2,6 @@ using MediatR;
 using Portfolio.Contracts.Requests.FileRequests.UploadFile;
 using Portfolio.Core.Abstractions;
 using Portfolio.Core.Models;
-using Portfolio.Core.Services;
 using Portfolio.Domain.Exceptions;
 using File = Portfolio.Domain.Entities.File;
 
@@ -58,6 +57,7 @@ namespace Portfolio.Core.Requests.FileRequests.UploadFile
 				address: fileId,
 				name: request.File.FileName,
 				size: stream.Length,
+				bucket: request.Bucket,
 				mimeType: request.File.ContentType);
 
 			_dbContext.Files.Add(file);

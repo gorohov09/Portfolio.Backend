@@ -17,6 +17,7 @@ namespace Portfolio.Data.PostgreSql.Configurations
 			builder.Property(x => x.Address).IsRequired();
 			builder.Property(x => x.FileName).IsRequired();
 			builder.Property(x => x.Size).IsRequired();
+			builder.Property(x => x.Bucket).IsRequired();
 			builder.Property(x => x.ContentType);
 			builder.Ignore(x => x.Extension);
 

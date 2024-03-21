@@ -65,6 +65,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.AddPhoto
 				address: fileId,
 				name: request.File.FileName,
 				size: stream.Length,
+				bucket: Buckets.Photos,
 				mimeType: mimeType);
 
 			portfolio.AddPhoto(file: file, isAvatar: true);

@@ -12,13 +12,24 @@ namespace Portfolio.Domain.DomainEvents.ParticipationActivites
 		/// Конструктор
 		/// </summary>
 		/// <param name="participation">Участие в мероприятии</param>
-		public ParticipationActivitySubmittedDomainEvent(ParticipationActivity participation)
-			=> Participation = participation ?? throw new ArgumentNullException(nameof(participation));
+		/// <param name="isRepeatSubmit">Осуществляется ли повторная подача</param>
+		public ParticipationActivitySubmittedDomainEvent(
+			ParticipationActivity participation,
+			bool isRepeatSubmit)
+		{
+			Participation = participation ?? throw new ArgumentNullException(nameof(participation));
+			IsRepeatSubmit = isRepeatSubmit;
+		}
 
 		/// <summary>
 		/// Участие в мероприятии
 		/// </summary>
 		public ParticipationActivity Participation { get; private set; } = default!;
+
+		/// <summary>
+		/// Осуществляется ли повторная подача
+		/// </summary>
+		public bool IsRepeatSubmit { get; private set; }
 
 		/// <inheritdoc />
 		public bool IsInTransaction => true;

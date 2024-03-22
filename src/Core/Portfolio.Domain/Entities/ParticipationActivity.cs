@@ -236,9 +236,11 @@ namespace Portfolio.Domain.Entities
 			if (ParticipationActivityDocument == null || ParticipationActivityDocument.IsDeleted)
 				throw new RequiredFieldNotSpecifiedException("Необходимо прикрепить подтверждающий документ");
 
+			var isRepeatSubmit = Status == ParticipationActivityStatus.SentRevision;
+
 			Status = ParticipationActivityStatus.Submitted;
 
-			AddDomainEvent(new ParticipationActivitySubmittedDomainEvent(this));
+			AddDomainEvent(new ParticipationActivitySubmittedDomainEvent(this, isRepeatSubmit: isRepeatSubmit));
 		}
 
 		/// <summary>

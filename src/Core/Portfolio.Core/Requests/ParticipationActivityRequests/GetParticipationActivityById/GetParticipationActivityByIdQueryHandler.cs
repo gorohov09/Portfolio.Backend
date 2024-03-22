@@ -63,6 +63,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipation
 					Address = participationActivity.ParticipationActivityDocument.File.Address,
 				}
 				: default,
+				Comment = participationActivity.Comment,
 				CanEdit = GetCanEdit(participationActivity, _userContext.CurrentUserId),
 			};
 		}

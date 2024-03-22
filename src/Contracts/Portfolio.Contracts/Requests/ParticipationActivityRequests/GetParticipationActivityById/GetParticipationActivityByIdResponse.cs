@@ -38,6 +38,11 @@ namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticip
 		public GetParticipationActivityByIdResponseDocument? Document { get; set; }
 
 		/// <summary>
+		/// Комментарий от проектного менеджера в случае отказа
+		/// </summary>
+		public string? Comment { get; set; }
+
+		/// <summary>
 		/// Флаг обозначающий, может ли пользователь редактировать сущность
 		/// </summary>
 		public bool CanEdit { get; set; }

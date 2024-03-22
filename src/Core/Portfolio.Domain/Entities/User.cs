@@ -26,6 +26,9 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string CheckParticipationActivitesField = nameof(_checkParticipationActivites);
 
+		private string _lastName;
+		private string _firstName;
+		private string _surname;
 		private string _login;
 		private string _email;
 		private string _passwordHash;
@@ -52,6 +55,8 @@ namespace Portfolio.Domain.Entities
 			string? phone = default,
 			Role? role = default)
 		{
+			LastName = lastName;
+			FirstName = firstName;
 			Login = login;
 			PasswordHash = passwordHash;
 			Email = email;
@@ -76,6 +81,31 @@ namespace Portfolio.Domain.Entities
 		protected User()
 		{
 		}
+
+		/// <summary>
+		/// Фамилия
+		/// </summary>
+		public string LastName
+		{
+			get => _lastName;
+			private set => _lastName = value
+					?? throw new RequiredFieldNotSpecifiedException("Фамилия");
+		}
+
+		/// <summary>
+		/// Имя
+		/// </summary>
+		public string FirstName
+		{
+			get => _firstName;
+			private set => _firstName = value
+					?? throw new RequiredFieldNotSpecifiedException("Имя");
+		}
+
+		/// <summary>
+		/// Отчество
+		/// </summary>
+		public string? Surname { get; private set; }
 
 		/// <summary>
 		/// Логин
@@ -149,6 +179,12 @@ namespace Portfolio.Domain.Entities
 		public IReadOnlyList<ParticipationActivity>? CheckParticipationActivites => _checkParticipationActivites;
 
 		#endregion
+
+		/// <summary>
+		/// ФИО
+		/// </summary>
+		public string FullName
+			=> $"{LastName} {FirstName} {Surname}".Trim();
 
 		/// <summary>
 		/// Обновить контактную информацию пользователя

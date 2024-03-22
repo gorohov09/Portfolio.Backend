@@ -16,6 +16,17 @@ namespace Portfolio.Data.PostgreSql.Configurations
 			builder.ToTable("user", "public")
 				.HasComment("Пользователь");
 
+			builder.Property(p => p.LastName)
+				.HasComment("Фамилия")
+				.IsRequired();
+
+			builder.Property(p => p.FirstName)
+				.HasComment("Имя")
+				.IsRequired();
+
+			builder.Property(p => p.Surname)
+				.HasComment("Отчество");
+
 			builder.Property(p => p.Login)
 				.HasComment("Логин")
 				.IsRequired();

@@ -58,7 +58,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipation
 				Document = participationActivity.ParticipationActivityDocument != null
 				? new GetParticipationActivityByIdResponseDocument
 				{
-					Id = participationActivity.ParticipationActivityDocument.Id,
+					Id = participationActivity.ParticipationActivityDocument.File!.Id,
 					Name = participationActivity.ParticipationActivityDocument.File!.FileName,
 					Address = participationActivity.ParticipationActivityDocument.File.Address,
 				}

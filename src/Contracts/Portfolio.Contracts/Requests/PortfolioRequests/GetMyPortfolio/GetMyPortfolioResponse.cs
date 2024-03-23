@@ -32,6 +32,9 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
 		/// </summary>
 		public InstituteResponse? Institute { get; set; }
 
+		/// <summary>
+		/// Кафедра
+		/// </summary>
 		public FacultyResponse? Faculty { get; set; }
 
 		/// <summary>
@@ -43,5 +46,10 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
 		/// Уровень образования
 		/// </summary>
 		public EducationLevels? EducationLevel { get; set; }
+
+		/// <summary>
+		/// Номер группы
+		/// </summary>
+		public string? GroupNumber { get; set; }
 	}
 }

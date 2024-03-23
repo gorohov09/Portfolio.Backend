@@ -6,6 +6,11 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
 	public class FacultyResponse
 	{
 		/// <summary>
+		/// Идентификатор кафедры
+		/// </summary>
+		public Guid Id { get; set; }
+
+		/// <summary>
 		/// Полное имя
 		/// </summary>
 		public string FullName { get; set; } = default!;

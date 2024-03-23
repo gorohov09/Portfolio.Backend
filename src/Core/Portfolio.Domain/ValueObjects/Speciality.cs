@@ -1,4 +1,5 @@
 using Portfolio.Domain.Enums;
+using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Domain.ValueObjects
 {
@@ -19,7 +20,8 @@ namespace Portfolio.Domain.ValueObjects
 			ArgumentNullException.ThrowIfNull(number);
 
 			Number = number;
-			Name = getSpecialityNameByNumber(Number);
+			Name = getSpecialityNameByNumber(Number)
+				?? throw new ApplicationExceptionBase("Не найдена специальность по номеру");
 		}
 
 		/// <summary>
@@ -34,7 +36,7 @@ namespace Portfolio.Domain.ValueObjects
 		/// </summary>
 		/// <param name="number">Номер специальности</param>
 		/// <returns>Название специальности</returns>
-		public delegate string GetSpecialityNameByNumber(string number);
+		public delegate string? GetSpecialityNameByNumber(string number);
 
 		/// <summary>
 		/// Делегат соответствия номера уровню образования

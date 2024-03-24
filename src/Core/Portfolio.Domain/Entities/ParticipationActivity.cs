@@ -230,7 +230,8 @@ namespace Portfolio.Domain.Entities
 
 			if (Result == null
 				|| Date == null
-				|| Description == null)
+				|| Description == null
+				|| Activity == null)
 				throw new RequiredFieldNotSpecifiedException("Необходимо заполнить все обязательные поля");
 
 			if (ParticipationActivityDocument == null || ParticipationActivityDocument.IsDeleted)

@@ -55,6 +55,13 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipation
 				Result = participationActivity.Result,
 				Date = participationActivity.Date,
 				Description = participationActivity.Description,
+				Activity = participationActivity.Activity != null
+				? new GetParticipationActivityByIdResponseActivity
+				{
+					Id = participationActivity.Activity.Id,
+					Name = participationActivity.Activity.Name,
+				}
+				: default,
 				Document = participationActivity.ParticipationActivityDocument != null
 				? new GetParticipationActivityByIdResponseDocument
 				{

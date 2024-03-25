@@ -100,7 +100,7 @@ namespace Portfolio.Core.Services
 		{
 			var minutes = tokenType switch
 			{
-				TokenTypes.Auth => 5,
+				TokenTypes.Auth => 50,
 				TokenTypes.RefreshToken => 10000,
 				_ => 15,
 			};

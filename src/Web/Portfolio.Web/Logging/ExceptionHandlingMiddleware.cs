@@ -6,6 +6,9 @@ using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Web.Logging
 {
+	/// <summary>
+	/// Обработчик ошибок API
+	/// </summary>
 	public class ExceptionHandlingMiddleware
 	{
 		private readonly RequestDelegate _next;

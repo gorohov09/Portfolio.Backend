@@ -3,6 +3,7 @@ using Portfolio.Data.PostgreSql;
 using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Hubs;
+using Portfolio.Web.Logging;
 using Portfolio.Web.Swagger;
 using Portfolio.Web.WebSocketServices;
 using Portfolio.Worker;
@@ -54,6 +55,8 @@ var app = builder.Build();
 	app.UseHangfireWorker(configuration.GetSection("Hangfire").Get<HangfireOptions>());
 
 	app.UseSignalRQueryStringAuth();
+
+	app.UseExceptionHandling();
 
 	app.UseAuthentication();
 

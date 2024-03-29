@@ -38,6 +38,10 @@ namespace Portfolio.Web.Logging
 			{
 				await _next(context);
 			}
+			catch (UnauthorizedAccessException ex)
+			{
+				await HandleUnauthorizedAccessExceptionAsync(context, ex);
+			}
 			catch (NotFoundException ex)
 			{
 				await HandleNotFoundExceptionAsync(context, ex);
@@ -50,6 +54,20 @@ namespace Portfolio.Web.Logging
 			{
 				await HandleExceptionAsync(context, ex);
 			}
+		}
+
+		/// <summary>
+		/// Обработка исключения <see cref="NotFoundException"/>
+		/// </summary>
+		/// <param name="context">Контекст запроса ASP.NET</param>
+		/// <param name="exception">Исключение</param>
+		/// <returns>Задача на обработку запроса ASP.NET</returns>
+		private async Task HandleUnauthorizedAccessExceptionAsync(HttpContext context, UnauthorizedAccessException exception)
+		{
+			var errorText = exception.Message;
+			var logLevel = LogLevel.Warning;
+			var responseCode = HttpStatusCode.Unauthorized;
+			await LogAndReturnAsync(context, exception, errorText, responseCode, logLevel);
 		}
 
 		/// <summary>

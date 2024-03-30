@@ -29,9 +29,16 @@ namespace Portfolio.Domain.ValueObjects
 		public DateTime StartDate
 		{
 			get => _startDate;
-			set => _startDate = value == default
-				? throw new RequiredFieldNotSpecifiedException("Дата начала")
-				: value;
+			set
+			{
+				if (value == default)
+					throw new RequiredFieldNotSpecifiedException("Дата окончания");
+
+				if (value > EndDate)
+					throw new ApplicationExceptionBase("Дата начала не может быть раньше даты окончания");
+
+				_startDate = value;
+			}
 		}
 
 		/// <summary>
@@ -40,9 +47,16 @@ namespace Portfolio.Domain.ValueObjects
 		public DateTime EndDate
 		{
 			get => _endDate;
-			set => _endDate = value == default
-				? throw new RequiredFieldNotSpecifiedException("Дата окончания")
-				: value;
+			set
+			{
+				if (value == default)
+					throw new RequiredFieldNotSpecifiedException("Дата окончания");
+
+				if (value < StartDate)
+					throw new ApplicationExceptionBase("Дата окончания не может быть раньше даты начала");
+
+				_endDate = value;
+			}
 		}
 
 		/// <summary>

@@ -32,13 +32,16 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasComment("Уровень")
 				.IsRequired();
 
-			builder.Property(p => p.StartDate)
-				.HasComment("Дата начала")
-				.IsRequired();
+			builder.OwnsOne(p => p.Period, a =>
+			{
+				a.Property(p => p.StartDate)
+					.HasComment("Дата начала")
+					.IsRequired();
 
-			builder.Property(p => p.EndDate)
-				.HasComment("Дата окончания")
-				.IsRequired();
+				a.Property(p => p.EndDate)
+					.HasComment("Дата окончания")
+					.IsRequired();
+			});
 
 			builder.Property(p => p.Location)
 				.HasComment("Место");

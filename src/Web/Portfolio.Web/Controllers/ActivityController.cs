@@ -1,10 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.Activities.GetActivitiesNames;
+using Portfolio.Contracts.Requests.Activities.GetActivityById;
 using Portfolio.Contracts.Requests.Activities.PostActivity;
 using Portfolio.Core.Requests.Activities.GetActivitiesNames;
+using Portfolio.Core.Requests.Activities.GetActivityById;
 using Portfolio.Core.Requests.Activities.PostActivity;
-using Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipationActivity;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Portfolio.Web.Controllers
@@ -14,6 +15,27 @@ namespace Portfolio.Web.Controllers
 	/// </summary>
 	public class ActivityController : ApiControllerBase
 	{
+		/// <summary>
+		/// Получить мероприятие
+		/// </summary>
+		/// <param name="id">Идентификатор мероприятия</param>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>Объект мероприятия</returns>
+		[HttpGet("{id}")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetActivityByIdResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<GetActivityByIdResponse> GetParticipationActivityByIdAsync(
+			[FromRoute] Guid id,
+			[FromServices] IMediator mediator,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new GetActivityByIdQuery
+				{
+					Id = id,
+				},
+				cancellationToken);
+
 		/// <summary>
 		/// Получить список названий мероприятий
 		/// </summary>

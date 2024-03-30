@@ -31,26 +31,26 @@ namespace Portfolio.Core.Requests.Activities.GetActivityById
 			ArgumentNullException.ThrowIfNull(request);
 
 			var response = await _dbContext.Activities
-				.Select(x => new GetActivityByIdResponse
-				{
-					Id = x.Id,
-					Name = x.Name,
-					Type = x.Type,
-					Section = x.Section,
-					Level = x.Level,
-					Location = x.Location,
-					Description = x.Description,
-					Link = x.Link,
-					Period = new GetActivityByIdResponsePeriod
-					{
-						StartDate = x.Period.StartDate,
-						EndDate = x.Period.EndDate,
-						IsOneDay = x.Period.IsOneDay,
-					},
-				})
-				.AsNoTracking()
-				.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)
-				?? throw new NotFoundException($"Мероприятие с Id: {request.Id} не найдено");
+							   .Select(x => new GetActivityByIdResponse
+							   {
+								   Id = x.Id,
+								   Name = x.Name,
+								   Type = x.Type,
+								   Section = x.Section,
+								   Level = x.Level,
+								   Location = x.Location,
+								   Description = x.Description,
+								   Link = x.Link,
+								   Period = new GetActivityByIdResponsePeriod
+								   {
+									   StartDate = x.Period.StartDate,
+									   EndDate = x.Period.EndDate,
+									   IsOneDay = x.Period.IsOneDay,
+								   },
+							   })
+							   .AsNoTracking()
+							   .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)
+						   ?? throw new NotFoundException($"Мероприятие с Id: {request.Id} не найдено");
 
 			return response;
 		}

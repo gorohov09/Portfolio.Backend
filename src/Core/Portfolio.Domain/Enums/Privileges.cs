@@ -34,5 +34,15 @@ namespace Portfolio.Domain.Enums
 		/// Участие в мероприятии - одобрение
 		/// </summary>
 		ParticipationActivityConfirm = 105,
+
+		/// <summary>
+		/// Мероприятие - создание
+		/// </summary>
+		ActivityCreated = 201,
+
+		/// <summary>
+		/// Мероприятие - обновление
+		/// </summary>
+		ActivityUpdated = 202,
 	}
 }

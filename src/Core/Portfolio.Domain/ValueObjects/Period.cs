@@ -34,10 +34,10 @@ namespace Portfolio.Domain.ValueObjects
 				if (value == default)
 					throw new RequiredFieldNotSpecifiedException("Дата окончания");
 
-				if (value > EndDate)
+				if (EndDate != default && value.ToUniversalTime() > EndDate)
 					throw new ApplicationExceptionBase("Дата начала не может быть раньше даты окончания");
 
-				_startDate = value;
+				_startDate = value.ToUniversalTime();
 			}
 		}
 
@@ -52,10 +52,10 @@ namespace Portfolio.Domain.ValueObjects
 				if (value == default)
 					throw new RequiredFieldNotSpecifiedException("Дата окончания");
 
-				if (value < StartDate)
+				if (StartDate != default && value.ToUniversalTime() < StartDate)
 					throw new ApplicationExceptionBase("Дата окончания не может быть раньше даты начала");
 
-				_endDate = value;
+				_endDate = value.ToUniversalTime();
 			}
 		}
 

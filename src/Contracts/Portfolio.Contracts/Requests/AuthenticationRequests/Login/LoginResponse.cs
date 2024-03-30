@@ -1,7 +1,7 @@
 namespace Portfolio.Contracts.Requests.AuthenticationRequests.Login
 {
 	/// <summary>
-	/// Ответ на команду <see cref="LoginRequest"/>
+	/// Ответ на запрос <see cref="LoginRequest"/>
 	/// </summary>
 	public class LoginResponse
 	{

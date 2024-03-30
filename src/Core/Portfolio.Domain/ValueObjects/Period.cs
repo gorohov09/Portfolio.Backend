@@ -48,7 +48,7 @@ namespace Portfolio.Domain.ValueObjects
 		/// <summary>
 		/// Является ли дата начала и дата окончания одним днем
 		/// </summary>
-		public bool IsOneDay => StartDate == EndDate;
+		public bool IsOneDay => StartDate.Date == EndDate.Date;
 
 		/// <inheritdoc/>
 		protected override IEnumerable<object> GetEqualityComponents()

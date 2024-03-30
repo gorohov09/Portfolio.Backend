@@ -1,15 +1,15 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Portfolio.Contracts.Requests.Activities.GetActivitiesNames;
+using Portfolio.Contracts.Requests.Activities.GetActivities;
 using Portfolio.Core.Abstractions;
 
-namespace Portfolio.Core.Requests.Activities.GetActivitiesNames
+namespace Portfolio.Core.Requests.Activities.GetActivities
 {
 	/// <summary>
-	/// Обработчик запроса <see cref="GetActivitiesNamesQuery"/>
+	/// Обработчик запроса <see cref="GetActivitiesQuery"/>
 	/// </summary>
-	public class GetActivitiesNamesQueryHandler
-		: IRequestHandler<GetActivitiesNamesQuery, GetActivitiesNamesResponse>
+	public class GetActivitiesQueryHandler
+		: IRequestHandler<GetActivitiesQuery, GetActivitiesResponse>
 	{
 		private readonly IDbContext _dbContext;
 
@@ -17,26 +17,29 @@ namespace Portfolio.Core.Requests.Activities.GetActivitiesNames
 		/// Конструктор
 		/// </summary>
 		/// <param name="dbContext">Контекст БД</param>
-		public GetActivitiesNamesQueryHandler(
+		public GetActivitiesQueryHandler(
 			IDbContext dbContext)
 			=> _dbContext = dbContext;
 
 		/// <inheritdoc/>
-		public async Task<GetActivitiesNamesResponse> Handle(
-			GetActivitiesNamesQuery request,
+		public async Task<GetActivitiesResponse> Handle(
+			GetActivitiesQuery request,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(request);
 
 			var entities = await _dbContext.Activities
-				.Select(x => new GetActivitiesNamesResponseItem
+				.Select(x => new GetActivitiesResponseItem
 				{
 					Id = x.Id,
 					Name = x.Name,
+					Section = x.Section,
+					Type = x.Type,
+					Level = x.Level,
 				})
 				.ToListAsync(cancellationToken: cancellationToken);
 
-			return new GetActivitiesNamesResponse(
+			return new GetActivitiesResponse(
 				entities: entities,
 				totalCount: entities.Count);
 		}

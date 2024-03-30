@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.Activities.GetActivities;
 using Portfolio.Contracts.Requests.Activities.GetActivitiesNames;
 using Portfolio.Contracts.Requests.Activities.GetActivityById;
 using Portfolio.Contracts.Requests.Activities.PostActivity;
+using Portfolio.Core.Requests.Activities.GetActivities;
 using Portfolio.Core.Requests.Activities.GetActivitiesNames;
 using Portfolio.Core.Requests.Activities.GetActivityById;
 using Portfolio.Core.Requests.Activities.PostActivity;
@@ -25,7 +27,7 @@ namespace Portfolio.Web.Controllers
 		[HttpGet("{id}")]
 		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetActivityByIdResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task<GetActivityByIdResponse> GetParticipationActivityByIdAsync(
+		public async Task<GetActivityByIdResponse> GetActivityByIdAsync(
 			[FromRoute] Guid id,
 			[FromServices] IMediator mediator,
 			CancellationToken cancellationToken)
@@ -34,6 +36,22 @@ namespace Portfolio.Web.Controllers
 				{
 					Id = id,
 				},
+				cancellationToken);
+
+		/// <summary>
+		/// Получить список мероприятий
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>Объект участия в мероприятии</returns>
+		[HttpGet("list")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetActivitiesResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<GetActivitiesResponse> GetActivitiesAsync(
+			[FromServices] IMediator mediator,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new GetActivitiesQuery(),
 				cancellationToken);
 
 		/// <summary>
@@ -61,7 +79,7 @@ namespace Portfolio.Web.Controllers
 		[HttpPost]
 		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(PostActivityResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task<PostActivityResponse> CreateParticipationActivityAsync(
+		public async Task<PostActivityResponse> CreateActivityAsync(
 			[FromBody] PostActivityRequest request,
 			[FromServices] IMediator mediator,
 			CancellationToken cancellationToken)

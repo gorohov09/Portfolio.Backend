@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Contracts.Requests.Activities.GetActivityById;
 using Portfolio.Core.Abstractions;
+using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Core.Requests.Activities.GetActivityById
@@ -13,6 +14,7 @@ namespace Portfolio.Core.Requests.Activities.GetActivityById
 		: IRequestHandler<GetActivityByIdQuery, GetActivityByIdResponse>
 	{
 		private readonly IDbContext _dbContext;
+		private readonly IUserContext _userContext;
 
 		/// <summary>
 		/// Конструктор
@@ -20,8 +22,12 @@ namespace Portfolio.Core.Requests.Activities.GetActivityById
 		/// <param name="dbContext">Контекст БД</param>
 		/// <param name="userContext">Контекст текущего пользователя</param>
 		public GetActivityByIdQueryHandler(
-			IDbContext dbContext)
-			=> _dbContext = dbContext;
+			IDbContext dbContext,
+			IUserContext userContext)
+		{
+			_dbContext = dbContext;
+			_userContext = userContext;
+		}
 
 		/// <inheritdoc/>
 		public async Task<GetActivityByIdResponse> Handle(
@@ -52,7 +58,15 @@ namespace Portfolio.Core.Requests.Activities.GetActivityById
 							   .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)
 						   ?? throw new NotFoundException($"Мероприятие с Id: {request.Id} не найдено");
 
+			var (canEdit, canCreateParticipationActivity) = GetActivityStatuses();
+
+			response.CanEdit = canEdit;
+			response.CanCreateParticipationActivity = canCreateParticipationActivity;
+
 			return response;
 		}
+
+		private (bool CanEdit, bool CanCreateParticipationActivity) GetActivityStatuses()
+			=> _userContext.CurrentUserRoleName == DefaultRoles.StudentName ? (false, true) : (true, false);
 	}
 }

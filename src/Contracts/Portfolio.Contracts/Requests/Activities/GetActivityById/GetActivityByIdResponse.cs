@@ -51,5 +51,15 @@ namespace Portfolio.Contracts.Requests.Activities.GetActivityById
 		/// Описание
 		/// </summary>
 		public string? Description { get; set; }
+
+		/// <summary>
+		/// Может ли пользователь редактировать мероприятие
+		/// </summary>
+		public bool CanEdit { get; set; }
+
+		/// <summary>
+		/// Может ли пользователь создать участие в мероприятии
+		/// </summary>
+		public bool CanCreateParticipationActivity { get; set; }
 	}
 }

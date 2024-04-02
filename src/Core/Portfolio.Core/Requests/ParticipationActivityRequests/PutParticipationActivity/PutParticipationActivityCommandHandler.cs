@@ -44,6 +44,8 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PutParticipation
 			await _authorizationService.CheckPrivilegeAsync(Privileges.ParticipationActivityUpdate, cancellationToken);
 
 			var participationActivity = await _dbContext.Participations
+				.Include(x => x.Portfolio)
+					.ThenInclude(y => y.Participations)
 				.Include(x => x.Activity)
 				.Include(x => x.ParticipationActivityDocument)
 				.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken)

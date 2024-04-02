@@ -317,13 +317,36 @@ namespace Portfolio.Domain.Entities
 		/// <param name="participation">Участие в мероприятии</param>
 		public void AddParticipationActivity(ParticipationActivity participation)
 		{
+			ArgumentNullException.ThrowIfNull(participation);
+
 			if (_participations == null)
-				throw new NotIncludedException("Список участий в мероприятиях");
+				throw new NotIncludedException(nameof(_participations));
+
+			if (participation.ActivityId.HasValue && participation.Activity == null)
+				throw new NotIncludedException(nameof(participation.Activity));
 
 			if (_participations.Count(x => x.Status == ParticipationActivityStatus.Draft) + 1 > MAXPARTICIPATIONACTIVITYDRAFTS)
 				throw new ApplicationExceptionBase("У вас не может быть более 5 черновиков участий в мероприятиях");
 
+			if (participation.ActivityId.HasValue
+				&& IsExistParticipationActivity(participation.Activity!))
+				throw new ApplicationExceptionBase("Для данного мероприятия уже существует заявка");
+
 			_participations.Add(participation);
+		}
+
+		/// <summary>
+		/// Есть ли в портфолио заявка на данное мероприятие
+		/// </summary>
+		/// <param name="activity">Мероприятие</param>
+		public bool IsExistParticipationActivity(Activity activity)
+		{
+			ArgumentNullException.ThrowIfNull(activity);
+
+			if (_participations == null)
+				throw new NotIncludedException(nameof(_participations));
+
+			return _participations.Any(x => x.ActivityId == activity.Id);
 		}
 	}
 }

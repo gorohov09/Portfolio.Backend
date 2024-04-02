@@ -53,9 +53,11 @@ namespace Portfolio.Domain.Entities
 		/// Конструктор
 		/// </summary>
 		/// <param name="portfolio">Портфолио</param>
-		public ParticipationActivity(MyPortfolio portfolio)
+		/// <param name="activity">Мероприятие</param>
+		public ParticipationActivity(
+			Activity? activity = null)
 		{
-			Portfolio = portfolio;
+			Activity = activity;
 			Status = ParticipationActivityStatus.Draft;
 		}
 
@@ -276,14 +278,23 @@ namespace Portfolio.Domain.Entities
 			Activity? activity = default,
 			File? file = default)
 		{
+			if (_portfolio == null)
+				throw new NotIncludedException(nameof(_portfolio));
+
 			if (result != null && Result != result)
 				Result = result;
 			if (date != null && Date != date.Value.ToUniversalTime())
 				Date = date.Value.ToUniversalTime();
 			if (description != null && Description != description)
 				Description = description;
-			if (activity != null && ActivityId != activity.Id)
+			if (activity != null
+				&& ActivityId != activity.Id)
+			{
+				if (_portfolio.IsExistParticipationActivity(activity))
+					throw new ApplicationExceptionBase("Для данного мероприятия уже существует заявка");
+
 				Activity = activity;
+			}
 
 			if (file != null && file.Id != ParticipationActivityDocument?.FileId)
 			{

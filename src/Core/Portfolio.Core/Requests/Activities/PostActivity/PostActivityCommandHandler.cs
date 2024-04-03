@@ -47,7 +47,7 @@ namespace Portfolio.Core.Requests.Activities.PostActivity
 				type: request.Type,
 				level: request.Level,
 				startDate: request.StartDate,
-				endDate: request.StartDate,
+				endDate: request.EndDate,
 				location: request.Location,
 				link: request.Link,
 				description: request.Description);

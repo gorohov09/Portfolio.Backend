@@ -43,11 +43,6 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasColumnName("description")
                         .HasComment("Описание");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("end_date")
-                        .HasComment("Дата окончания");
-
                     b.Property<int>("Level")
                         .HasColumnType("integer")
                         .HasColumnName("level")
@@ -78,11 +73,6 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("section")
                         .HasComment("Вид");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("start_date")
-                        .HasComment("Дата начала");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer")
@@ -320,6 +310,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("address");
+
+                    b.Property<int>("Bucket")
+                        .HasColumnType("integer")
+                        .HasColumnName("bucket");
 
                     b.Property<string>("ContentType")
                         .HasColumnType("text")
@@ -772,6 +766,18 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasColumnName("email")
                         .HasComment("Электронная почта");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("first_name")
+                        .HasComment("Имя");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("last_name")
+                        .HasComment("Фамилия");
+
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text")
@@ -798,6 +804,11 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("role_id")
                         .HasComment("Идентификатор роли");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("text")
+                        .HasColumnName("surname")
+                        .HasComment("Отчество");
 
                     b.HasKey("Id")
                         .HasName("pk_user");
@@ -826,6 +837,38 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.ToTable("participation_activity_document", "public");
 
                     b.HasComment("Подтверждающий документ участия в мероприятии");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.Activity", b =>
+                {
+                    b.OwnsOne("Portfolio.Domain.ValueObjects.Period", "Period", b1 =>
+                        {
+                            b1.Property<Guid>("ActivityId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<DateTime>("EndDate")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("period_end_date")
+                                .HasComment("Дата окончания");
+
+                            b1.Property<DateTime>("StartDate")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("period_start_date")
+                                .HasComment("Дата начала");
+
+                            b1.HasKey("ActivityId");
+
+                            b1.ToTable("activity", "public");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ActivityId")
+                                .HasConstraintName("fk_activity_activity_id");
+                        });
+
+                    b.Navigation("Period")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.BaseDocument", b =>

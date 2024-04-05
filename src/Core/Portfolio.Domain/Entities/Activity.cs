@@ -1,5 +1,6 @@
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
+using Portfolio.Domain.ValueObjects;
 
 namespace Portfolio.Domain.Entities
 {
@@ -17,8 +18,6 @@ namespace Portfolio.Domain.Entities
 		private ActivitySections _section;
 		private ActivityTypes _type;
 		private ActivityLevel _level;
-		private DateTime _startDate;
-		private DateTime _endDate;
 		private List<ParticipationActivity>? _participations;
 
 		/// <summary>
@@ -48,8 +47,7 @@ namespace Portfolio.Domain.Entities
 			Section = section;
 			Type = type;
 			Level = level;
-			StartDate = startDate;
-			EndDate = endDate;
+			Period = new Period(startDate, endDate);
 			Location = location;
 			Link = link;
 			Description = description;
@@ -70,7 +68,7 @@ namespace Portfolio.Domain.Entities
 		public string Name
 		{
 			get => _name;
-			set => _name = string.IsNullOrWhiteSpace(value)
+			private set => _name = string.IsNullOrWhiteSpace(value)
 				? throw new RequiredFieldNotSpecifiedException("Имя")
 				: value;
 		}
@@ -81,7 +79,7 @@ namespace Portfolio.Domain.Entities
 		public ActivitySections Section
 		{
 			get => _section;
-			set => _section = value == default
+			private set => _section = value == default
 				? throw new RequiredFieldNotSpecifiedException("Вид")
 				: value;
 		}
@@ -92,7 +90,7 @@ namespace Portfolio.Domain.Entities
 		public ActivityTypes Type
 		{
 			get => _type;
-			set => _type = value == default
+			private set => _type = value == default
 				? throw new RequiredFieldNotSpecifiedException("Тип")
 				: value;
 		}
@@ -103,47 +101,30 @@ namespace Portfolio.Domain.Entities
 		public ActivityLevel Level
 		{
 			get => _level;
-			set => _level = value == default
+			private set => _level = value == default
 				? throw new RequiredFieldNotSpecifiedException("Уровень")
 				: value;
 		}
 
 		/// <summary>
-		/// Дата начала
+		/// Период
 		/// </summary>
-		public DateTime StartDate
-		{
-			get => _startDate;
-			set => _startDate = value == default
-				? throw new RequiredFieldNotSpecifiedException("Дата начала")
-				: value;
-		}
-
-		/// <summary>
-		/// Дата окончания
-		/// </summary>
-		public DateTime EndDate
-		{
-			get => _endDate;
-			set => _endDate = value == default
-				? throw new RequiredFieldNotSpecifiedException("Дата окончания")
-				: value;
-		}
+		public Period Period { get; private set; }
 
 		/// <summary>
 		/// Место
 		/// </summary>
-		public string? Location { get; set; }
+		public string? Location { get; private set; }
 
 		/// <summary>
 		/// Ссылка на официальную информацию
 		/// </summary>
-		public string? Link { get; set; }
+		public string? Link { get; private set; }
 
 		/// <summary>
 		/// Описание
 		/// </summary>
-		public string? Description { get; set; }
+		public string? Description { get; private set; }
 
 		#region Navigation properties
 
@@ -153,5 +134,48 @@ namespace Portfolio.Domain.Entities
 		public IReadOnlyList<ParticipationActivity>? Participations => _participations;
 
 		#endregion
+
+		/// <summary>
+		/// Добавить/Обновить информацию об мероприятии
+		/// </summary>
+		/// <param name="name">Имя</param>
+		/// <param name="section">Вид</param>
+		/// <param name="type">Тип</param>
+		/// <param name="level">Уровень</param>
+		/// <param name="startDate">Дата начала</param>
+		/// <param name="endDate">Дата окончания</param>
+		/// <param name="location">Место</param>
+		/// <param name="link">Ссылка на официальную информацию</param>
+		/// <param name="description">Описание</param>
+		public void UpsertInformation(
+			string? name = default,
+			ActivitySections? section = default,
+			ActivityTypes? type = default,
+			ActivityLevel? level = default,
+			DateTime? startDate = default,
+			DateTime? endDate = default,
+			string? location = default,
+			string? link = default,
+			string? description = default)
+		{
+			if (name != null && Name != name)
+				Name = name;
+			if (section != null && Section != section)
+				Section = section.Value;
+			if (type != null && Type != type)
+				Type = type.Value;
+			if (level != null && Level != level)
+				Level = level.Value;
+			if (startDate != null && Period.StartDate != startDate.Value.ToUniversalTime())
+				Period.StartDate = startDate.Value.ToUniversalTime();
+			if (endDate != null && Period.EndDate != endDate.Value.ToUniversalTime())
+				Period.StartDate = endDate.Value.ToUniversalTime();
+			if (location != null && Location != location)
+				Location = location;
+			if (link != null && Link != link)
+				Link = link;
+			if (description != null && Description != description)
+				Description = description;
+		}
 	}
 }

@@ -33,9 +33,19 @@ namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticip
 		public string? Description { get; set; }
 
 		/// <summary>
+		/// Мероприятие
+		/// </summary>
+		public GetParticipationActivityByIdResponseActivity? Activity { get; set; }
+
+		/// <summary>
 		/// Документ, подтверждающий участие в мероприятии
 		/// </summary>
 		public GetParticipationActivityByIdResponseDocument? Document { get; set; }
+
+		/// <summary>
+		/// Комментарий от проектного менеджера в случае отказа
+		/// </summary>
+		public string? Comment { get; set; }
 
 		/// <summary>
 		/// Флаг обозначающий, может ли пользователь редактировать сущность

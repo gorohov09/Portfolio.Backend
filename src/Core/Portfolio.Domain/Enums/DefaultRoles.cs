@@ -48,6 +48,9 @@ namespace Portfolio.Domain.Enums
 				{
 					Privileges.ParticipationActivityUpdate,
 					Privileges.ParticipationActivitySendRevision,
+					Privileges.ParticipationActivityConfirm,
+					Privileges.ActivityCreated,
+					Privileges.ActivityUpdated,
 				},
 			};
 

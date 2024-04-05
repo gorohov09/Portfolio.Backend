@@ -1,7 +1,7 @@
 namespace Portfolio.Contracts.Requests.AuthenticationRequests.Login
 {
 	/// <summary>
-	/// Ответ на команду <see cref="LoginRequest"/>
+	/// Ответ на запрос <see cref="LoginRequest"/>
 	/// </summary>
 	public class LoginResponse
 	{
@@ -12,10 +12,12 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.Login
 		/// <param name="token">Токен авторизации</param>
 		public LoginResponse(
 			Guid userId,
+			string fullName,
 			string role,
 			string token)
 		{
 			UserId = userId;
+			FullName = fullName;
 			Role = role;
 			Token = token;
 		}
@@ -24,6 +26,11 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.Login
 		/// Id пользователя
 		/// </summary>
 		public Guid UserId { get; }
+
+		/// <summary>
+		/// ФИО
+		/// </summary>
+		public string FullName { get; }
 
 		/// <summary>
 		/// Роль пользователя

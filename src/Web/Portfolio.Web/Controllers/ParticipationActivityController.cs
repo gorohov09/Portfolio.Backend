@@ -1,11 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Contracts.Requests.ParticipationActivityRequests.ConfirmParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticipationActivityById;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticipationActivityList;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.PostParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.PutParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.SendRevisionParticipationActivity;
 using Portfolio.Contracts.Requests.ParticipationActivityRequests.SubmitParticipationActivity;
+using Portfolio.Core.Requests.ParticipationActivityRequests.ConfirmParticipationActivity;
 using Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipationActivityById;
 using Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipationActivityList;
 using Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipationActivity;
@@ -62,15 +64,20 @@ namespace Portfolio.Web.Controllers
 		/// Создать участие в мероприятии
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Объект запроса</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		[HttpPost]
 		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(PostParticipationActivityResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
 		public async Task<PostParticipationActivityResponse> CreateParticipationActivityAsync(
 			[FromServices] IMediator mediator,
+			[FromBody] PostParticipationActivityRequest request,
 			CancellationToken cancellationToken)
 			=> await mediator.Send(
-				new PostParticipationActivityCommand(),
+				new PostParticipationActivityCommand
+				{
+					ActivityId = request.ActivityId,
+				},
 				cancellationToken);
 
 		/// <summary>
@@ -145,6 +152,30 @@ namespace Portfolio.Web.Controllers
 					ActivityId = request.ActivityId,
 					FileId = request.FileId,
 					Result = request.Result,
+				},
+				cancellationToken);
+
+			return NoContent();
+		}
+
+		/// <summary>
+		/// Одобрить участие в мероприятии
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Запрос</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		[HttpPost("Confirm")]
+		[SwaggerResponse(StatusCodes.Status200OK)]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<NoContentResult> ConfirmParticipationActivityAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] ConfirmParticipationActivityRequest request,
+			CancellationToken cancellationToken)
+		{
+			await mediator.Send(
+				new ConfirmParticipationActivityCommand
+				{
+					Id = request.Id,
 				},
 				cancellationToken);
 

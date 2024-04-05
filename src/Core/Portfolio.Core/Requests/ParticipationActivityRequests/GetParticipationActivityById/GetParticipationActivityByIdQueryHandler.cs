@@ -55,14 +55,22 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipation
 				Result = participationActivity.Result,
 				Date = participationActivity.Date,
 				Description = participationActivity.Description,
+				Activity = participationActivity.Activity != null
+				? new GetParticipationActivityByIdResponseActivity
+				{
+					Id = participationActivity.Activity.Id,
+					Name = participationActivity.Activity.Name,
+				}
+				: default,
 				Document = participationActivity.ParticipationActivityDocument != null
 				? new GetParticipationActivityByIdResponseDocument
 				{
-					Id = participationActivity.ParticipationActivityDocument.Id,
+					Id = participationActivity.ParticipationActivityDocument.File!.Id,
 					Name = participationActivity.ParticipationActivityDocument.File!.FileName,
 					Address = participationActivity.ParticipationActivityDocument.File.Address,
 				}
 				: default,
+				Comment = participationActivity.Comment,
 				CanEdit = GetCanEdit(participationActivity, _userContext.CurrentUserId),
 			};
 		}

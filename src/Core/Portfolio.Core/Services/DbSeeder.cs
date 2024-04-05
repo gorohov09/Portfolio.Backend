@@ -30,6 +30,7 @@ namespace Portfolio.Core.Services
 			await SeedInstitutesAndFacultiesAsync(dbContext, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken);
 			await SeedTestUsersAsync(dbContext, cancellationToken);
+			await SeedActivitiesAsync(dbContext, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken);
 		}
 
@@ -140,6 +141,30 @@ namespace Portfolio.Core.Services
 				return;
 
 			await dbContext.Users.AddRangeAsync(user, user2, user3);
+		}
+
+		private async Task SeedActivitiesAsync(IDbContext dbContext, CancellationToken cancellationToken)
+		{
+			var activity = new Activity(
+				name: "Олимпиада - Я профессионал",
+				section: ActivitySections.ScientificAndEducational,
+				type: ActivityTypes.Olympiad,
+				level: ActivityLevel.Country,
+				startDate: new DateTime(2023, 9, 1).ToUniversalTime(),
+				endDate: new DateTime(2024, 5, 30).ToUniversalTime());
+
+			var activity2 = new Activity(
+				name: "Крылья России",
+				section: ActivitySections.ScientificAndEducational,
+				type: ActivityTypes.Сonference,
+				level: ActivityLevel.Country,
+				startDate: new DateTime(2023, 9, 1).ToUniversalTime(),
+				endDate: new DateTime(2023, 9, 3).ToUniversalTime());
+
+			if (!await dbContext.Activities.AnyAsync(cancellationToken: cancellationToken))
+			{
+				await dbContext.Activities.AddRangeAsync(activity, activity2);
+			}
 		}
 
 		private static string GetDefaultValueDescription(string fieldName, Type enumWithDefaultValue)

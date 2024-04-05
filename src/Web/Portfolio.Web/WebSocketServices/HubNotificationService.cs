@@ -23,7 +23,7 @@ namespace Portfolio.Web.WebSocketServices
 		/// Отправить новое уведомление в SignalR
 		/// </summary>
 		/// <param name="notification">Сообщение</param>
-		/// <param name="usersId">Идентификатор получателя</param>
+		/// <param name="userId">Идентификатор получателя</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>-</returns>
 		public async Task SendNewNotificationAsync(

@@ -48,7 +48,17 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipatio
 				.FirstOrDefaultAsync(x => x.UserId == _userContext.CurrentUserId, cancellationToken)
 				?? throw new NotFoundException($"У пользователя с Id: {_userContext.CurrentUserId} не найдено портфолио");
 
-			var participationActivity = new ParticipationActivity(portfolio);
+			var activity = request.ActivityId.HasValue
+				? await _dbContext.Activities
+					  .FirstOrDefaultAsync(
+						x => x.Id == request.ActivityId,
+						cancellationToken: cancellationToken)
+				  ?? throw new NotFoundException($"Не найдено мероприятие с Id: {request.ActivityId}")
+				: null;
+
+			var participationActivity = new ParticipationActivity(
+				activity: activity);
+
 			portfolio.AddParticipationActivity(participationActivity);
 
 			await _dbContext.SaveChangesAsync(cancellationToken);

@@ -40,11 +40,15 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
 			var participation = notification.Participation
 				?? throw new ArgumentNullException(nameof(notification));
 
-			var mostFreeManager = await _dbContext.Users
-				.Where(x => x.RoleId == DefaultRoles.ManagerId)
-				.OrderBy(x => x.CheckParticipationActivites!.Count(x => x.Status == ParticipationActivityStatus.Submitted))
-				.FirstOrDefaultAsync(cancellationToken: cancellationToken)
-				?? throw new NotFoundException($"Самый свободный менеджер не найден");
+			var mostFreeManager = notification.IsRepeatSubmit && participation.ManagerUserId.HasValue
+				? await _dbContext.Users
+					.FirstOrDefaultAsync(x => x.Id == participation.ManagerUserId, cancellationToken: cancellationToken)
+					?? throw new NotFoundException($"Менеджер по Id: {participation.ManagerUserId} не найден")
+				: await _dbContext.Users
+					.Where(x => x.RoleId == DefaultRoles.ManagerId)
+					.OrderBy(x => x.CheckParticipationActivites!.Count(x => x.Status == ParticipationActivityStatus.Submitted))
+					.FirstOrDefaultAsync(cancellationToken: cancellationToken)
+					?? throw new NotFoundException($"Самый свободный менеджер не найден");
 
 			participation.ManagerUser = mostFreeManager;
 

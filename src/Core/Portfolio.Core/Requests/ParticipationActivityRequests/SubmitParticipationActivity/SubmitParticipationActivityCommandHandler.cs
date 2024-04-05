@@ -49,7 +49,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.SubmitParticipat
 			if (participationActivity.CreatedByUserId != _userContext.CurrentUserId)
 				throw new ApplicationExceptionBase("Подать может только пользователь, создавший - Участие в мероприятие ");
 
-			participationActivity.Submit();
+			participationActivity.Submit(currentDate: DateTime.UtcNow);
 
 			await _dbContext.SaveChangesAsync(cancellationToken);
 			return default;

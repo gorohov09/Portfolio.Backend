@@ -63,7 +63,11 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.Login
 			var claims = _claimsIdentityFactory.CreateClaimsIdentity(user);
 			var token = _tokenAuthenticationService.CreateToken(claims, TokenTypes.Auth);
 
-			return new LoginResponse(userId: user.Id, role: user.Role!.ToRoleName(), token: token);
+			return new LoginResponse(
+				userId: user.Id,
+				fullName: user.FullName,
+				role: user.Role!.ToRoleName(),
+				token: token);
 		}
 	}
 }

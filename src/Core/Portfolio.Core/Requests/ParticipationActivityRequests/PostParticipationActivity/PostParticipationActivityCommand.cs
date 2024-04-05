@@ -6,7 +6,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.PostParticipatio
 	/// <summary>
 	/// Команда на создание участия в мероприятии
 	/// </summary>
-	public class PostParticipationActivityCommand : IRequest<PostParticipationActivityResponse>
+	public class PostParticipationActivityCommand : PostParticipationActivityRequest, IRequest<PostParticipationActivityResponse>
 	{
 	}
 }

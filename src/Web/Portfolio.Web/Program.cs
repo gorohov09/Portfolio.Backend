@@ -1,9 +1,9 @@
-using Microsoft.Extensions.Configuration;
 using Portfolio.Core;
 using Portfolio.Data.PostgreSql;
 using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Hubs;
+using Portfolio.Web.Logging;
 using Portfolio.Web.Swagger;
 using Portfolio.Web.WebSocketServices;
 using Portfolio.Worker;
@@ -26,7 +26,7 @@ services
 	.AddSignaler()
 	.AddCors(options => options.AddPolicy(
 		"AllowOrigin",
-		builder => builder.WithOrigins("http://localhost:3000")
+		builder => builder.WithOrigins("http://localhost:5173")
 						  .AllowAnyHeader()
 						  .AllowAnyMethod()
 						  .AllowCredentials()));
@@ -55,6 +55,8 @@ var app = builder.Build();
 	app.UseHangfireWorker(configuration.GetSection("Hangfire").Get<HangfireOptions>());
 
 	app.UseSignalRQueryStringAuth();
+
+	app.UseExceptionHandling();
 
 	app.UseAuthentication();
 

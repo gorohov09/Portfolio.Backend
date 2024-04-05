@@ -54,6 +54,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 				Faculty = portfolio.Faculty != null
 					? new FacultyResponse
 					{
+						Id = portfolio.Faculty.Id,
 						FullName = portfolio.Faculty.FullName,
 						ShortName = portfolio.Faculty.ShortName,
 					}
@@ -66,6 +67,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 					}
 					: null,
 				EducationLevel = portfolio.EducationLevel,
+				GroupNumber = portfolio.GroupNumber,
 			};
 		}
 	}

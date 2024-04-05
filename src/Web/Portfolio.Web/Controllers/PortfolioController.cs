@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
 using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
@@ -48,7 +49,7 @@ namespace Portfolio.Web.Controllers
 			ArgumentNullException.ThrowIfNull(request);
 
 			await mediator.Send(
-				new AddOrUpdateEducationInformationRequest
+				new AddOrUpdateEducationInformationCommand
 				{
 					EducationLevel = request.EducationLevel,
 					FacultyId = request.FacultyId,

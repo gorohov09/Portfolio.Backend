@@ -53,9 +53,11 @@ namespace Portfolio.Domain.Entities
 		/// Конструктор
 		/// </summary>
 		/// <param name="portfolio">Портфолио</param>
-		public ParticipationActivity(MyPortfolio portfolio)
+		/// <param name="activity">Мероприятие</param>
+		public ParticipationActivity(
+			Activity? activity = null)
 		{
-			Portfolio = portfolio;
+			Activity = activity;
 			Status = ParticipationActivityStatus.Draft;
 		}
 
@@ -221,7 +223,8 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Подать участие в мероприятии на рассмотрение
 		/// </summary>
-		public void Submit()
+		/// <param name="currentDate">Текущая дата</param
+		public void Submit(DateTime currentDate)
 		{
 			if (Status is not ParticipationActivityStatus.Draft
 				and not ParticipationActivityStatus.SentRevision)
@@ -236,6 +239,12 @@ namespace Portfolio.Domain.Entities
 
 			if (ParticipationActivityDocument == null || ParticipationActivityDocument.IsDeleted)
 				throw new RequiredFieldNotSpecifiedException("Необходимо прикрепить подтверждающий документ");
+
+			if (Activity.Period.EndDate > currentDate)
+				throw new RequiredFieldNotSpecifiedException("Невозможно подать заявку на мероприятие, которое еще не закончилось");
+
+			if (Date < Activity.Period.StartDate || Date > Activity.Period.EndDate)
+				throw new RequiredFieldNotSpecifiedException("Дата участия не совпадает с датами мероприятия");
 
 			var isRepeatSubmit = Status == ParticipationActivityStatus.SentRevision;
 
@@ -276,14 +285,23 @@ namespace Portfolio.Domain.Entities
 			Activity? activity = default,
 			File? file = default)
 		{
+			if (_portfolio == null)
+				throw new NotIncludedException(nameof(_portfolio));
+
 			if (result != null && Result != result)
 				Result = result;
 			if (date != null && Date != date.Value.ToUniversalTime())
 				Date = date.Value.ToUniversalTime();
 			if (description != null && Description != description)
 				Description = description;
-			if (activity != null && ActivityId != activity.Id)
+			if (activity != null
+				&& ActivityId != activity.Id)
+			{
+				if (_portfolio.IsExistParticipationActivity(activity))
+					throw new ApplicationExceptionBase("Для данного мероприятия уже существует заявка");
+
 				Activity = activity;
+			}
 
 			if (file != null && file.Id != ParticipationActivityDocument?.FileId)
 			{

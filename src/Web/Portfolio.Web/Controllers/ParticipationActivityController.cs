@@ -64,15 +64,20 @@ namespace Portfolio.Web.Controllers
 		/// Создать участие в мероприятии
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="request">Объект запроса</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		[HttpPost]
 		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(PostParticipationActivityResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
 		public async Task<PostParticipationActivityResponse> CreateParticipationActivityAsync(
 			[FromServices] IMediator mediator,
+			[FromBody] PostParticipationActivityRequest request,
 			CancellationToken cancellationToken)
 			=> await mediator.Send(
-				new PostParticipationActivityCommand(),
+				new PostParticipationActivityCommand
+				{
+					ActivityId = request.ActivityId,
+				},
 				cancellationToken);
 
 		/// <summary>

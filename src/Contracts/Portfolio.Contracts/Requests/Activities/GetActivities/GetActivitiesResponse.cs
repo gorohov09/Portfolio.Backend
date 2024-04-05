@@ -1,17 +1,17 @@
-namespace Portfolio.Contracts.Requests.Activities.GetActivitiesNames
+namespace Portfolio.Contracts.Requests.Activities.GetActivities
 {
 	/// <summary>
-	/// Ответ на получение списка названий мероприятий
+	/// Ответ на получение списка мероприятий
 	/// </summary>
-	public class GetActivitiesNamesResponse
+	public class GetActivitiesResponse
 	{
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="entities">Список сущностей</param>
 		/// <param name="totalCount">Колличество сущностей</param>
-		public GetActivitiesNamesResponse(
-			List<GetActivitiesNamesResponseItem> entities,
+		public GetActivitiesResponse(
+			List<GetActivitiesResponseItem> entities,
 			int totalCount)
 		{
 			Entities = entities;
@@ -21,7 +21,7 @@ namespace Portfolio.Contracts.Requests.Activities.GetActivitiesNames
 		/// <summary>
 		/// Список сущностей
 		/// </summary>
-		public List<GetActivitiesNamesResponseItem> Entities { get; }
+		public List<GetActivitiesResponseItem> Entities { get; }
 
 		/// <summary>
 		/// Колличество сущностей

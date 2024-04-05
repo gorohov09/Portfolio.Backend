@@ -26,6 +26,11 @@ namespace Portfolio.Domain.Entities
 		/// </summary>
 		public const string CheckParticipationActivitesField = nameof(_checkParticipationActivites);
 
+		/// <summary>
+		/// Поле для <see cref="_notifications"/>
+		/// </summary>
+		public const string NotificationsField = nameof(_notifications);
+
 		private string _lastName;
 		private string _firstName;
 		private string _surname;
@@ -36,6 +41,7 @@ namespace Portfolio.Domain.Entities
 		private List<ParticipationActivity>? _createdParticipationActivites;
 		private List<ParticipationActivity>? _modifiedParticipationActivites;
 		private List<ParticipationActivity>? _checkParticipationActivites;
+		private List<Notification>? _notifications;
 
 		/// <summary>
 		/// Конструткор
@@ -73,6 +79,7 @@ namespace Portfolio.Domain.Entities
 			_createdParticipationActivites = new List<ParticipationActivity>();
 			_modifiedParticipationActivites = new List<ParticipationActivity>();
 			_checkParticipationActivites = new List<ParticipationActivity>();
+			_notifications = new List<Notification>();
 		}
 
 		/// <summary>
@@ -177,6 +184,11 @@ namespace Portfolio.Domain.Entities
 		/// Участия в мероприятиях, которые нужно проверить данному пользователю
 		/// </summary>
 		public IReadOnlyList<ParticipationActivity>? CheckParticipationActivites => _checkParticipationActivites;
+
+		/// <summary>
+		/// Уведомления пользователя
+		/// </summary>
+		public IReadOnlyList<Notification>? Notifications => _notifications;
 
 		#endregion
 

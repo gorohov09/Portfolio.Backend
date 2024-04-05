@@ -69,10 +69,17 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasPrincipalKey(x => x.Id)
 				.OnDelete(DeleteBehavior.ClientCascade);
 
+			builder.HasMany(x => x.Notifications)
+				.WithOne(y => y.User)
+				.HasForeignKey(y => y.UserId)
+				.HasPrincipalKey(x => x.Id)
+				.OnDelete(DeleteBehavior.ClientCascade);
+
 			builder.SetPropertyAccessModeField(x => x.Role, User.RoleField);
 			builder.SetPropertyAccessModeField(x => x.CreatedParticipationActivites, User.CreatedParticipationActivitesField);
 			builder.SetPropertyAccessModeField(x => x.ModifiedParticipationActivites, User.ModifiedParticipationActivitesField);
 			builder.SetPropertyAccessModeField(x => x.CheckParticipationActivites, User.CheckParticipationActivitesField);
+			builder.SetPropertyAccessModeField(x => x.Notifications, User.NotificationsField);
 		}
 	}
 }

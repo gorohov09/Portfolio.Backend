@@ -1,17 +1,17 @@
-namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticipationActivityList
+namespace Portfolio.Contracts.Requests.NotificationRequests.GetNotificationList
 {
 	/// <summary>
-	/// Ответ на получение списка участий в мероприятии
+	/// Ответ на получение списка уведомлений пользователя
 	/// </summary>
-	public class GetParticipationActivityListResponse
+	public class GetNotificationListResponse
 	{
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="entities">Список сущностей</param>
 		/// <param name="totalCount">Количество сущностей</param>
-		public GetParticipationActivityListResponse(
-			List<GetParticipationActivityListResponseItem> entities,
+		public GetNotificationListResponse(
+			List<GetNotificationListResponseItem> entities,
 			int totalCount)
 		{
 			Entities = entities;
@@ -21,10 +21,10 @@ namespace Portfolio.Contracts.Requests.ParticipationActivityRequests.GetParticip
 		/// <summary>
 		/// Список сущностей
 		/// </summary>
-		public List<GetParticipationActivityListResponseItem> Entities { get; }
+		public List<GetNotificationListResponseItem> Entities { get; }
 
 		/// <summary>
-		/// Колличество сущностей
+		/// Количество сущностей
 		/// </summary>
 		public int TotalCount { get; set; }
 	}

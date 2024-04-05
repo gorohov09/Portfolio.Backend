@@ -57,6 +57,8 @@ namespace Portfolio.Data.PostgreSql
 
 		public DbSet<EmailMessage> EmailMessages { get; set; }
 
+		public DbSet<Notification> Notifications { get; set; }
+
 		/// <inheritdoc/>
 		public bool IsInMemory => Database.IsInMemory();
 

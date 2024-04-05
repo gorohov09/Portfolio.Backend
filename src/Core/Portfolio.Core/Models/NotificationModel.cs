@@ -3,7 +3,7 @@ using Portfolio.Domain.Enums;
 namespace Portfolio.Core.Models
 {
 	/// <summary>
-	/// Уведомление для SignalR
+	/// Модель уведомления для SignalR
 	/// </summary>
 	public class NotificationModel
 	{

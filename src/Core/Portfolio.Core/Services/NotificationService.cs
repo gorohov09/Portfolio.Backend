@@ -47,13 +47,12 @@ namespace Portfolio.Core.Services
 			var usersNotificationsQuery = _dbContext.Notifications.Where(notification => notification.UserId == userId);
 
 			if (filter != null && filter.IsRead.HasValue)
-			{
-				return await usersNotificationsQuery
-					.Where(notification => notification.IsRead == filter.IsRead)
-					.ToListAsync(cancellationToken);
-			}
+				usersNotificationsQuery = usersNotificationsQuery
+					.Where(notification => notification.IsRead == filter.IsRead);
 
-			return await usersNotificationsQuery.ToListAsync(cancellationToken);
+			return await usersNotificationsQuery
+				.OrderByDescending(x => x.CreatedOn)
+				.ToListAsync(cancellationToken);
 		}
 
 		/// <summary>

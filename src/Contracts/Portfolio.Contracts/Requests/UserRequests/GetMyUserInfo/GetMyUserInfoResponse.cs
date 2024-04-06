@@ -11,6 +11,11 @@ namespace Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo
 		public string Login { get; set; } = default!;
 
 		/// <summary>
+		/// ФИО пользователя
+		/// </summary>
+		public string FullName { get; set; } = default!;
+
+		/// <summary>
 		/// Почтовый адрес
 		/// </summary>
 		public string Email { get; set; } = default!;
@@ -29,5 +34,10 @@ namespace Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo
 		/// Дата регистрации
 		/// </summary>
 		public DateTime CreatedOn { get; set; }
+
+		/// <summary>
+		/// Количество непрочитанных уведомлений
+		/// </summary>
+		public int NotificationCount { get; set; }
 	}
 }

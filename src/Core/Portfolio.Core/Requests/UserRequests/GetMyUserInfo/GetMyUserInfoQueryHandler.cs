@@ -34,16 +34,19 @@ namespace Portfolio.Core.Requests.UserRequests.GetMyUserInfo
 		{
 			var user = await _dbContext.Users
 				.Include(x => x.Role)
+				.Include(x => x.Notifications!.Where(x => !x.IsRead))
 				.FirstOrDefaultAsync(x => x.Id == _userContext.CurrentUserId, cancellationToken)
 				?? throw new NotFoundException($"Пользователь с Id: {_userContext.CurrentUserId} не найден");
 
 			return new GetMyUserInfoResponse
 			{
 				Login = user.Login,
+				FullName = user.FullName,
 				Email = user.Email,
 				RoleName = user.Role!.Name,
 				Phone = user.Phone,
 				CreatedOn = user.CreatedOn,
+				NotificationCount = user.GetUnreadNotificationCount(),
 			};
 		}
 	}

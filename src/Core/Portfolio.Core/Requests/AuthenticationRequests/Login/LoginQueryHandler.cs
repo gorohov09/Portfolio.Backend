@@ -65,7 +65,6 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.Login
 
 			return new LoginResponse(
 				userId: user.Id,
-				fullName: user.FullName,
 				role: user.Role!.ToRoleName(),
 				token: token);
 		}

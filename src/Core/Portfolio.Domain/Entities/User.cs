@@ -216,5 +216,13 @@ namespace Portfolio.Domain.Entities
 			if (phone != null && Phone != phone)
 				Phone = phone;
 		}
+
+		public int GetUnreadNotificationCount()
+		{
+			if (_notifications == null)
+				throw new NotIncludedException(nameof(_notifications));
+
+			return _notifications.Count(x => !x.IsRead);
+		}
 	}
 }

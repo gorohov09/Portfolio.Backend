@@ -16,7 +16,7 @@ namespace Portfolio.Web.Controllers
 	public class UserController : ApiControllerBase
 	{
 		/// <summary>
-		/// Получить свою контактную информацию
+		/// Получить информацию о пользователе
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
 		/// <param name="cancellationToken">Токен отмены</param>

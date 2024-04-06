@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Portfolio.Core.Abstractions;
 using Portfolio.Core.Models;
+using Portfolio.Domain.Exceptions;
 using Portfolio.Web.Hubs;
 
 namespace Portfolio.Web.WebSocketServices
@@ -19,13 +20,7 @@ namespace Portfolio.Web.WebSocketServices
 		public HubNotificationService(IHubContext<NotificationsHub> hubContext)
 			=> _hubContext = hubContext;
 
-		/// <summary>
-		/// Отправить новое уведомление в SignalR
-		/// </summary>
-		/// <param name="notification">Сообщение</param>
-		/// <param name="userId">Идентификатор получателя</param>
-		/// <param name="cancellationToken">Токен отмены</param>
-		/// <returns>-</returns>
+		/// <inheritdoc/>
 		public async Task SendNewNotificationAsync(
 			NotificationModel notification,
 			Guid userId,
@@ -37,6 +32,22 @@ namespace Portfolio.Web.WebSocketServices
 				.SendAsync(
 					"Notifications",
 					notification,
+					cancellationToken);
+		}
+
+		/// <inheritdoc/>
+		public async Task SendReadNotificationAsync(
+			int countReadNotifications,
+			Guid userId,
+			CancellationToken cancellationToken)
+		{
+			if (countReadNotifications < 0)
+				throw new ApplicationExceptionBase("Нельзя прочитать отрицательное число сообщений");
+
+			await _hubContext.Clients.User(userId.ToString())
+				.SendAsync(
+					"NotificationsRead",
+					countReadNotifications,
 					cancellationToken);
 		}
 	}

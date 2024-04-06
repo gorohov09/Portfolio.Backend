@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Portfolio.Core.Abstractions;
 using Portfolio.Core.Models;
 using Portfolio.Domain.Entities;
+using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Core.Services
 {
@@ -71,8 +72,16 @@ namespace Portfolio.Core.Services
 				.Where(notification => notificationIds.Contains(notification.Id) && notification.UserId == userId)
 				.ToListAsync(cancellationToken);
 
+			if (notificationsToMarkAsRead.Any(x => x.IsRead))
+				throw new ApplicationExceptionBase("Нельзя прочитать прочитанное сообщение");
+
 			foreach (var notification in notificationsToMarkAsRead)
 				notification.IsRead = true;
+
+			await _hubNotificationService.SendReadNotificationAsync(
+					notificationsToMarkAsRead.Count,
+					userId: userId,
+					cancellationToken: cancellationToken);
 		}
 
 		/// <summary>

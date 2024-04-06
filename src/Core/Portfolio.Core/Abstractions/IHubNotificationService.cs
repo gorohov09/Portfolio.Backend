@@ -18,5 +18,17 @@ namespace Portfolio.Core.Abstractions
 			NotificationModel notification,
 			Guid userId,
 			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Отправить сообщение о том, что сообщение прочитали
+		/// </summary>
+		/// <param name="countReadNotifications">Количество прочитанных сообщений</param>
+		/// <param name="userId">Идентификатор получателя</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>-</returns>
+		Task SendReadNotificationAsync(
+			int countReadNotifications,
+			Guid userId,
+			CancellationToken cancellationToken);
 	}
 }

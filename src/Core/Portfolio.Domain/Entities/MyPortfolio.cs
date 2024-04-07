@@ -1,3 +1,4 @@
+using Portfolio.Domain.DomainEvents.PortfolioEvents;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 using Portfolio.Domain.ValueObjects;
@@ -216,6 +217,8 @@ namespace Portfolio.Domain.Entities
 				Surname = surname;
 			if (birthday.HasValue && Birthday != birthday)
 				Birthday = birthday.Value;
+
+			AddDomainEvent(new PortfolioChangedGeneralInformationDomainEvent(this));
 		}
 
 		/// <summary>

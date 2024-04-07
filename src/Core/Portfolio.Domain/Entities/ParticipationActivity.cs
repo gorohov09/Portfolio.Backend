@@ -1,5 +1,5 @@
 using Portfolio.Domain.Abstractions;
-using Portfolio.Domain.DomainEvents.ParticipationActivites;
+using Portfolio.Domain.DomainEvents.ParticipationActivityEvents;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 using Portfolio.Domain.Extensions;

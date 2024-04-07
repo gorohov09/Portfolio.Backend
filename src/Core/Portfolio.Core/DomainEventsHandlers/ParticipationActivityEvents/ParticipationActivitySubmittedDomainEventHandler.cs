@@ -2,11 +2,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Core.Abstractions;
 using Portfolio.Core.Models;
-using Portfolio.Domain.DomainEvents.ParticipationActivites;
+using Portfolio.Domain.DomainEvents.ParticipationActivityEvents;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 
-namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivites
+namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivityEvents
 {
 	/// <summary>
 	/// Обработчик события <see cref="ParticipationActivitySubmittedDomainEvent"/>

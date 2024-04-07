@@ -1,7 +1,7 @@
 using Portfolio.Domain.Abstractions;
 using Portfolio.Domain.Entities;
 
-namespace Portfolio.Domain.DomainEvents.ParticipationActivites
+namespace Portfolio.Domain.DomainEvents.ParticipationActivityEvents
 {
 	/// <summary>
 	/// Событие подачи участия в мероприятии на рассмотрение

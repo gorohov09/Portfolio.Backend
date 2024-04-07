@@ -199,6 +199,25 @@ namespace Portfolio.Domain.Entities
 			=> $"{LastName} {FirstName} {Surname}".Trim();
 
 		/// <summary>
+		/// Обновить ФИО
+		/// </summary>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="firstName">Имя</param>
+		/// <param name="surname">Отчество</param>
+		public void UpsertFullNameInformation(
+			string? lastName = default,
+			string? firstName = default,
+			string? surname = default)
+		{
+			if (lastName != null && LastName != lastName)
+				LastName = lastName;
+			if (firstName != null && FirstName != firstName)
+				FirstName = firstName;
+			if (surname != null && Surname != surname)
+				Surname = surname;
+		}
+
+		/// <summary>
 		/// Обновить контактную информацию пользователя
 		/// </summary>
 		/// <param name="login">Логин</param>

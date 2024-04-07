@@ -235,16 +235,16 @@ namespace Portfolio.Domain.Entities
 				|| Date == null
 				|| Description == null
 				|| Activity == null)
-				throw new RequiredFieldNotSpecifiedException("Необходимо заполнить все обязательные поля");
+				throw new ApplicationExceptionBase("Необходимо заполнить все обязательные поля");
 
 			if (ParticipationActivityDocument == null || ParticipationActivityDocument.IsDeleted)
-				throw new RequiredFieldNotSpecifiedException("Необходимо прикрепить подтверждающий документ");
+				throw new ApplicationExceptionBase("Необходимо прикрепить подтверждающий документ");
 
 			if (Activity.Period.EndDate > currentDate)
-				throw new RequiredFieldNotSpecifiedException("Невозможно подать заявку на мероприятие, которое еще не закончилось");
+				throw new ApplicationExceptionBase("Невозможно подать заявку на мероприятие, которое еще не закончилось");
 
 			if (Date < Activity.Period.StartDate || Date > Activity.Period.EndDate)
-				throw new RequiredFieldNotSpecifiedException("Дата участия не совпадает с датами мероприятия");
+				throw new ApplicationExceptionBase("Дата участия не совпадает с датами мероприятия");
 
 			var isRepeatSubmit = Status == ParticipationActivityStatus.SentRevision;
 
@@ -264,7 +264,7 @@ namespace Portfolio.Domain.Entities
 					$"{ParticipationActivityStatus.Submitted.GetDescription()}");
 
 			if (string.IsNullOrEmpty(comment))
-				throw new RequiredFieldNotSpecifiedException("Необходимо описать причину отправления на доработку");
+				throw new ApplicationExceptionBase("Необходимо описать причину отправления на доработку");
 
 			Comment = comment;
 			Status = ParticipationActivityStatus.SentRevision;

@@ -57,6 +57,7 @@ namespace Portfolio.Core.Requests.ParticipationActivityRequests.GetParticipation
 					UpdateDate = x.ModifiedOn,
 					CreationDate = x.CreatedOn,
 				})
+				.OrderByDescending(x => x.CreationDate)
 				.ToListAsync(cancellationToken: cancellationToken);
 
 			return new GetParticipationActivityListResponse(

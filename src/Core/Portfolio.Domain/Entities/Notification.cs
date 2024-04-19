@@ -23,11 +23,13 @@ namespace Portfolio.Domain.Entities
 		/// <param name="notificationType">Тип уведомления</param>
 		/// <param name="user">Пользователь-получатель</param>
 		public Notification(
+			Guid id,
 			NotificationType notificationType,
 			string title,
 			string description,
 			User user)
 		{
+			Id = id;
 			Type = notificationType;
 			Title = title;
 			Description = description;

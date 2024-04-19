@@ -125,6 +125,7 @@ namespace Portfolio.Core.Services
 			User user)
 		{
 			var notification = new Notification(
+				id: notificationModel.Id,
 				notificationType: notificationModel.Type,
 				user: user,
 				title: notificationModel.Title,

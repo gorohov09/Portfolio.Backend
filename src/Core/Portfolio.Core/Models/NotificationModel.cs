@@ -18,10 +18,17 @@ namespace Portfolio.Core.Models
 			string title,
 			string description)
 		{
+			Id = Guid.NewGuid();
 			Type = type;
 			Title = title;
 			Description = description;
+			CreationDate = DateTime.Now;
 		}
+
+		/// <summary>
+		/// Идентификатор уведомления
+		/// </summary>
+		public Guid Id { get; }
 
 		/// <summary>
 		/// Тип уведомления
@@ -37,5 +44,10 @@ namespace Portfolio.Core.Models
 		/// Описание
 		/// </summary>
 		public string Description { get; }
+
+		/// <summary>
+		/// Дата создания уведомления
+		/// </summary>
+		public DateTime CreationDate { get; }
 	}
 }

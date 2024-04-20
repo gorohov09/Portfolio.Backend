@@ -167,10 +167,10 @@ namespace Portfolio.Data.PostgreSql
 
 			if (entity is EntityBase table)
 			{
-				table.ModifiedOn = _dateTimeProvider.UtcNow;
+				table.SetUpdatedDate(_dateTimeProvider.UtcNow);
 
 				if (entityEntry.State == EntityState.Added && table.CreatedOn == DateTime.MinValue)
-					table.CreatedOn = _dateTimeProvider.UtcNow;
+					table.SetCreatedDate(_dateTimeProvider.UtcNow);
 			}
 		}
 

@@ -42,6 +42,8 @@ namespace Portfolio.Domain.Entities
 		public const string ManagerUserField = nameof(_managerUser);
 
 		private ParticipationActivityStatus _status;
+		private Guid _createdByUserId;
+		private Guid _modifiedUserId;
 		private Activity? _activity;
 		private MyPortfolio _portfolio;
 		private ParticipationActivityDocument? _participationActivityDocument;
@@ -117,12 +119,33 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Идентификатор пользователя, создавшего сущность
 		/// </summary>
-		public Guid CreatedByUserId { get; set; }
+		public Guid CreatedByUserId
+		{
+			get => _createdByUserId;
+			set
+			{
+				if (_createdByUserId != default)
+					throw new ApplicationExceptionBase("Нельзя сменить пользователя, создавшего сущность");
+
+				_createdByUserId = value;
+			}
+		}
 
 		/// <summary>
 		/// Идентификатор пользователя, изменившего сущность
 		/// </summary>
-		public Guid ModifiedByUserId { get; set; }
+		public Guid ModifiedByUserId
+		{
+			get => _modifiedUserId;
+			set
+			{
+				if (_modifiedUserId != CreatedByUserId
+					|| _modifiedUserId != ManagerUserId)
+					throw new ApplicationExceptionBase("Новый идентификатор не соответствует создателю и менеджеру");
+
+				_modifiedUserId = value;
+			}
+		}
 
 		/// <summary>
 		/// Идентификатор пользователя, на проверку которому назначена сущность

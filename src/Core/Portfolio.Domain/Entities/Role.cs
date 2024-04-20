@@ -26,9 +26,13 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Конструктор
 		/// </summary>
+		/// <param name="id">Идентификатор</param>
 		/// <param name="name">Наименование</param>
-		public Role(string name)
+		public Role(
+			Guid id,
+			string name)
 		{
+			Id = id;
 			_name = name;
 
 			_users = new List<User>();

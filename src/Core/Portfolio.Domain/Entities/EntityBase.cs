@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using Portfolio.Domain.Abstractions;
+using Portfolio.Domain.Exceptions;
 
 namespace Portfolio.Domain.Entities
 {
@@ -16,17 +17,17 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// ИД сущности
 		/// </summary>
-		public Guid Id { get; set; }
+		public Guid Id { get; protected set; }
 
 		/// <summary>
 		/// Дата создания сущности
 		/// </summary>
-		public DateTime CreatedOn { get; set; }
+		public DateTime CreatedOn { get; protected set; }
 
 		/// <summary>
 		/// Дата последнего изменения сущности
 		/// </summary>
-		public DateTime ModifiedOn { get; set; }
+		public DateTime ModifiedOn { get; protected set; }
 
 		/// <summary>
 		/// Новая сущность
@@ -58,6 +59,36 @@ namespace Portfolio.Domain.Entities
 			var events = _domainEvents.ToList();
 			_domainEvents.Clear();
 			return events;
+		}
+
+		/// <summary>
+		/// Установить дату создания
+		/// </summary>
+		/// <param name="createdOn">Дата создания</param>
+		public void SetCreatedDate(DateTime createdOn)
+		{
+			if (createdOn == default)
+				throw new ApplicationExceptionBase("Некоректная дата создания");
+
+			if (!IsNew)
+				throw new ApplicationExceptionBase("Дата создания устанавливается только новой сущности");
+
+			CreatedOn = createdOn;
+		}
+
+		/// <summary>
+		/// Установить дату обновления
+		/// </summary>
+		/// <param name="modifiedOn">Дата обновления</param>
+		public void SetUpdatedDate(DateTime modifiedOn)
+		{
+			if (modifiedOn == default)
+				throw new ApplicationExceptionBase("Некоректная дата обновления");
+
+			if (modifiedOn < CreatedOn)
+				throw new ApplicationExceptionBase("Дата обновления не может быть раньше даты создания");
+
+			ModifiedOn = modifiedOn;
 		}
 	}
 }

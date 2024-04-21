@@ -186,14 +186,14 @@ namespace Portfolio.Data.PostgreSql
 				&& entityEntry.State != EntityState.Unchanged
 				&& entityEntry.Entity is IUserTrackable userTrackable)
 			{
-				userTrackable.ModifiedByUserId = _userContext.CurrentUserId;
-
 				if (entityEntry.State == EntityState.Added)
 				{
 					if (IsInMemory && userTrackable.CreatedByUserId != default)
 						return;
 					userTrackable.CreatedByUserId = _userContext.CurrentUserId;
 				}
+
+				userTrackable.ModifiedByUserId = _userContext.CurrentUserId;
 			}
 		}
 	}

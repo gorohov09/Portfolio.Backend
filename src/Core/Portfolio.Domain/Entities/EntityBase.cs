@@ -71,7 +71,7 @@ namespace Portfolio.Domain.Entities
 				throw new ApplicationExceptionBase("Некоректная дата создания");
 
 			if (!IsNew)
-				throw new ApplicationExceptionBase("Дата создания устанавливается только новой сущности");
+				return;
 
 			CreatedOn = createdOn;
 		}

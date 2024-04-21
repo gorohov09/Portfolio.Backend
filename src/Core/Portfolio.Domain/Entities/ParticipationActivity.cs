@@ -17,11 +17,6 @@ namespace Portfolio.Domain.Entities
 		public const string ActivityField = nameof(_activity);
 
 		/// <summary>
-		/// Поле для <see cref="_participationActivityDocument"/>
-		/// </summary>
-		public const string ParticipationActivityDocumentField = nameof(_participationActivityDocument);
-
-		/// <summary>
 		/// Поле для <see cref="_portfolio"/>
 		/// </summary>
 		public const string PortfolioField = nameof(_portfolio);
@@ -46,7 +41,6 @@ namespace Portfolio.Domain.Entities
 		private Guid _modifiedUserId;
 		private Activity? _activity;
 		private MyPortfolio _portfolio;
-		private ParticipationActivityDocument? _participationActivityDocument;
 		private User? _createdByUser;
 		private User? _modifiedByUser;
 		private User? _managerUser;
@@ -112,11 +106,6 @@ namespace Portfolio.Domain.Entities
 		public Guid PortfolioId { get; private set; }
 
 		/// <summary>
-		/// Идентификатор подтверждающего документа участия в мероприятии
-		/// </summary>
-		public Guid? ParticipationActivityDocumentId { get; private set; }
-
-		/// <summary>
 		/// Идентификатор пользователя, создавшего сущность
 		/// </summary>
 		public Guid CreatedByUserId
@@ -139,8 +128,8 @@ namespace Portfolio.Domain.Entities
 			get => _modifiedUserId;
 			set
 			{
-				if (_modifiedUserId != CreatedByUserId
-					|| _modifiedUserId != ManagerUserId)
+				if (value != CreatedByUserId
+					&& value != ManagerUserId)
 					throw new ApplicationExceptionBase("Новый идентификатор не соответствует создателю и менеджеру");
 
 				_modifiedUserId = value;
@@ -184,15 +173,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Подтверждающий документ участия в мероприятии
 		/// </summary>
-		public ParticipationActivityDocument? ParticipationActivityDocument
-		{
-			get => _participationActivityDocument;
-			private set
-			{
-				_participationActivityDocument = value;
-				ParticipationActivityDocumentId = value?.Id;
-			}
-		}
+		public ParticipationActivityDocument? ParticipationActivityDocument { get; private set; }
 
 		/// <summary>
 		/// Пользователь, создавший сущность

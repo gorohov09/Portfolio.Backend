@@ -51,5 +51,10 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
 		/// Номер группы
 		/// </summary>
 		public string? GroupNumber { get; set; }
+
+		/// <summary>
+		/// Блоки портфолио
+		/// </summary>
+		public List<PortfolioBlockResponse> Blocks { get; set; }
 	}
 }

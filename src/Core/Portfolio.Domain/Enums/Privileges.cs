@@ -11,6 +11,11 @@ namespace Portfolio.Domain.Enums
 		PortfolioView = 1,
 
 		/// <summary>
+		/// Портфолио - просмотр списка
+		/// </summary>
+		PortfolioListView = 2,
+
+		/// <summary>
 		/// Участие в мероприятии - создание
 		/// </summary>
 		ParticipationActivityCreated = 101,

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolioList;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
 using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.GetPortfolioList;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Portfolio.Web.Controllers
@@ -16,6 +18,29 @@ namespace Portfolio.Web.Controllers
 	/// </summary>
 	public class PortfolioController : ApiControllerBase
 	{
+		/// <summary>
+		/// Получить список портфолио
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>Список портфолио</returns>
+		[HttpPost("list")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetPortfolioListResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<GetPortfolioListResponse> GetPortfolioListAsync(
+			[FromBody] GetPortfolioListRequest request,
+			[FromServices] IMediator mediator,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new GetPortfolioListQuery
+				{
+					PageNumber = request.PageNumber,
+					PageSize = request.PageSize,
+					Faculties = request.Faculties,
+					Institutes = request.Institutes,
+				},
+				cancellationToken);
+
 		/// <summary>
 		/// Получить свое портфолио
 		/// </summary>

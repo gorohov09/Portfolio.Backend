@@ -45,8 +45,6 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 				.FirstOrDefaultAsync(x => x.UserId == _userContext.CurrentUserId, cancellationToken)
 				?? throw new NotFoundException($"У пользователя с Id: {_userContext.CurrentUserId} не найдено портфолио");
 
-			var b = GetPortfolioBlocks(portfolio.Participations);
-
 			return new GetMyPortfolioResponse
 			{
 				LastName = portfolio.LastName,
@@ -77,7 +75,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 					: null,
 				EducationLevel = portfolio.EducationLevel,
 				GroupNumber = portfolio.GroupNumber,
-				Blocks = GetPortfolioBlocks(portfolio.Participations),
+				Blocks = GetPortfolioBlocks(portfolio.Participations!),
 			};
 		}
 

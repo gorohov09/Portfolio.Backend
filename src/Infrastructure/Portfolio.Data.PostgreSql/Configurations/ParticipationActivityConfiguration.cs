@@ -45,9 +45,6 @@ namespace Portfolio.Data.PostgreSql.Configurations
 				.HasComment("Идентификатор портфолио")
 				.IsRequired();
 
-			builder.Property(p => p.ParticipationActivityDocumentId)
-				.HasComment("Идентификатор подтверждающего документа участия в мероприятии");
-
 			builder.HasOne(x => x.Activity)
 				.WithMany(y => y!.Participations)
 				.HasForeignKey(x => x.ActivityId)
@@ -62,9 +59,9 @@ namespace Portfolio.Data.PostgreSql.Configurations
 
 			builder.HasOne(x => x.ParticipationActivityDocument)
 				.WithOne(y => y.Participation)
-				.HasForeignKey<ParticipationActivity>(x => x.ParticipationActivityDocumentId)
-				.HasPrincipalKey<ParticipationActivityDocument>(x => x.Id)
-				.OnDelete(DeleteBehavior.SetNull);
+				.HasForeignKey<ParticipationActivityDocument>(x => x.ParticipationId)
+				.HasPrincipalKey<ParticipationActivity>(x => x.Id)
+				.OnDelete(DeleteBehavior.ClientCascade);
 
 			builder.HasOne(x => x.CreatedByUser)
 				.WithMany(y => y!.CreatedParticipationActivites)
@@ -86,7 +83,6 @@ namespace Portfolio.Data.PostgreSql.Configurations
 
 			builder.SetPropertyAccessModeField(x => x.Activity, ParticipationActivity.ActivityField);
 			builder.SetPropertyAccessModeField(x => x.Portfolio, ParticipationActivity.PortfolioField);
-			builder.SetPropertyAccessModeField(x => x.ParticipationActivityDocument, ParticipationActivity.ParticipationActivityDocumentField);
 			builder.SetPropertyAccessModeField(x => x.CreatedByUser, ParticipationActivity.CreatedByUserField);
 			builder.SetPropertyAccessModeField(x => x.ModifiedByUser, ParticipationActivity.ModifiedByUserField);
 			builder.SetPropertyAccessModeField(x => x.ManagerUser, ParticipationActivity.ManagerUserField);

@@ -17,11 +17,6 @@ namespace Portfolio.Domain.Entities
 		public const string ActivityField = nameof(_activity);
 
 		/// <summary>
-		/// Поле для <see cref="_participationActivityDocument"/>
-		/// </summary>
-		public const string ParticipationActivityDocumentField = nameof(_participationActivityDocument);
-
-		/// <summary>
 		/// Поле для <see cref="_portfolio"/>
 		/// </summary>
 		public const string PortfolioField = nameof(_portfolio);
@@ -42,9 +37,10 @@ namespace Portfolio.Domain.Entities
 		public const string ManagerUserField = nameof(_managerUser);
 
 		private ParticipationActivityStatus _status;
+		private Guid _createdByUserId;
+		private Guid _modifiedUserId;
 		private Activity? _activity;
 		private MyPortfolio _portfolio;
-		private ParticipationActivityDocument? _participationActivityDocument;
 		private User? _createdByUser;
 		private User? _modifiedByUser;
 		private User? _managerUser;
@@ -110,19 +106,35 @@ namespace Portfolio.Domain.Entities
 		public Guid PortfolioId { get; private set; }
 
 		/// <summary>
-		/// Идентификатор подтверждающего документа участия в мероприятии
-		/// </summary>
-		public Guid? ParticipationActivityDocumentId { get; private set; }
-
-		/// <summary>
 		/// Идентификатор пользователя, создавшего сущность
 		/// </summary>
-		public Guid CreatedByUserId { get; set; }
+		public Guid CreatedByUserId
+		{
+			get => _createdByUserId;
+			set
+			{
+				if (_createdByUserId != default)
+					throw new ApplicationExceptionBase("Нельзя сменить пользователя, создавшего сущность");
+
+				_createdByUserId = value;
+			}
+		}
 
 		/// <summary>
 		/// Идентификатор пользователя, изменившего сущность
 		/// </summary>
-		public Guid ModifiedByUserId { get; set; }
+		public Guid ModifiedByUserId
+		{
+			get => _modifiedUserId;
+			set
+			{
+				if (value != CreatedByUserId
+					&& value != ManagerUserId)
+					throw new ApplicationExceptionBase("Новый идентификатор не соответствует создателю и менеджеру");
+
+				_modifiedUserId = value;
+			}
+		}
 
 		/// <summary>
 		/// Идентификатор пользователя, на проверку которому назначена сущность
@@ -161,15 +173,7 @@ namespace Portfolio.Domain.Entities
 		/// <summary>
 		/// Подтверждающий документ участия в мероприятии
 		/// </summary>
-		public ParticipationActivityDocument? ParticipationActivityDocument
-		{
-			get => _participationActivityDocument;
-			private set
-			{
-				_participationActivityDocument = value;
-				ParticipationActivityDocumentId = value?.Id;
-			}
-		}
+		public ParticipationActivityDocument? ParticipationActivityDocument { get; private set; }
 
 		/// <summary>
 		/// Пользователь, создавший сущность

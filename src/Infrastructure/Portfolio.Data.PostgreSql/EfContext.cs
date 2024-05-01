@@ -167,10 +167,10 @@ namespace Portfolio.Data.PostgreSql
 
 			if (entity is EntityBase table)
 			{
-				table.ModifiedOn = _dateTimeProvider.UtcNow;
+				table.SetUpdatedDate(_dateTimeProvider.UtcNow);
 
 				if (entityEntry.State == EntityState.Added && table.CreatedOn == DateTime.MinValue)
-					table.CreatedOn = _dateTimeProvider.UtcNow;
+					table.SetCreatedDate(_dateTimeProvider.UtcNow);
 			}
 		}
 
@@ -186,14 +186,14 @@ namespace Portfolio.Data.PostgreSql
 				&& entityEntry.State != EntityState.Unchanged
 				&& entityEntry.Entity is IUserTrackable userTrackable)
 			{
-				userTrackable.ModifiedByUserId = _userContext.CurrentUserId;
-
 				if (entityEntry.State == EntityState.Added)
 				{
 					if (IsInMemory && userTrackable.CreatedByUserId != default)
 						return;
 					userTrackable.CreatedByUserId = _userContext.CurrentUserId;
 				}
+
+				userTrackable.ModifiedByUserId = _userContext.CurrentUserId;
 			}
 		}
 	}

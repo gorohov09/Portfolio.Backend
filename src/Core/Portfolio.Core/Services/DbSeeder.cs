@@ -63,7 +63,7 @@ namespace Portfolio.Core.Services
 
 			var rolesToSeed = _roles
 				.Where(x => !existRolesIdsInDB.Contains(x.Key))
-				.Select(x => new Role(x.Value) { Id = x.Key })
+				.Select(x => new Role(x.Key, x.Value))
 				.ToList();
 
 			rolesToSeed.ForEach(x =>

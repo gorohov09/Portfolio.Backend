@@ -36,6 +36,9 @@ namespace Portfolio.Web.Controllers
 				{
 					PageNumber = request.PageNumber,
 					PageSize = request.PageSize,
+					LastName = request.LastName,
+					FirstName = request.FirstName,
+					Surname = request.Surname,
 					Faculties = request.Faculties,
 					Institutes = request.Institutes,
 				},

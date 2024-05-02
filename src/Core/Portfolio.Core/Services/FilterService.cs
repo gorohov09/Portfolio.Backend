@@ -43,6 +43,14 @@ namespace Portfolio.Core.Services
 			ArgumentNullException.ThrowIfNull(query);
 			ArgumentNullException.ThrowIfNull(filter);
 
+			query = query
+				.Where(x => string.IsNullOrWhiteSpace(filter.LastName)
+					|| x.LastName!.ToLower().Contains(filter.LastName.ToLower()))
+				.Where(x => string.IsNullOrWhiteSpace(filter.FirstName)
+					|| x.FirstName!.ToLower().Contains(filter.FirstName.ToLower()))
+				.Where(x => string.IsNullOrWhiteSpace(filter.Surname)
+					|| x.Surname!.ToLower().Contains(filter.Surname.ToLower()));
+
 			if (filter.Institutes?.Count > 0)
 				query = query.Where(x => filter.Institutes.Contains(x.Faculty!.Institute!.ShortName));
 

@@ -2,11 +2,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
-using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio;
+using Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolioList;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
-using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.GetPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.GetPortfolioList;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Portfolio.Web.Controllers
@@ -17,19 +19,49 @@ namespace Portfolio.Web.Controllers
 	public class PortfolioController : ApiControllerBase
 	{
 		/// <summary>
+		/// Получить список портфолио
+		/// </summary>
+		/// <param name="mediator">Медиатор CQRS</param>
+		/// <param name="cancellationToken">Токен отмены</param>
+		/// <returns>Список портфолио</returns>
+		[HttpPost("list")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetPortfolioListResponse))]
+		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
+		public async Task<GetPortfolioListResponse> GetPortfolioListAsync(
+			[FromBody] GetPortfolioListRequest request,
+			[FromServices] IMediator mediator,
+			CancellationToken cancellationToken)
+			=> await mediator.Send(
+				new GetPortfolioListQuery
+				{
+					PageNumber = request.PageNumber,
+					PageSize = request.PageSize,
+					LastName = request.LastName,
+					FirstName = request.FirstName,
+					Surname = request.Surname,
+					Faculty = request.Faculty,
+					Institute = request.Institute,
+				},
+				cancellationToken);
+
+		/// <summary>
 		/// Получить свое портфолио
 		/// </summary>
 		/// <param name="mediator">Медиатор CQRS</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>Объект портфолио</returns>
-		[HttpGet("MyPortfolio")]
-		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetMyPortfolioResponse))]
+		[HttpGet("MyPortfolio/{portfolioId?}")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetPortfolioResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task<GetMyPortfolioResponse> GetMyPortfolioAsync(
+		public async Task<GetPortfolioResponse> GetMyPortfolioAsync(
+			[FromRoute] Guid? portfolioId,
 			[FromServices] IMediator mediator,
 			CancellationToken cancellationToken)
 			=> await mediator.Send(
-				new GetMyPortfolioQuery(),
+				new GetPortfolioQuery()
+				{
+					Id = portfolioId,
+				},
 				cancellationToken);
 
 		/// <summary>

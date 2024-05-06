@@ -1,6 +1,6 @@
 using Portfolio.Domain.Enums;
 
-namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
+namespace Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio
 {
 	/// <summary>
 	/// Информация о мероприятии для <see cref="ParticipationActivityPortfolioResponse"/>

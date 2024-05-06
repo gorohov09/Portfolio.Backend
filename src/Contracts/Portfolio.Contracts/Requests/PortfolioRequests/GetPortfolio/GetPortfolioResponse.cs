@@ -1,11 +1,11 @@
 using Portfolio.Domain.Enums;
 
-namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
+namespace Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio
 {
 	/// <summary>
 	/// Ответ на запрос получения своего портфолио
 	/// </summary>
-	public class GetMyPortfolioResponse
+	public class GetPortfolioResponse
 	{
 		/// <summary>
 		/// Фамилия

@@ -1,51 +1,68 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio;
 using Portfolio.Core.Abstractions;
 using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
 using Portfolio.Domain.Exceptions;
 using Portfolio.Domain.Extensions;
 
-namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
+namespace Portfolio.Core.Requests.PortfolioRequests.GetPortfolio
 {
 	/// <summary>
-	/// Обработчик запроса <see cref="GetMyPortfolioQuery"/>
+	/// Обработчик запроса <see cref="GetPortfolioQuery"/>
 	/// </summary>
-	public class GetMyPortfolioQueryHandler : IRequestHandler<GetMyPortfolioQuery, GetMyPortfolioResponse>
+	public class GetPortfolioQueryHandler : IRequestHandler<GetPortfolioQuery, GetPortfolioResponse>
 	{
 		private readonly IDbContext _dbContext;
 		private readonly IUserContext _userContext;
+		private readonly IAuthorizationService _authorizationService;
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="dbContext">Контекст БД</param>
 		/// <param name="userContext">Контекст текущего пользователя</param>
-		public GetMyPortfolioQueryHandler(
+		public GetPortfolioQueryHandler(
 			IDbContext dbContext,
-			IUserContext userContext)
+			IUserContext userContext,
+			IAuthorizationService authorizationService)
 		{
 			_dbContext = dbContext;
 			_userContext = userContext;
+			_authorizationService = authorizationService;
 		}
 
 		/// <inheritdoc/>
-		public async Task<GetMyPortfolioResponse> Handle(
-			GetMyPortfolioQuery request,
+		public async Task<GetPortfolioResponse> Handle(
+			GetPortfolioQuery request,
 			CancellationToken cancellationToken)
 		{
-			var portfolio = await _dbContext.Portfolios
-				.Include(x => x.Faculty)
-					.ThenInclude(y => y.Institute)
-				.Include(x => x.Participations!.Where(x => x.Status == ParticipationActivityStatus.Approved))
-					.ThenInclude(y => y.Activity)
-				.Include(x => x.Participations!.Where(x => x.Status == ParticipationActivityStatus.Approved))
-					.ThenInclude(y => y.ParticipationActivityDocument)
-				.FirstOrDefaultAsync(x => x.UserId == _userContext.CurrentUserId, cancellationToken)
-				?? throw new NotFoundException($"У пользователя с Id: {_userContext.CurrentUserId} не найдено портфолио");
+			ArgumentNullException.ThrowIfNull(request);
+			if (request.Id.HasValue)
+				await _authorizationService.CheckPrivilegeAsync(Privileges.PortfolioAnotherView, cancellationToken);
 
-			return new GetMyPortfolioResponse
+			var portfolio = !request.Id.HasValue
+				? await _dbContext.Portfolios
+					.Include(x => x.Faculty)
+						.ThenInclude(y => y.Institute)
+					.Include(x => x.Participations!.Where(x => x.Status == ParticipationActivityStatus.Approved))
+						.ThenInclude(y => y.Activity)
+					.Include(x => x.Participations!.Where(x => x.Status == ParticipationActivityStatus.Approved))
+						.ThenInclude(y => y.ParticipationActivityDocument)
+					.FirstOrDefaultAsync(x => x.UserId == _userContext.CurrentUserId, cancellationToken)
+					?? throw new NotFoundException($"У пользователя с Id: {_userContext.CurrentUserId} не найдено портфолио")
+				: await _dbContext.Portfolios
+					.Include(x => x.Faculty)
+						.ThenInclude(y => y.Institute)
+					.Include(x => x.Participations!.Where(x => x.Status == ParticipationActivityStatus.Approved))
+						.ThenInclude(y => y.Activity)
+					.Include(x => x.Participations!.Where(x => x.Status == ParticipationActivityStatus.Approved))
+						.ThenInclude(y => y.ParticipationActivityDocument)
+					.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+					?? throw new NotFoundException($"Не найдено портфолио по Id: {request.Id}");
+
+			return new GetPortfolioResponse
 			{
 				LastName = portfolio.LastName,
 				FirstName = portfolio.FirstName,
@@ -88,7 +105,6 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 								 .ToDictionary(y => y.Key, y => y.ToList());
 
 			foreach (var item in dictionary)
-			{
 				result.Add(new PortfolioBlockResponse
 				{
 					Name = item.Key.GetDescription(),
@@ -114,7 +130,6 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio
 						})
 						.ToList(),
 				});
-			}
 
 			return result;
 		}

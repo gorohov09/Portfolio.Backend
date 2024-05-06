@@ -32,26 +32,26 @@ namespace Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolioList
 		/// <summary>
 		/// Фамилия
 		/// </summary>
-		public string LastName { get; set; }
+		public string? LastName { get; set; }
 
 		/// <summary>
 		/// Имя
 		/// </summary>
-		public string FirstName { get; set; }
+		public string? FirstName { get; set; }
 
 		/// <summary>
 		/// Отчество
 		/// </summary>
-		public string Surname { get; set; }
+		public string? Surname { get; set; }
 
 		/// <summary>
-		/// Институты
+		/// Институт
 		/// </summary>
-		public List<string> Institutes { get; set; }
+		public string? Institute { get; set; }
 
 		/// <summary>
-		/// Кафедры
+		/// Кафедра
 		/// </summary>
-		public List<string> Faculties { get; set; }
+		public string? Faculty { get; set; }
 	}
 }

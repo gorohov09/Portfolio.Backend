@@ -1,7 +1,7 @@
-namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
+namespace Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio
 {
 	/// <summary>
-	/// Информация о участии в мероприятии для <see cref="GetMyPortfolioResponse"/>
+	/// Информация о участии в мероприятии для <see cref="GetPortfolioResponse"/>
 	/// </summary>
 	public class ParticipationActivityPortfolioResponse
 	{

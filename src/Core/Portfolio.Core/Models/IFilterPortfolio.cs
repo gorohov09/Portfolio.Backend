@@ -5,26 +5,26 @@ namespace Portfolio.Core.Models
 		/// <summary>
 		/// Фамилия
 		/// </summary>
-		public string LastName { get; set; }
+		string? LastName { get; set; }
 
 		/// <summary>
 		/// Имя
 		/// </summary>
-		public string FirstName { get; set; }
+		string? FirstName { get; set; }
 
 		/// <summary>
 		/// Отчество
 		/// </summary>
-		public string Surname { get; set; }
+		string? Surname { get; set; }
 
 		/// <summary>
-		/// Институты
+		/// Институт
 		/// </summary>
-		List<string> Institutes { get; set; }
+		string Institute { get; set; }
 
 		/// <summary>
-		/// Кафедры
+		/// Кафедра
 		/// </summary>
-		List<string> Faculties { get; set; }
+		string Faculty { get; set; }
 	}
 }

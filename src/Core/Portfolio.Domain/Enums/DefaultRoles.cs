@@ -47,6 +47,7 @@ namespace Portfolio.Domain.Enums
 				[ManagerId] = new()
 				{
 					Privileges.PortfolioListView,
+					Privileges.PortfolioAnotherView,
 					Privileges.ParticipationActivityUpdate,
 					Privileges.ParticipationActivitySendRevision,
 					Privileges.ParticipationActivityConfirm,

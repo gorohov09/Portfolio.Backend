@@ -2,12 +2,12 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddGeneralInformation;
 using Portfolio.Contracts.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
-using Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio;
 using Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolioList;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateEducationInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddOrUpdateGeneralInformation;
 using Portfolio.Core.Requests.PortfolioRequests.AddPhoto;
-using Portfolio.Core.Requests.PortfolioRequests.GetMyPortfolio;
+using Portfolio.Core.Requests.PortfolioRequests.GetPortfolio;
 using Portfolio.Core.Requests.PortfolioRequests.GetPortfolioList;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -39,8 +39,8 @@ namespace Portfolio.Web.Controllers
 					LastName = request.LastName,
 					FirstName = request.FirstName,
 					Surname = request.Surname,
-					Faculties = request.Faculties,
-					Institutes = request.Institutes,
+					Faculty = request.Faculty,
+					Institute = request.Institute,
 				},
 				cancellationToken);
 
@@ -50,14 +50,18 @@ namespace Portfolio.Web.Controllers
 		/// <param name="mediator">Медиатор CQRS</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>Объект портфолио</returns>
-		[HttpGet("MyPortfolio")]
-		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetMyPortfolioResponse))]
+		[HttpGet("MyPortfolio/{portfolioId?}")]
+		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetPortfolioResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
-		public async Task<GetMyPortfolioResponse> GetMyPortfolioAsync(
+		public async Task<GetPortfolioResponse> GetMyPortfolioAsync(
+			[FromRoute] Guid? portfolioId,
 			[FromServices] IMediator mediator,
 			CancellationToken cancellationToken)
 			=> await mediator.Send(
-				new GetMyPortfolioQuery(),
+				new GetPortfolioQuery()
+				{
+					Id = portfolioId,
+				},
 				cancellationToken);
 
 		/// <summary>

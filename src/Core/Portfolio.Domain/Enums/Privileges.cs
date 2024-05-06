@@ -6,7 +6,7 @@ namespace Portfolio.Domain.Enums
 	public enum Privileges
 	{
 		/// <summary>
-		/// Портфолио - просмотр
+		/// Портфолио - просмотр своего
 		/// </summary>
 		PortfolioView = 1,
 
@@ -14,6 +14,11 @@ namespace Portfolio.Domain.Enums
 		/// Портфолио - просмотр списка
 		/// </summary>
 		PortfolioListView = 2,
+
+		/// <summary>
+		/// Просмотр чужого портфолио
+		/// </summary>
+		PortfolioAnotherView = 3,
 
 		/// <summary>
 		/// Участие в мероприятии - создание

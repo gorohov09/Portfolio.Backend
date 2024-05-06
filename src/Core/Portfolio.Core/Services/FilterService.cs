@@ -49,13 +49,11 @@ namespace Portfolio.Core.Services
 				.Where(x => string.IsNullOrWhiteSpace(filter.FirstName)
 					|| x.FirstName!.ToLower().Contains(filter.FirstName.ToLower()))
 				.Where(x => string.IsNullOrWhiteSpace(filter.Surname)
-					|| x.Surname!.ToLower().Contains(filter.Surname.ToLower()));
-
-			if (filter.Institutes?.Count > 0)
-				query = query.Where(x => filter.Institutes.Contains(x.Faculty!.Institute!.ShortName));
-
-			if (filter.Faculties?.Count > 0)
-				query = query.Where(x => filter.Faculties.Contains(x.Faculty!.ShortName));
+					|| x.Surname!.ToLower().Contains(filter.Surname.ToLower()))
+				.Where(x => string.IsNullOrWhiteSpace(filter.Faculty)
+					|| x.Faculty.ShortName!.ToLower().Contains(filter.Faculty.ToLower()))
+				.Where(x => string.IsNullOrWhiteSpace(filter.Institute)
+					|| x.Faculty.Institute.ShortName!.ToLower().Contains(filter.Institute.ToLower()));
 
 			return query;
 		}

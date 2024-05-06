@@ -1,10 +1,10 @@
 using Portfolio.Domain.Enums;
 
-namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
+namespace Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio
 {
 	/// <summary>
 	/// Информация о блоке в портфолио,
-	/// в котором содержатся участия в мероприятии <see cref="GetMyPortfolioResponse"/>
+	/// в котором содержатся участия в мероприятии <see cref="GetPortfolioResponse"/>
 	/// </summary>
 	public class PortfolioBlockResponse
 	{

@@ -1,7 +1,7 @@
-namespace Portfolio.Contracts.Requests.PortfolioRequests.GetMyPortfolio
+namespace Portfolio.Contracts.Requests.PortfolioRequests.GetPortfolio
 {
 	/// <summary>
-	/// Информация о кафедре для <see cref="GetMyPortfolioResponse"/>
+	/// Информация о кафедре для <see cref="GetPortfolioResponse"/>
 	/// </summary>
 	public class FacultyResponse
 	{

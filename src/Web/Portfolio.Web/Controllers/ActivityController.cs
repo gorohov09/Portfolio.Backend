@@ -44,14 +44,21 @@ namespace Portfolio.Web.Controllers
 		/// <param name="mediator">Медиатор CQRS</param>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>Объект участия в мероприятии</returns>
-		[HttpGet("list")]
+		[HttpPost("list")]
 		[SwaggerResponse(StatusCodes.Status200OK, type: typeof(GetActivitiesResponse))]
 		[SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(ProblemDetails))]
 		public async Task<GetActivitiesResponse> GetActivitiesAsync(
+			[FromBody] GetActivitiesRequest request,
 			[FromServices] IMediator mediator,
 			CancellationToken cancellationToken)
 			=> await mediator.Send(
-				new GetActivitiesQuery(),
+				new GetActivitiesQuery
+				{
+					Type = request.Type,
+					Section = request.Section,
+					Level = request.Level,
+					Name = request.Name,
+				},
 				cancellationToken);
 
 		/// <summary>

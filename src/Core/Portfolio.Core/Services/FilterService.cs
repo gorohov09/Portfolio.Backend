@@ -57,5 +57,37 @@ namespace Portfolio.Core.Services
 
 			return query;
 		}
+
+		/// <summary>
+		/// Создать фильтр для мероприятий
+		/// </summary>
+		/// <param name="query">Запрос</param>
+		/// <param name="filter">Фильтр</param>
+		/// <returns>Запрос с фильтром</returns>
+		public static IQueryable<Activity> Filter(
+			this IQueryable<Activity> query,
+			IFilterActivity filter)
+		{
+			ArgumentNullException.ThrowIfNull(query);
+			ArgumentNullException.ThrowIfNull(filter);
+
+			query = query
+				.Where(x => string.IsNullOrWhiteSpace(filter.Name)
+					|| x.Name!.ToLower().Contains(filter.Name.ToLower()));
+
+			if (filter.Type.HasValue && filter.Type != default)
+				query = query
+					.Where(x => x.Type == filter.Type);
+
+			if (filter.Section.HasValue && filter.Section != default)
+				query = query
+					.Where(x => x.Section == filter.Section);
+
+			if (filter.Level.HasValue && filter.Level != default)
+				query = query
+					.Where(x => x.Level == filter.Level);
+
+			return query;
+		}
 	}
 }

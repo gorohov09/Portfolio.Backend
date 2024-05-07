@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Contracts.Requests.Activities.GetActivities;
 using Portfolio.Core.Abstractions;
+using Portfolio.Core.Services;
 
 namespace Portfolio.Core.Requests.Activities.GetActivities
 {
@@ -28,7 +29,10 @@ namespace Portfolio.Core.Requests.Activities.GetActivities
 		{
 			ArgumentNullException.ThrowIfNull(request);
 
-			var entities = await _dbContext.Activities
+			var activities = _dbContext.Activities.Filter(request);
+			var count = await activities.CountAsync(cancellationToken: cancellationToken);
+
+			var entities = await activities
 				.Select(x => new GetActivitiesResponseItem
 				{
 					Id = x.Id,
@@ -41,7 +45,7 @@ namespace Portfolio.Core.Requests.Activities.GetActivities
 
 			return new GetActivitiesResponse(
 				entities: entities,
-				totalCount: entities.Count);
+				totalCount: count);
 		}
 	}
 }

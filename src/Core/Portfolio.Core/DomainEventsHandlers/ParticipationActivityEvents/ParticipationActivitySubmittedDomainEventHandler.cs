@@ -59,7 +59,7 @@ namespace Portfolio.Core.DomainEventsHandlers.ParticipationActivityEvents
 					description: NotificationMessages.ParticipationActivitySubmittedDescription),
 				user: mostFreeManager,
 				cancellationToken: cancellationToken,
-				isSendingEmail: false);
+				isSendingEmail: true);
 
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}

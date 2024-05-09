@@ -272,6 +272,7 @@ namespace Portfolio.Domain.Entities
 
 			Comment = comment;
 			Status = ParticipationActivityStatus.SentRevision;
+			AddDomainEvent(new ParticipationActivitySendRevisionDomainEvent(this));
 		}
 
 		/// <summary>
@@ -333,6 +334,7 @@ namespace Portfolio.Domain.Entities
 
 			Comment = default;
 			Status = ParticipationActivityStatus.Approved;
+			AddDomainEvent(new ParticipationActivityConfirmedDomainEvent(this));
 		}
 	}
 }

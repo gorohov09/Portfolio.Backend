@@ -4,6 +4,7 @@ using Portfolio.Core.Abstractions;
 using Portfolio.Core.Models;
 using Portfolio.Domain.Entities;
 using Portfolio.Domain.Exceptions;
+using EmailMessage = Portfolio.Contracts.Messages.Email.EmailMessage;
 
 namespace Portfolio.Core.Services
 {
@@ -14,6 +15,7 @@ namespace Portfolio.Core.Services
 	{
 		private readonly IDbContext _dbContext;
 		private readonly IHubNotificationService _hubNotificationService;
+		private readonly IRabbitMessagePublisher _rabbitMessagePublisher;
 		private readonly ILogger<NotificationService> _logger;
 
 		/// <summary>
@@ -25,10 +27,12 @@ namespace Portfolio.Core.Services
 		public NotificationService(
 			IDbContext dbContext,
 			IHubNotificationService hubNotificationService,
+			IRabbitMessagePublisher rabbitMessagePublisher,
 			ILogger<NotificationService> logger)
 		{
 			_dbContext = dbContext;
 			_hubNotificationService = hubNotificationService;
+			_rabbitMessagePublisher = rabbitMessagePublisher;
 			_logger = logger;
 		}
 
@@ -98,7 +102,7 @@ namespace Portfolio.Core.Services
 			bool isSendingEmail = false)
 		{
 			if (isSendingEmail)
-				CreateEmailMessage(notificationModel, user);
+				await SendEmailMessageAsync(notificationModel, user);
 
 			try
 			{
@@ -139,17 +143,18 @@ namespace Portfolio.Core.Services
 		/// </summary>
 		/// <param name="notificationModel">Модель уведомления</param>
 		/// <param name="user">Объект пользователя</param>
-		private void CreateEmailMessage(
+		private async Task SendEmailMessageAsync(
 			NotificationModel notificationModel,
 			User user)
 		{
-			var message = new EmailMessage(
-				   addressTo: user.Email,
-				   subject: notificationModel.Title,
-				   body: notificationModel.Description,
-				   toUserId: user.Id);
+			var message = new EmailMessage
+			{
+				Title = notificationModel.Title,
+				Description = notificationModel.Description,
+				Email = user.Email,
+			};
 
-			_dbContext.EmailMessages.Add(message);
+			await _rabbitMessagePublisher.PublishAsync(message);
 		}
 	}
 }

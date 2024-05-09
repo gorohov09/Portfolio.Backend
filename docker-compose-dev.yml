@@ -13,3 +13,11 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"

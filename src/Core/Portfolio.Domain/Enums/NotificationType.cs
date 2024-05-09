@@ -14,5 +14,10 @@ namespace Portfolio.Domain.Enums
 		/// Участие в мероприятии одобрено
 		/// </summary>
 		ParticipationActivityConfirmed = 2,
+
+		/// <summary>
+		/// Участие в мероприятии отправлено на доработку
+		/// </summary>
+		ParticipationActivitySendRevision = 3,
 	}
 }

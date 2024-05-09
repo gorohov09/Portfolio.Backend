@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Portfolio.Core\Portfolio.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Portfolio.Data.PostgreSql\Portfolio.Data.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Portfolio.Data.RabbitMq\Portfolio.Data.RabbitMq.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Portfolio.Data.S3\Portfolio.Data.S3.csproj" />
     <ProjectReference Include="..\..\WorkerServices\Portfolio.Worker\Portfolio.Worker.csproj" />
   </ItemGroup>

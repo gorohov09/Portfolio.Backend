@@ -1,10 +1,8 @@
-using System.Net.Mail;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Portfolio.Core.Abstractions;
 using Portfolio.Core.DelegateMethods;
 using Portfolio.Core.Services;
-using Portfolio.Core.Settings;
 using Portfolio.Domain.Entities;
 
 namespace Portfolio.Core
@@ -32,9 +30,6 @@ namespace Portfolio.Core
 			services.AddSingleton<ISpecialityService, SpecialityService>();
 			services.AddScoped<IAuthorizationService, AuthorizationService>();
 			services.AddScoped<INotificationService, NotificationService>();
-			services.AddScoped<IEmailService, EmailService>();
-
-			services.AddScoped<EmailSettings>();
 
 			services.AddSpecialityMethods();
 

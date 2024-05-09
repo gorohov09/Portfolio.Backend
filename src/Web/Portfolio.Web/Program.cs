@@ -1,5 +1,6 @@
 using Portfolio.Core;
 using Portfolio.Data.PostgreSql;
+using Portfolio.Data.RabbitMq;
 using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Hubs;
@@ -24,6 +25,7 @@ services
 	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>())
 	.AddHangfireWorker()
 	.AddSignaler()
+	.AddRabbitMq()
 	.AddCors(options => options.AddPolicy(
 		"AllowOrigin",
 		builder => builder.WithOrigins("http://localhost:5173")

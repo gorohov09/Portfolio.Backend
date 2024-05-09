@@ -23,6 +23,16 @@ namespace Portfolio.Domain.Enums
 		/// <summary>
 		/// Текст для события - Одобрение участия в мероприятии
 		/// </summary>
-		public static readonly string ParticipationActivityConfirmedDescription = "Ваше участие в мероприятии одобрено!";
+		public static readonly string ParticipationActivityConfirmedDescription = "Ваше участие в мероприятии \"{0}\" одобрено!";
+
+		/// <summary>
+		/// Текст для события - Отклонение участия в мероприятии
+		/// </summary>
+		public static readonly string ParticipationActivitySendRevisionTitle = "Уведомление об участии в мероприятии";
+
+		/// <summary>
+		/// Текст для события - Отклонение участия в мероприятии
+		/// </summary>
+		public static readonly string ParticipationActivitySendRevisionDescription = "Ваше участие в мероприятии \"{0}\" отправлено на доработку!";
 	}
 }

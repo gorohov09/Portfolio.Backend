@@ -16,13 +16,11 @@ namespace Portfolio.Domain.DomainEvents.UserEvents
 		public StudentRegisteredDomainEvent(
 			User user,
 			string lastName,
-			string firstName,
-			DateTime birthday)
+			string firstName)
 		{
 			User = user ?? throw new ArgumentNullException(nameof(user));
 			LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
 			FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-			Birthday = birthday;
 		}
 
 		/// <summary>

@@ -108,9 +108,7 @@ namespace Portfolio.Domain.Entities
 		public DateTime Birthday
 		{
 			get => _birthday;
-			private set => _birthday = value == default
-				? throw new RequiredFieldNotSpecifiedException("Дата рождения")
-				: value.ToUniversalTime();
+			private set => _birthday = value.ToUniversalTime();
 		}
 
 		/// <summary>

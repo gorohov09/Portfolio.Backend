@@ -21,11 +21,6 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.RegisterStudent
 		public string Email { get; set; } = default!;
 
 		/// <summary>
-		/// Номер телефона
-		/// </summary>
-		public string Phone { get; set; } = default!;
-
-		/// <summary>
 		/// Фамилия
 		/// </summary>
 		public string LastName { get; set; } = default!;
@@ -36,8 +31,8 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.RegisterStudent
 		public string FirstName { get; set; } = default!;
 
 		/// <summary>
-		/// Дата рождения
+		/// Номер зачетной книжки
 		/// </summary>
-		public DateTime Birthday { get; set; }
+		public string CardNumber { get; set; } = default!;
 	}
 }

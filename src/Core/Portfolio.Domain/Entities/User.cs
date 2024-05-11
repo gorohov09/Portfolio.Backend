@@ -54,7 +54,6 @@ namespace Portfolio.Domain.Entities
 		public User(
 			string lastName,
 			string firstName,
-			DateTime birthday,
 			string login,
 			string passwordHash,
 			string email,
@@ -73,8 +72,7 @@ namespace Portfolio.Domain.Entities
 				AddDomainEvent(new StudentRegisteredDomainEvent(
 					user: this,
 					lastName: lastName,
-					firstName: firstName,
-					birthday: birthday));
+					firstName: firstName));
 
 			_createdParticipationActivites = new List<ParticipationActivity>();
 			_modifiedParticipationActivites = new List<ParticipationActivity>();

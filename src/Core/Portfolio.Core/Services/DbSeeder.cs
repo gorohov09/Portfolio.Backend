@@ -111,7 +111,6 @@ namespace Portfolio.Core.Services
 			var user = new User(
 				lastName: "Менеджеров",
 				firstName: "Менеджер",
-				birthday: new DateTime(2000, 12, 12),
 				login: "manager",
 				passwordHash: passwordHash,
 				email: "manager@mail.ru",
@@ -120,7 +119,6 @@ namespace Portfolio.Core.Services
 			var user2 = new User(
 				lastName: "Менеджеров2",
 				firstName: "Менеджер2",
-				birthday: new DateTime(2002, 12, 12),
 				login: "manager2",
 				passwordHash: passwordHash,
 				email: "manager2@mail.ru",
@@ -129,7 +127,6 @@ namespace Portfolio.Core.Services
 			var user3 = new User(
 				lastName: "Тестов",
 				firstName: "Тест",
-				birthday: new DateTime(2002, 12, 12),
 				login: "test",
 				passwordHash: passwordHash,
 				email: "test@mail.ru",

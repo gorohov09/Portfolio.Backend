@@ -44,9 +44,9 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent
 
 			if (string.IsNullOrEmpty(request.LastName)
 				|| string.IsNullOrEmpty(request.FirstName)
-				|| string.IsNullOrEmpty(request.Phone)
 				|| string.IsNullOrEmpty(request.Email)
-				|| string.IsNullOrEmpty(request.Password))
+				|| string.IsNullOrEmpty(request.Password)
+				|| string.IsNullOrEmpty(request.Login))
 				throw new RequiredFieldNotSpecifiedException();
 
 			var role = await _dbContext.Roles
@@ -55,22 +55,19 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent
 
 			var isExist = await _dbContext.Users.AnyAsync(
 				x => x.Login == request.Login
-				|| x.Phone == request.Phone
 				|| x.Email == request.Email, cancellationToken);
 
 			if (isExist)
-				throw new ApplicationExceptionBase("Укажите уникальный логин, e-mail и номер телефона");
+				throw new ApplicationExceptionBase("Пользователь с таким логином или e-mail уже существует");
 
 			var passwordHash = _passwordEncryptionService.EncodePassword(request.Password);
 
 			var user = new User(
 				lastName: request.LastName,
 				firstName: request.FirstName,
-				birthday: request.Birthday,
 				login: request.Login,
 				passwordHash: passwordHash,
 				email: request.Email,
-				phone: request.Phone,
 				role: role);
 
 			await _dbContext.Users.AddAsync(user, cancellationToken);

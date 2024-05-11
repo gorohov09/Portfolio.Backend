@@ -63,11 +63,9 @@ namespace Portfolio.Web.Controllers
 				{
 					LastName = request.LastName,
 					FirstName = request.FirstName,
-					Birthday = request.Birthday,
 					Login = request.Login,
 					Email = request.Email,
 					Password = request.Password,
-					Phone = request.Phone,
 				},
 				cancellationToken);
 		}

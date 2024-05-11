@@ -56,6 +56,7 @@ namespace Portfolio.Core.Requests.PortfolioRequests.GetPortfolioList
 					SpecialityName = x.Speciality != null ? x.Speciality.Name : null,
 				})
 				.SkipTake(request)
+				.OrderBy(x => x.FullName)
 				.ToList();
 
 			return new GetPortfolioListResponse(entities, count);

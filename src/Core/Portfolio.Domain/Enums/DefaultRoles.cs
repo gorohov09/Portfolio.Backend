@@ -31,6 +31,17 @@ namespace Portfolio.Domain.Enums
 		public static readonly string ManagerName = "Manager";
 
 		/// <summary>
+		/// Идентификатор роли "Администратор"
+		/// </summary>
+		[Description("Администратор")]
+		public static readonly Guid AdminId = new("8375b0de-10a7-4684-8bb2-317cb24dae43");
+
+		/// <summary>
+		/// Название роли "Менеджер"
+		/// </summary>
+		public static readonly string AdminName = "Admin";
+
+		/// <summary>
 		/// Идентификатор ролей к списку привилегий
 		/// </summary>
 		public static readonly IReadOnlyDictionary<Guid, List<Privileges>> RolesIdsToPrivileges =
@@ -53,6 +64,10 @@ namespace Portfolio.Domain.Enums
 					Privileges.ParticipationActivityConfirm,
 					Privileges.ActivityCreated,
 					Privileges.ActivityUpdated,
+				},
+				[AdminId] = new()
+				{
+					Privileges.ManagerCreated,
 				},
 			};
 

@@ -18,6 +18,7 @@ namespace Portfolio.Core.Services
 		{
 			[DefaultRoles.StudentId] = GetDefaultValueDescription(nameof(DefaultRoles.StudentId), RolesEnumType),
 			[DefaultRoles.ManagerId] = GetDefaultValueDescription(nameof(DefaultRoles.ManagerId), RolesEnumType),
+			[DefaultRoles.AdminId] = GetDefaultValueDescription(nameof(DefaultRoles.AdminId), RolesEnumType),
 		};
 
 		/// <inheritdoc/>
@@ -30,6 +31,7 @@ namespace Portfolio.Core.Services
 			await SeedInstitutesAndFacultiesAsync(dbContext, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken);
 			await SeedTestUsersAsync(dbContext, cancellationToken);
+			await SeedAdminAsync(dbContext, cancellationToken);
 			await SeedActivitiesAsync(dbContext, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken);
 		}
@@ -91,6 +93,34 @@ namespace Portfolio.Core.Services
 				await dbContext.Institutes.AddRangeAsync(instituteIKTZI);
 				await dbContext.Faculties.AddRangeAsync(facultyPMI, facultySIB);
 			}
+		}
+
+		private async Task SeedAdminAsync(IDbContext dbContext, CancellationToken cancellationToken)
+		{
+			var roleAdmin = await dbContext.Roles
+				.FirstOrDefaultAsync(x => x.Id == DefaultRoles.AdminId, cancellationToken);
+
+			if (roleAdmin == null)
+				return;
+
+			var passwordHashService = new PasswordEncryptionService();
+
+			var passwordHash = passwordHashService.EncodePassword("123456");
+
+			var user = new User(
+				lastName: "Админ",
+				firstName: "Админ",
+				login: "admin",
+				passwordHash: passwordHash,
+				email: "admin@mail.ru",
+				role: roleAdmin);
+
+			if (await dbContext.Users.AnyAsync(
+				x => x.Login == user.Login,
+				cancellationToken: cancellationToken))
+				return;
+
+			await dbContext.Users.AddRangeAsync(user);
 		}
 
 		private async Task SeedTestUsersAsync(IDbContext dbContext, CancellationToken cancellationToken)

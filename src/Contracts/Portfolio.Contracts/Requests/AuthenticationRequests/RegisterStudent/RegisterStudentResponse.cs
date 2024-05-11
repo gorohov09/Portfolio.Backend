@@ -1,7 +1,7 @@
 namespace Portfolio.Contracts.Requests.AuthenticationRequests.RegisterStudent
 {
 	/// <summary>
-	/// Ответ на команду <see cref="RegisterStudentRequest"/>
+	/// Ответ на запрос <see cref="RegisterStudentRequest"/>
 	/// </summary>
 	public class RegisterStudentResponse
 	{

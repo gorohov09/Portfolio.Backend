@@ -54,5 +54,10 @@ namespace Portfolio.Domain.Enums
 		/// Мероприятие - обновление
 		/// </summary>
 		ActivityUpdated = 202,
+
+		/// <summary>
+		/// Пользователь - создание менеджера
+		/// </summary>
+		ManagerCreated = 301,
 	}
 }

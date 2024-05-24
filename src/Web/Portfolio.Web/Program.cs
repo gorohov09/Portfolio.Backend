@@ -25,10 +25,10 @@ services
 	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>())
 	.AddHangfireWorker()
 	.AddSignaler()
-	.AddRabbitMq()
+	.AddRabbitMq(configuration.GetSection("Rabbit").Get<RabbitOptions>())
 	.AddCors(options => options.AddPolicy(
 		"AllowOrigin",
-		builder => builder.WithOrigins("http://localhost:5173")
+		builder => builder.WithOrigins("http://localhost:3000")
 						  .AllowAnyHeader()
 						  .AllowAnyMethod()
 						  .AllowCredentials()));

@@ -12,9 +12,11 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DbConnectionString=User ID=portfolio;Password=portfolio;Host=portfolio_postgres;Port=5432;Database=Portfolio.Backend;Pooling=true;
       - S3__ServiceUrl=http://portfolio_minio:9000
+      - Rabbit__Url=amqp://guest:guest@rabbit:5672/
     depends_on:
       - portfolio.postgres
       - portfolio.minio
+      - portfolio.rabbitmq
     ports:
       - "8000:80"
 
@@ -45,6 +47,15 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+
+  portfolio.rabbitmq:
+    container_name: portfolio_rabbitmq
+    hostname: rabbit
+    image: rabbitmq:3.8-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   minio_data:

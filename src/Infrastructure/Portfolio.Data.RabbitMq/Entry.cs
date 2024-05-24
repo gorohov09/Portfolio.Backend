@@ -13,9 +13,14 @@ namespace Portfolio.Data.RabbitMq
 		/// </summary>
 		/// <param name="services">Коллекция служб</param>
 		/// <returns>Обновленная коллекция служб</returns>
-		public static IServiceCollection AddRabbitMq(this IServiceCollection services)
+		public static IServiceCollection AddRabbitMq(this IServiceCollection services, RabbitOptions rabbitOptions)
 		{
-			services.AddMassTransit("amqp://guest:guest@localhost:5672", options => options
+			ArgumentNullException.ThrowIfNull(rabbitOptions);
+
+			if (string.IsNullOrWhiteSpace(rabbitOptions.Url))
+				throw new ArgumentException(nameof(rabbitOptions.Url));
+
+			services.AddMassTransit(rabbitOptions.Url, options => options
 				.AddProducer<EmailMessage>(exchangeName: "portfolio-email-exchange"));
 
 			return services;

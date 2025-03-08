@@ -144,6 +144,12 @@ namespace Portfolio.Domain.Entities
 					?? throw new RequiredFieldNotSpecifiedException("Электронная почта");
 		}
 
+
+		/// <summary>
+		/// Статус блокировки
+		/// </summary>
+		public bool IsBlocked { get; set; }
+
 		/// <summary>
 		/// Телефон
 		/// </summary>

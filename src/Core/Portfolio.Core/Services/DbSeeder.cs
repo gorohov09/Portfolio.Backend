@@ -18,6 +18,7 @@ namespace Portfolio.Core.Services
 		{
 			[DefaultRoles.StudentId] = GetDefaultValueDescription(nameof(DefaultRoles.StudentId), RolesEnumType),
 			[DefaultRoles.ManagerId] = GetDefaultValueDescription(nameof(DefaultRoles.ManagerId), RolesEnumType),
+			[DefaultRoles.AdminId] = GetDefaultValueDescription(nameof(DefaultRoles.AdminId), RolesEnumType),
 		};
 
 		/// <inheritdoc/>
@@ -101,7 +102,10 @@ namespace Portfolio.Core.Services
 			var roleStudent = await dbContext.Roles
 				.FirstOrDefaultAsync(x => x.Id == DefaultRoles.StudentId, cancellationToken);
 
-			if (roleManager == null || roleStudent == null)
+			var roleAdmin = await dbContext.Roles
+				.FirstOrDefaultAsync(x => x.Id == DefaultRoles.AdminId, cancellationToken);
+
+			if (roleManager == null || roleStudent == null || roleAdmin == null)
 				return;
 
 			var passwordHashService = new PasswordEncryptionService();
@@ -135,12 +139,22 @@ namespace Portfolio.Core.Services
 				email: "test@mail.ru",
 				role: roleStudent);
 
+			var user4 = new User(
+				lastName: "Админов",
+				firstName: "Админ",
+				birthday: new DateTime(2002, 12, 7),
+				login: "admin",
+				passwordHash = passwordHash,
+				email: "admin@mail.ru",
+				role: roleAdmin
+				);
+
 			if (await dbContext.Users.AnyAsync(
-				x => x.Login == user.Login || x.Login == user2.Login || x.Login == user3.Login,
+				x => x.Login == user.Login || x.Login == user2.Login || x.Login == user3.Login || x.Login == user4.Login,
 				cancellationToken: cancellationToken))
 				return;
 
-			await dbContext.Users.AddRangeAsync(user, user2, user3);
+			await dbContext.Users.AddRangeAsync(user, user2, user3, user4);
 		}
 
 		private async Task SeedActivitiesAsync(IDbContext dbContext, CancellationToken cancellationToken)

@@ -45,6 +45,11 @@ namespace Portfolio.Data.PostgreSql.Configurations
 			builder.Property(p => p.RoleId)
 				.HasComment("Идентификатор роли");
 
+			builder.Property(p => p.IsBlocked)
+				.HasComment("Статус аккаунта")
+				.HasDefaultValue(false)
+				.IsRequired();
+
 			builder.HasOne(x => x.Role)
 				.WithMany(y => y!.Users)
 				.HasForeignKey(x => x.RoleId)

@@ -78,9 +78,8 @@ namespace Portfolio.Web.Controllers
 				cancellationToken);
 		}
 
-
-		[HttpPut("AddOrUpdate/UserStatus")]
-		public async Task ChangeUserStatusAsync(
+		[HttpPut("AddOrUpdate/ChangeBlock")]
+		public async Task ChangeChangeBlockAsync(
 			[FromServices] IMediator mediator,
 			[FromBody] ChangeUserStatusRequest request,
 			CancellationToken cancellationToken)
@@ -94,8 +93,6 @@ namespace Portfolio.Web.Controllers
 					UserId = request.UserId,
 				},
 				cancellationToken);
-
-
 		}
 	}
 }

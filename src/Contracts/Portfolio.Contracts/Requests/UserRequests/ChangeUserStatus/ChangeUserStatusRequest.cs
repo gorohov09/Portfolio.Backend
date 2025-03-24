@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Portfolio.Contracts.Requests.UserRequests.ChangeUserStatus
 {
 	/// <summary>
@@ -11,7 +5,14 @@ namespace Portfolio.Contracts.Requests.UserRequests.ChangeUserStatus
 	/// </summary>
 	public class ChangeUserStatusRequest
 	{
-		public Guid UserId {  get; set; }
-		public Guid CurrentId {  get; set; }
+		/// <summary>
+		/// Идентификатор пользователя, у которого требуется изменить статус
+		/// </summary>
+		public Guid UserId { get; set; }
+
+		/// <summary>
+		/// Идентификатор пользователя, который изменяет статус
+		/// </summary>
+		public Guid CurrentId { get; set; }
 	}
 }

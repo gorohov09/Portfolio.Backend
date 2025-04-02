@@ -144,7 +144,7 @@ namespace Portfolio.Core.Services
 				firstName: "Админ",
 				birthday: new DateTime(2002, 12, 7),
 				login: "admin",
-				passwordHash = passwordHash,
+				passwordHash: passwordHash,
 				email: "admin@mail.ru",
 				role: roleAdmin
 				);

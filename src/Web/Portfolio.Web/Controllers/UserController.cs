@@ -89,7 +89,6 @@ namespace Portfolio.Web.Controllers
 			await mediator.Send(
 				new ChangeUserStatusCommand
 				{
-					CurrentId = request.CurrentId,
 					UserId = request.UserId,
 				},
 				cancellationToken);

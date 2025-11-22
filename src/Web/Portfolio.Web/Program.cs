@@ -4,32 +4,37 @@ using Portfolio.Data.S3;
 using Portfolio.Web.Authentication;
 using Portfolio.Web.Hubs;
 using Portfolio.Web.Logging;
-using Portfolio.Web.Swagger;
 using Portfolio.Web.WebSocketServices;
 using Portfolio.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 var services = builder.Services;
 
 var configuration = builder.Configuration;
 
 services
-	.AddSwagger()
+	.AddSwaggerGen()
 	.AddHttpContextAccessor()
 	.AddUserContext()
 	.AddCustomHeaderAuthentication(services)
 	.AddCore()
-	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("DbConnectionString"))
+	.AddPostgreSql(x => x.ConnectionString = configuration.GetConnectionString("portfolio-db"))
 	.AddS3Storage(configuration.GetSection("S3").Get<S3Options>())
 	.AddHangfireWorker()
 	.AddSignaler()
 	.AddCors(options => options.AddPolicy(
 		"AllowOrigin",
-		builder => builder.WithOrigins("http://localhost:5173")
-						  .AllowAnyHeader()
-						  .AllowAnyMethod()
-						  .AllowCredentials()));
+		policy => policy.SetIsOriginAllowed(origin =>
+		{
+			var uri = new Uri(origin);
+			return uri.Host is "localhost" or "127.0.0.1" && uri.Port != 0;
+		})
+		.AllowAnyHeader()
+		.AllowAnyMethod()
+		.AllowCredentials()));
 
 services.AddControllers();
 

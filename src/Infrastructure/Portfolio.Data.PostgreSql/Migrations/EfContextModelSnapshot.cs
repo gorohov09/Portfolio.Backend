@@ -18,7 +18,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -82,9 +82,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasKey("Id")
                         .HasName("pk_activity");
 
-                    b.ToTable("activity", "public");
-
-                    b.HasComment("Мероприятие");
+                    b.ToTable("activity", "public", t =>
+                        {
+                            t.HasComment("Мероприятие");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.BaseDocument", b =>
@@ -122,9 +123,12 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("FileId")
                         .HasDatabaseName("ix_base_document_file_id");
 
-                    b.ToTable("base_document", "public");
+                    b.ToTable("base_document", "public", t =>
+                        {
+                            t.HasComment("Базовый документ");
+                        });
 
-                    b.HasComment("Базовый документ");
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.CourseProject", b =>
@@ -189,9 +193,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("PortfolioId")
                         .HasDatabaseName("ix_course_project_portfolio_id");
 
-                    b.ToTable("course_project", "public");
-
-                    b.HasComment("Курсовой проект");
+                    b.ToTable("course_project", "public", t =>
+                        {
+                            t.HasComment("Курсовой проект");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.EmailMessage", b =>
@@ -245,9 +250,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasKey("Id")
                         .HasName("pk_email_message");
 
-                    b.ToTable("email_message", "public");
-
-                    b.HasComment("Электронно-почтовое сообщение");
+                    b.ToTable("email_message", "public", t =>
+                        {
+                            t.HasComment("Электронно-почтовое сообщение");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Faculty", b =>
@@ -293,9 +299,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("InstituteId")
                         .HasDatabaseName("ix_faculty_institute_id");
 
-                    b.ToTable("faculty", "public");
-
-                    b.HasComment("Кафедра");
+                    b.ToTable("faculty", "public", t =>
+                        {
+                            t.HasComment("Кафедра");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.File", b =>
@@ -343,9 +350,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasKey("Id")
                         .HasName("pk_file");
 
-                    b.ToTable("file", "public");
-
-                    b.HasComment("Файл");
+                    b.ToTable("file", "public", t =>
+                        {
+                            t.HasComment("Файл");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Institute", b =>
@@ -383,9 +391,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasKey("Id")
                         .HasName("pk_institute");
 
-                    b.ToTable("institute", "public");
-
-                    b.HasComment("Институт");
+                    b.ToTable("institute", "public", t =>
+                        {
+                            t.HasComment("Институт");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.MyPortfolio", b =>
@@ -460,9 +469,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_portfolio_user_id");
 
-                    b.ToTable("portfolio", "public");
-
-                    b.HasComment("Портфолио");
+                    b.ToTable("portfolio", "public", t =>
+                        {
+                            t.HasComment("Портфолио");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Notification", b =>
@@ -517,9 +527,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_notification_user_id");
 
-                    b.ToTable("notification", "public");
-
-                    b.HasComment("Уведомление");
+                    b.ToTable("notification", "public", t =>
+                        {
+                            t.HasComment("Уведомление");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivity", b =>
@@ -607,9 +618,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("PortfolioId")
                         .HasDatabaseName("ix_participation_activity_portfolio_id");
 
-                    b.ToTable("participation_activity", "public");
-
-                    b.HasComment("Участие в мероприятии");
+                    b.ToTable("participation_activity", "public", t =>
+                        {
+                            t.HasComment("Участие в мероприятии");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.PhotoPortfolio", b =>
@@ -656,9 +668,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("PortfolioId")
                         .HasDatabaseName("ix_photo_portfolio_portfolio_id");
 
-                    b.ToTable("photo_portfolio", "public");
-
-                    b.HasComment("Фотография портфолио");
+                    b.ToTable("photo_portfolio", "public", t =>
+                        {
+                            t.HasComment("Фотография портфолио");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Role", b =>
@@ -690,9 +703,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasKey("Id")
                         .HasName("pk_role");
 
-                    b.ToTable("role", "public");
-
-                    b.HasComment("Роль");
+                    b.ToTable("role", "public", t =>
+                        {
+                            t.HasComment("Роль");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.RolePrivilege", b =>
@@ -731,9 +745,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_role_privilege_role_id");
 
-                    b.ToTable("role_privilege", "public");
-
-                    b.HasComment("Право доступа для роли");
+                    b.ToTable("role_privilege", "public", t =>
+                        {
+                            t.HasComment("Право доступа для роли");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.User", b =>
@@ -807,9 +822,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_user_role_id");
 
-                    b.ToTable("user", "public");
-
-                    b.HasComment("Пользователь");
+                    b.ToTable("user", "public", t =>
+                        {
+                            t.HasComment("Пользователь");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.ParticipationActivityDocument", b =>
@@ -830,9 +846,10 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_participation_activity_document_participation_id");
 
-                    b.ToTable("participation_activity_document", "public");
-
-                    b.HasComment("Подтверждающий документ участия в мероприятии");
+                    b.ToTable("participation_activity_document", "public", t =>
+                        {
+                            t.HasComment("Подтверждающий документ участия в мероприятии");
+                        });
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Activity", b =>
@@ -874,7 +891,7 @@ namespace Portfolio.Data.PostgreSql.Migrations
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
-                        .HasConstraintName("fk_base_document_file_file_id");
+                        .HasConstraintName("fk_base_document_files_file_id");
 
                     b.Navigation("File");
                 });

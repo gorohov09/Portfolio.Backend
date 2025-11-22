@@ -109,7 +109,7 @@ namespace Portfolio.Domain.Entities
 		{
 			get => _birthday;
 			private set => _birthday = value == default
-				? throw new RequiredFieldNotSpecifiedException("Дата рождения")
+				? default
 				: value.ToUniversalTime();
 		}
 

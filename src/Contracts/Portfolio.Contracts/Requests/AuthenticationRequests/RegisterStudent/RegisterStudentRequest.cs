@@ -23,7 +23,7 @@ namespace Portfolio.Contracts.Requests.AuthenticationRequests.RegisterStudent
 		/// <summary>
 		/// Номер телефона
 		/// </summary>
-		public string Phone { get; set; } = default!;
+		public string? Phone { get; set; } = default!;
 
 		/// <summary>
 		/// Фамилия

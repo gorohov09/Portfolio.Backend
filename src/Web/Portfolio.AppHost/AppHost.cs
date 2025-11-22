@@ -22,7 +22,6 @@ var apiService = builder.AddProject<Projects.Portfolio_Web>("portfolio-api")
 builder.AddViteApp(name: "portfolio-frontend", workingDirectory: "../Portfolio.Frontend")
 	.WithReference(apiService)
 	.WaitFor(apiService)
-	.WithNpmPackageInstallation()
-	.WithEnvironment("PORT", "5174");
+	.WithNpmPackageInstallation();
 
 builder.Build().Run();

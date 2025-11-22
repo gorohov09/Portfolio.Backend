@@ -44,7 +44,6 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent
 
 			if (string.IsNullOrEmpty(request.LastName)
 				|| string.IsNullOrEmpty(request.FirstName)
-				|| string.IsNullOrEmpty(request.Phone)
 				|| string.IsNullOrEmpty(request.Email)
 				|| string.IsNullOrEmpty(request.Password))
 				throw new RequiredFieldNotSpecifiedException();
@@ -55,11 +54,10 @@ namespace Portfolio.Core.Requests.AuthenticationRequests.RegisterStudent
 
 			var isExist = await _dbContext.Users.AnyAsync(
 				x => x.Login == request.Login
-				|| x.Phone == request.Phone
 				|| x.Email == request.Email, cancellationToken);
 
 			if (isExist)
-				throw new ApplicationExceptionBase("Укажите уникальный логин, e-mail и номер телефона");
+				throw new ApplicationExceptionBase("Укажите уникальный логин и e-mail");
 
 			var passwordHash = _passwordEncryptionService.EncodePassword(request.Password);
 

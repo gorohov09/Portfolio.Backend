@@ -145,6 +145,11 @@ namespace Portfolio.Domain.Entities
 		}
 
 		/// <summary>
+		/// Статус блокировки
+		/// </summary>
+		public bool IsBlocked { get; set; }
+
+		/// <summary>
 		/// Телефон
 		/// </summary>
 		public string? Phone { get; set; }

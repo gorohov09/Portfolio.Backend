@@ -2,9 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Contracts.Requests.UserRequests.AddOrUpdateUserInfo;
 using Portfolio.Contracts.Requests.UserRequests.ChangeUserPassword;
+using Portfolio.Contracts.Requests.UserRequests.ChangeUserStatus;
 using Portfolio.Contracts.Requests.UserRequests.GetMyUserInfo;
 using Portfolio.Core.Requests.UserRequests.AddOrUpdateUserInfo;
 using Portfolio.Core.Requests.UserRequests.ChangeUserPassword;
+using Portfolio.Core.Requests.UserRequests.ChangeUserStatus;
 using Portfolio.Core.Requests.UserRequests.GetMyUserInfo;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -72,6 +74,22 @@ namespace Portfolio.Web.Controllers
 				{
 					NewPassword = request.NewPassword,
 					OldPassword = request.OldPassword,
+				},
+				cancellationToken);
+		}
+
+		[HttpPut("AddOrUpdate/ChangeBlock")]
+		public async Task ChangeChangeBlockAsync(
+			[FromServices] IMediator mediator,
+			[FromBody] ChangeUserStatusRequest request,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(request);
+
+			await mediator.Send(
+				new ChangeUserStatusCommand
+				{
+					UserId = request.UserId,
 				},
 				cancellationToken);
 		}
